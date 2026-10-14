@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Technical English – ITIS Electronics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f6f4ee; --surface: #ffffff; --ink: #1d2a24; --muted: #5d6b64; --line: #dcd8cc;
+    --accent: #1f7a4d; --accent-soft: #e3f1e9; --sun-soft: #fbf1d8; --civic: #2f5d9e; --civic-soft: #e4ecf8;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #141a17; --surface: #1c2420; --ink: #e8ece9; --muted: #a2b0a9; --line: #2f3a35;
+      --accent: #5cc48c; --accent-soft: #1f3a2c; --sun-soft: #3a311a; --civic: #8fb4ec; --civic-soft: #1f2c42;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: 'Source Sans 3', system-ui, sans-serif; font-size: 17px; line-height: 1.6; }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 0 16px; }
+  header { padding: 32px 0 20px; }
+  .back {
+    display: inline-block; margin-bottom: 20px; text-decoration: none;
+    font-size: 15px; font-weight: 700; color: var(--accent);
+    background: var(--accent-soft); padding: 6px 16px; border-radius: 999px;
+  }
+  .back:hover { background: var(--accent); color: #fff; }
+  h1, h2 { font-family: 'Fraunces', Georgia, serif; line-height: 1.2; }
+  h1 { font-size: clamp(30px, 6vw, 44px); margin: 0 0 8px; }
+  h2 { font-size: 22px; margin: 28px 0 12px; }
+  .lead { color: var(--muted); margin: 0; max-width: 620px; }
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 22px 0 6px; }
+  .chip {
+    font: inherit; font-size: 15px; font-weight: 600; cursor: pointer;
+    padding: 6px 14px; border-radius: 999px; border: 1px solid var(--line);
+    background: var(--surface); color: var(--ink);
+  }
+  .chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 14px; }
+  a.topic {
+    display: block; text-decoration: none; color: var(--ink);
+    background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px;
+    transition: border-color .15s, transform .15s;
+  }
+  a.topic:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .topic h3 { font-family: 'Fraunces', Georgia, serif; font-size: 20px; margin: 0 0 6px; }
+  .topic p { margin: 0 0 12px; color: var(--muted); font-size: 15px; }
+  .badges { display: flex; flex-wrap: wrap; gap: 6px; }
+  .badge { font-size: 12px; font-weight: 700; padding: 2px 9px; border-radius: 999px; }
+  .b-civic { background: var(--civic-soft); color: var(--civic); }
+  .empty { color: var(--muted); font-style: italic; }
+  footer { padding: 36px 0 40px; color: var(--muted); font-size: 14px; }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <a href="https://sites.google.com/iisprimolevi.org/the-english-framework" class="back">← The English Framework</a>
+    <h1>Technical English</h1>
+    <p class="lead">Topics for the electronics track, organised by subject: texts, videos, exercises and flashcards.</p>
+    <div class="filters" id="filters"></div>
+  </div>
+</header>
+
+<main class="wrap" id="topics"></main>
+
+<footer><div class="wrap">Technical English · ITIS – Electronics</div></footer>
+
+<script>
+/* To add a topic: add an object to TOPICS.
+   area  = subject group (e.g. 'Energy', 'Electronics', 'Safety at work')
+   civic = true if it is also part of the Educazione Civica programme */
+const TOPICS = [
+  {
+    area: 'Energy',
+    title: 'Renewable Energy Sources',
+    desc: 'Solar, wind, hydro, geothermal and biomass; storage, smart grids and energy communities.',
+    href: 'renewable-energy.html',
+    civic: true
+  },
+  {
+    area: 'Electronics',
+    title: 'Conductors and Insulators',
+    desc: 'Speaking flashcards: electric current, conductors, insulators and why metals conduct.',
+    href: 'https://cristinavallini64-maker.github.io/conductors-and-insulators/flashcards_conductors.html'
+  },
+  {
+    area: 'Electronics',
+    title: 'The Battery',
+    desc: 'Speaking flashcards: how a simple cell works – electrodes, electrolyte and current.',
+    href: 'https://cristinavallini64-maker.github.io/batteries/flashcards_battery.html'
+  },
+  {
+    area: 'Electronics',
+    title: 'Types of Battery',
+    desc: 'Speaking flashcards: primary and secondary cells, carbon-zinc, alkaline and their uses.',
+    href: 'https://cristinavallini64-maker.github.io/batteries/flashcards_types_of_battery.html'
+  },
+  {
+    area: 'Electronics',
+    title: 'The Fuel Cell',
+    desc: 'Speaking flashcards: how a fuel cell produces electricity and where it is used.',
+    href: 'https://cristinavallini64-maker.github.io/batteries/flashcards_fuel_cell.html'
+  },
+  {
+    area: 'Electronics',
+    title: 'Superconductors',
+    desc: 'Speaking flashcards: what superconductors are, HTSC materials and their potential benefits.',
+    href: 'https://cristinavallini64-maker.github.io/batteries/flashcards_superconductors.html'
+  },
+  {
+    area: 'Safety at work',
+    title: 'Hazards in the Workplace',
+    desc: 'Speaking flashcards: physical, chemical, electrical, ergonomic and psychosocial hazards.',
+    href: 'https://cristinavallini64-maker.github.io/workplace-safety-flashcards/flashcards_hazards.html'
+  },
+  {
+    area: 'Safety at work',
+    title: 'Risk Assessment and Control Measures',
+    desc: 'Speaking flashcards: assessing risks and choosing control measures.',
+    href: 'https://cristinavallini64-maker.github.io/workplace-safety-flashcards/flashcards_risk_assessment.html'
+  },
+  {
+    area: 'Safety at work',
+    title: 'PPE and Safety Signs',
+    desc: 'Speaking flashcards: personal protective equipment and safety signs.',
+    href: 'https://cristinavallini64-maker.github.io/workplace-safety-flashcards/flashcards_ppe.html'
+  },
+  {
+    area: 'Safety at work',
+    title: 'Electrical Safety and Automation Hazards',
+    desc: 'Speaking flashcards: electrical risks and hazards of automated machinery.',
+    href: 'https://cristinavallini64-maker.github.io/workplace-safety-flashcards/flashcards_electrical.html'
+  },
+  {
+    area: 'Safety at work',
+    title: 'Accidents and Emergency Procedures',
+    desc: 'Speaking flashcards: what to do in case of accidents and emergencies.',
+    href: 'https://cristinavallini64-maker.github.io/workplace-safety-flashcards/flashcards_accidents.html'
+  },
+  {
+    area: 'Safety at work',
+    title: 'Safety Culture',
+    desc: 'Speaking flashcards: building a culture of safety in the workplace.',
+    href: 'https://cristinavallini64-maker.github.io/workplace-safety-flashcards/flashcards_safety_culture.html'
+  }
+];
+
+const FILTERS = [['all', 'All'], ['civic', 'Educazione Civica']];
+let current = 'all';
+
+function renderFilters() {
+  document.getElementById('filters').innerHTML = FILTERS.map(([k, label]) =>
+    `<button class="chip" aria-pressed="${k === current}" onclick="setFilter('${k}')">${label}</button>`).join('');
+}
+
+function setFilter(k) { current = k; renderFilters(); renderTopics(); }
+
+function renderTopics() {
+  const list = TOPICS.filter(t =>
+    current === 'all' || t.civic);
+  const areas = [...new Set(list.map(t => t.area))];
+  const box = document.getElementById('topics');
+  if (!list.length) { box.innerHTML = '<p class="empty">No topics for this filter yet.</p>'; return; }
+  box.innerHTML = areas.map(area => `
+    <h2>${area}</h2>
+    <div class="grid">
+      ${list.filter(t => t.area === area).map(t => `
+        <a class="topic" href="${t.href}">
+          <h3>${t.title}</h3>
+          <p>${t.desc}</p>
+          <div class="badges">
+            ${t.civic ? '<span class="badge b-civic">Educazione Civica</span>' : ''}
+          </div>
+        </a>`).join('')}
+    </div>`).join('');
+}
+
+renderFilters();
+renderTopics();
+</script>
+</body>
+</html>

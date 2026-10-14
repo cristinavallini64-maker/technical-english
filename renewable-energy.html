@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Renewable Energy Sources – Technical English</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f6f4ee;
+    --surface: #ffffff;
+    --ink: #1d2a24;
+    --muted: #5d6b64;
+    --line: #dcd8cc;
+    --accent: #1f7a4d;
+    --accent-soft: #e3f1e9;
+    --sun: #e0a526;
+    --sun-soft: #fbf1d8;
+    --civic: #2f5d9e;
+    --civic-soft: #e4ecf8;
+    --ok: #1f7a4d;
+    --ko: #b23a2e;
+    --ko-soft: #f8e3e0;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #141a17;
+      --surface: #1c2420;
+      --ink: #e8ece9;
+      --muted: #a2b0a9;
+      --line: #2f3a35;
+      --accent: #5cc48c;
+      --accent-soft: #1f3a2c;
+      --sun: #f0bd4f;
+      --sun-soft: #3a311a;
+      --civic: #8fb4ec;
+      --civic-soft: #1f2c42;
+      --ok: #5cc48c;
+      --ko: #f08a7e;
+      --ko-soft: #42231f;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Source Sans 3', system-ui, sans-serif;
+    font-size: 17px;
+    line-height: 1.6;
+  }
+  a { color: var(--accent); }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 0 16px; }
+
+  header.hero { padding: 28px 0 24px; border-bottom: 1px solid var(--line); }
+  .crumb { font-size: 14px; color: var(--muted); }
+  .crumb a { color: var(--muted); }
+  h1, h2, h3 { font-family: 'Fraunces', Georgia, serif; line-height: 1.2; }
+  h1 { font-size: clamp(30px, 6vw, 44px); margin: 10px 0 12px; }
+  h2 { font-size: 26px; margin: 0 0 12px; }
+  h3 { font-size: 20px; margin: 22px 0 8px; }
+  .badges { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+  .badge { font-size: 13px; font-weight: 700; padding: 3px 10px; border-radius: 999px; }
+  .b-year { background: var(--accent-soft); color: var(--accent); }
+  .b-topic { background: var(--sun-soft); color: var(--ink); }
+  .b-civic { background: var(--civic-soft); color: var(--civic); }
+  .lead { color: var(--muted); margin: 0; max-width: 640px; }
+
+  .civic-box {
+    margin: 20px 0 0;
+    padding: 14px 16px;
+    border-left: 4px solid var(--civic);
+    background: var(--civic-soft);
+    border-radius: 0 10px 10px 0;
+    font-size: 15px;
+  }
+  .civic-box strong { color: var(--civic); }
+
+  nav.toc {
+    position: sticky; top: 0; z-index: 5;
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+  }
+  nav.toc .wrap { display: flex; gap: 6px; overflow-x: auto; padding-top: 10px; padding-bottom: 10px; }
+  nav.toc a {
+    flex: none; text-decoration: none; color: var(--ink);
+    font-size: 14px; font-weight: 600;
+    padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface);
+  }
+  nav.toc a:hover { border-color: var(--accent); color: var(--accent); }
+
+  section { padding: 32px 0; border-bottom: 1px solid var(--line); }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 20px;
+    margin: 16px 0;
+  }
+  .video {
+    position: relative; width: 100%; aspect-ratio: 16 / 9;
+    border-radius: 10px; overflow: hidden; background: #000; margin: 10px 0;
+  }
+  .video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .meta { font-size: 14px; color: var(--muted); }
+
+  .text-body p { margin: 0 0 12px; }
+  .text-body em { font-style: italic; font-weight: 600; }
+  .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 12px; }
+
+  button, .btn {
+    font: inherit; font-size: 15px; font-weight: 600;
+    padding: 8px 14px; border-radius: 9px; cursor: pointer;
+    border: 1px solid var(--accent); background: var(--accent); color: #fff;
+  }
+  button.ghost { background: transparent; color: var(--accent); }
+  button:hover { filter: brightness(1.08); }
+
+  details.qs { margin-top: 14px; }
+  details.qs summary { cursor: pointer; font-weight: 700; color: var(--accent); }
+  .q { margin: 14px 0; }
+  .q label { display: block; font-weight: 600; margin-bottom: 6px; }
+  textarea, input[type=text] {
+    width: 100%; font: inherit; font-size: 16px; color: var(--ink);
+    background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px;
+  }
+  textarea { min-height: 70px; resize: vertical; }
+  .model {
+    display: none; margin-top: 8px; padding: 10px 12px; border-radius: 8px;
+    background: var(--accent-soft); font-size: 15px;
+  }
+  .model.show { display: block; }
+
+  .ex-item { margin: 14px 0; }
+  .ex-item .prompt { font-weight: 600; margin-bottom: 6px; }
+  .ex-item .hint { font-size: 14px; color: var(--muted); margin-bottom: 6px; }
+  .fb { font-size: 14px; margin-top: 4px; min-height: 1.2em; }
+  input.right, textarea.right { border-color: var(--ok); background: var(--accent-soft); }
+  input.wrong, textarea.wrong { border-color: var(--ko); background: var(--ko-soft); }
+  .fb.right { color: var(--ok); }
+  .fb.wrong { color: var(--ko); }
+  .score { font-weight: 700; margin-left: 6px; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 15px; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-size: 13px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+  td:first-child { font-weight: 700; }
+  .table-scroll { overflow-x: auto; }
+  #glossSearch { margin-bottom: 10px; }
+
+  .downloads { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; }
+  .dl {
+    display: flex; justify-content: space-between; align-items: center; gap: 10px;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px;
+  }
+  .dl span { font-weight: 600; }
+
+  ol.prompts li { margin-bottom: 10px; }
+  footer { padding: 28px 0 40px; color: var(--muted); font-size: 14px; }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="crumb"><a href="index.html">Technical English</a> › Energy</div>
+    <h1>Renewable Energy Sources</h1>
+    <div class="badges">
+      <span class="badge b-topic">Energy</span>
+      <span class="badge b-civic">Educazione Civica</span>
+    </div>
+    <p class="lead">Two videos, four texts, online exercises with instant feedback and a glossary of thirty technical terms. Texts and glossary can be downloaded.</p>
+    <div class="civic-box">
+      <strong>Educazione Civica.</strong> Questo argomento rientra anche nel programma di Educazione Civica: Agenda 2030, Obiettivo 7 – <em>Energia pulita e accessibile</em>; transizione energetica, povertà energetica e comunità energetiche rinnovabili.
+    </div>
+  </div>
+</header>
+
+<nav class="toc">
+  <div class="wrap">
+    <a href="#videos">Videos</a>
+    <a href="#texts">Texts</a>
+    <a href="#exercises">Exercises</a>
+    <a href="#glossary">Glossary</a>
+    <a href="#exam">Exam practice</a>
+    <a href="#downloads">Downloads</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+  <section id="videos">
+    <h2>Videos</h2>
+    <div class="card">
+      <h3 style="margin-top:0">Renewable Energy 101 – National Geographic</h3>
+      <div class="meta">3 min 16 s · An overview of solar, wind, hydro, geothermal and biomass, with benefits and limits.</div>
+      <div class="video"><iframe src="https://www.youtube-nocookie.com/embed/1kUE0BZtTRc" title="Renewable Energy 101 – National Geographic" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>
+      <div class="meta">While you watch: note every source mentioned, with one benefit and one limit for each.</div>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0">How do solar panels work? – TED-Ed</h3>
+      <div class="meta">About 5 min · Silicon, doping, the p-n junction and the challenges of solar power.</div>
+      <div class="video"><iframe src="https://www.youtube-nocookie.com/embed/xKxrkht7CpY" title="How do solar panels work? – TED-Ed" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>
+      <div class="meta">While you watch: note the steps from sunlight to electric current.</div>
+    </div>
+  </section>
+
+  <section id="texts">
+    <h2>Texts</h2>
+    <p class="meta">Read each text, then answer the questions in full sentences and compare your answers with the model.</p>
+    <div id="textsContainer"></div>
+  </section>
+
+  <section id="exercises">
+    <h2>Exercises</h2>
+    <p class="meta">Type your answers, then press <strong>Check</strong>. Wrong answers are marked in red: try again before showing the solution.</p>
+
+    <div class="card" id="vocabCard">
+      <h3 style="margin-top:0">1. Vocabulary</h3>
+      <p class="meta">Write the technical term that matches each definition.</p>
+      <div id="vocabEx"></div>
+      <div class="row">
+        <button onclick="checkEx('vocab')">Check</button>
+        <button class="ghost" onclick="showSolutions('vocab')">Show solutions</button>
+        <button class="ghost" onclick="resetEx('vocab')">Reset</button>
+        <span class="score" id="vocabScore"></span>
+      </div>
+    </div>
+
+    <div class="card" id="passiveCard">
+      <h3 style="margin-top:0">2. Technical descriptions</h3>
+      <p class="meta">Rewrite each sentence starting with the words given, without changing its meaning.</p>
+      <div id="passiveEx"></div>
+      <div class="row">
+        <button onclick="checkEx('passive')">Check</button>
+        <button class="ghost" onclick="showSolutions('passive')">Show solutions</button>
+        <button class="ghost" onclick="resetEx('passive')">Reset</button>
+        <span class="score" id="passiveScore"></span>
+      </div>
+    </div>
+  </section>
+
+  <section id="glossary">
+    <h2>Glossary</h2>
+    <input type="text" id="glossSearch" placeholder="Search a term in English or Italian…" oninput="renderGlossary()">
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Term</th><th>Definition</th><th>Italiano</th></tr></thead>
+        <tbody id="glossBody"></tbody>
+      </table>
+    </div>
+    <div class="row"><button onclick="downloadGlossary()">Download glossary (Word)</button></div>
+  </section>
+
+  <section id="exam">
+    <h2>Exam practice – Esame di Stato</h2>
+    <p class="meta">Each prompt starts from a material, as in the exam interview. Prepare notes for five minutes, then speak for two or three minutes, linking the topic to other subjects.</p>
+    <ol class="prompts">
+      <li><strong>Material: a photo of a rooftop solar system with batteries.</strong> Describe what the picture shows and explain how the system works, from the cell to the socket. Link: electronics (semiconductors, inverters).</li>
+      <li><strong>Material: two 24-hour curves, solar production and household demand.</strong> Explain the mismatch between production and demand and the solutions available. Link: systems and automation (control, smart grids).</li>
+      <li><strong>Material: the Agenda 2030 Goal 7 icon.</strong> Explain why access to clean energy is a global issue. Link: civic education.</li>
+      <li><strong>Material: a photo of the Larderello geothermal plant.</strong> Explain how geothermal energy works and Italy's role in its history. Link: history (the second industrial revolution).</li>
+      <li><strong>Material: a photo of an offshore wind farm.</strong> Present the advantages and drawbacks of wind power and give your opinion on its future in Italy. Link: electrical systems (transmission to the grid).</li>
+    </ol>
+  </section>
+
+  <section id="downloads">
+    <h2>Downloads</h2>
+    <p class="meta">Word files you can open, print or edit.</p>
+    <div class="downloads" id="dlList"></div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">Technical English · ITIS – Electronics · Renewable Energy Sources</div>
+</footer>
+
+<script>
+const TEXTS = [
+  {
+    id: 't1',
+    title: 'Text 1 – Energy that does not run out',
+    paras: [
+      'For more than two centuries, industrial societies have depended on fossil fuels. Coal, oil and natural gas <em>were formed</em> over millions of years from the remains of plants and animals, and once they <em>are burned</em>, they cannot be replaced on any human timescale. This is why they are called non-renewable. Their combustion also releases carbon dioxide and other greenhouse gases, which trap heat in the atmosphere and are the main cause of global warming. In addition, burning fossil fuels pollutes the air in cities and damages human health.',
+      'Renewable energy comes from sources that <em>are naturally replenished</em>: sunlight, wind, flowing water, the internal heat of the Earth and organic matter. The sun will keep shining and the wind will keep blowing whether we use them or not, so these sources are, in practical terms, inexhaustible. During operation, most renewable technologies produce little or no CO₂, and their carbon footprint over their whole life cycle is far lower than that of a coal or gas power plant.',
+      'In recent decades, renewables have become the fastest-growing source of electricity in the world. The main reason is economic: the cost of solar panels and wind turbines has fallen dramatically, and in many countries new solar and wind plants are now cheaper to build than new fossil-fuel plants. Governments also support them through international agreements on climate, such as the Paris Agreement, and through programmes like the United Nations Agenda 2030, whose Goal 7 aims to ensure access to affordable, reliable and clean energy for all.',
+      'The transition, however, is not simple. Solar and wind are intermittent, so electricity <em>must be stored</em> or balanced with other sources. Large hydroelectric dams can damage ecosystems, wind farms can affect landscapes and birds, and the production of panels and batteries requires mining for raw materials. Experts agree that no single technology is the solution: the future energy system will be a mix of sources, <em>supported</em> by storage, efficient grids and a more responsible use of energy.'
+    ],
+    qs: [
+      ['Why are fossil fuels called non-renewable?', 'Because they formed over millions of years and, once they are burned, they cannot be replaced on a human timescale.'],
+      ['What are the two main environmental problems caused by burning fossil fuels?', 'They release greenhouse gases, the main cause of global warming, and they pollute the air in cities, damaging human health.'],
+      ['Why can renewable sources be considered inexhaustible?', 'Because they are naturally replenished: the sun keeps shining and the wind keeps blowing whether we use them or not.'],
+      ['What is the main reason for the rapid growth of renewables?', 'An economic reason: solar panels and wind turbines have become much cheaper, and in many countries new solar and wind plants cost less than new fossil-fuel plants.'],
+      ['What is Goal 7 of the Agenda 2030?', 'It aims to ensure access to affordable, reliable and clean energy for everyone.'],
+      ['Why do experts believe that no single technology is the solution?', 'Because every source has limits (intermittency, impact on ecosystems and landscapes, mining for raw materials), so the future system will be a mix of sources supported by storage, efficient grids and a responsible use of energy.']
+    ]
+  },
+  {
+    id: 't2',
+    title: 'Text 2 – From silicon to the socket: how a photovoltaic system works',
+    paras: [
+      'The heart of a photovoltaic (PV) system is the solar cell, a thin wafer of silicon. Silicon is a semiconductor: in its pure form it conducts electricity poorly, but its properties can be changed by doping, that is, by adding small quantities of other elements. One layer is doped with phosphorus, which provides extra electrons, and becomes n-type silicon. The other layer is doped with boron, which creates “holes”, positive spaces where an electron is missing, and becomes p-type silicon. Where the two layers meet, a p-n junction forms, and with it an electric field.',
+      'When sunlight hits the cell, photons transfer their energy to electrons in the silicon and knock them free. The electric field at the junction then pushes the free electrons towards the n-side and the holes towards the p-side. As a result, a voltage appears between the two layers. Thin metal contacts on the front and back of the cell collect the electrons, and when the cell is connected to an external circuit, a direct current flows.',
+      'A single cell produces only about half a volt, so dozens of cells are connected in series to form a module, and modules are combined into arrays. Next, the direct current must be converted into alternating current, because homes and the grid use AC. This is the job of the inverter, which also uses a technique called Maximum Power Point Tracking to adjust the operating voltage and extract as much power as possible as light conditions change. Finally, the electricity is either used on site, stored in batteries or fed into the grid.',
+      'Commercial silicon panels convert roughly a fifth of the sunlight they receive into electricity. Since they have no moving parts, they need little maintenance and usually last twenty-five years or more. Researchers are now developing new materials, such as perovskites, which could make cells cheaper and more efficient.'
+    ],
+    qs: [
+      ['Why is silicon used in solar cells?', 'Because it is a semiconductor whose electrical properties can be changed by doping.'],
+      ['What is the difference between n-type and p-type silicon?', 'N-type silicon is doped with phosphorus and has extra electrons; p-type silicon is doped with boron and has “holes”, where electrons are missing.'],
+      ['What happens inside the cell when it is hit by sunlight?', 'Photons free electrons; the electric field at the junction pushes electrons to the n-side and holes to the p-side, creating a voltage. Metal contacts collect the electrons and a direct current flows in the external circuit.'],
+      ['Why are cells connected in series?', 'Because a single cell produces only about half a volt, so cells are connected in series to obtain a higher voltage.'],
+      ['What are the two functions of the inverter described in the text?', 'It converts direct current into alternating current, and it uses Maximum Power Point Tracking to extract as much power as possible as light conditions change.'],
+      ['Why do PV panels need little maintenance?', 'Because they have no moving parts.']
+    ]
+  },
+  {
+    id: 't3',
+    title: 'Text 3 – Wind, water, heat and organic matter',
+    paras: [
+      'Most renewable technologies other than photovoltaics share the same basic principle: a moving fluid turns a turbine, and the turbine drives a generator, where electromagnetic induction converts mechanical energy into electrical energy. What changes is the source of the movement.',
+      'In a wind turbine, the wind pushes against two or three long blades shaped like aircraft wings, making the rotor spin. The rotor is connected to a shaft inside the nacelle, the housing on top of the tower, where a gearbox increases the speed of rotation before it reaches the generator. Wind farms can be built onshore or offshore; offshore winds are stronger and more regular, but construction and maintenance at sea cost much more.',
+      'In a hydroelectric plant, a dam holds back a river and creates a reservoir. When electricity is needed, gates are opened and the water falls through a large pipe, the penstock, striking the blades of a turbine. Hydropower is the oldest large-scale renewable source and is very flexible, as it can be switched on in minutes; however, large dams flood valleys and alter river ecosystems.',
+      'Geothermal plants exploit the heat inside the Earth. In volcanic areas, underground water is heated and turned into steam, which is brought to the surface through wells and used to drive a turbine. The cooled water is then pumped back underground. Italy played a pioneering role: at Larderello, in Tuscany, geothermal steam was used to generate electricity for the first time in the world at the beginning of the twentieth century.',
+      'Biomass includes wood, crop residues, manure and food waste. It can be burned to produce steam, or broken down by bacteria in a digester to produce biogas. Biomass has the advantage of being programmable, unlike sun and wind, but it releases CO₂ when burned and is renewable only if what is used is replanted.'
+    ],
+    qs: [
+      ['What principle do wind, hydro, geothermal and biomass plants have in common?', 'A moving fluid turns a turbine, which drives a generator; electromagnetic induction converts mechanical energy into electrical energy.'],
+      ['What is the function of the gearbox in a wind turbine?', 'It increases the speed of rotation before it reaches the generator.'],
+      ['Why is hydropower considered flexible?', 'Because it can be switched on in minutes, when electricity is needed.'],
+      ['Why is Larderello important in the history of energy?', 'Because it was the first place in the world where geothermal steam was used to generate electricity, at the beginning of the twentieth century.'],
+      ['In what two ways can biomass be used to produce energy?', 'It can be burned to produce steam for a turbine, or broken down by bacteria in a digester to produce biogas.'],
+      ['On what condition is biomass truly renewable?', 'Only if what is used is replanted.']
+    ]
+  },
+  {
+    id: 't4',
+    title: 'Text 4 – When the sun sets and the wind drops',
+    paras: [
+      'The greatest technical challenge of the energy transition is not producing renewable electricity but matching it with demand. Solar panels produce most of their energy around midday and nothing at night, while wind turbines stop when the wind is too weak or too strong. Demand, on the other hand, follows human habits: it rises in the morning, falls in the early afternoon and reaches a peak in the evening, when people come home. Since electricity must be consumed at the very moment it is generated, an electrical system based on intermittent sources needs ways to store energy and to manage the flows intelligently.',
+      'The most widespread form of large-scale storage is still pumped hydro. When there is surplus electricity, it is used to pump water from a lower reservoir to a higher one; when demand increases, the water is released and flows down through turbines, generating electricity again. Pumped hydro is efficient and can store enormous amounts of energy, but it requires suitable mountain sites. For this reason, batteries are spreading quickly. Lithium-ion batteries, the same technology used in smartphones and electric vehicles, can respond in milliseconds and are now installed both in homes with solar panels and in large storage plants connected to the grid. Their main drawbacks are their cost, their limited lifespan and the environmental and social impact of extracting lithium, cobalt and nickel. Other solutions are being studied, including green hydrogen, which is produced by splitting water with renewable electricity and can be stored for months.',
+      'Storage alone, however, is not enough. The traditional grid was designed for a few large power plants sending electricity in one direction to passive consumers. Today millions of small producers, from rooftop panels to wind farms, feed electricity into the network. A smart grid uses sensors, digital meters, communication networks and software to monitor supply and demand in real time. It can, for example, schedule the charging of electric cars when production is high, or reduce the consumption of certain appliances during peak hours. Consumers who also produce energy, known as prosumers, can share it within renewable energy communities, a model now supported by European and Italian legislation.',
+      'In short, the transition depends as much on electronics, data and engineering as on the sources themselves. This is why technicians with skills in power electronics, automation and telecommunications will play a central role in the coming decades.'
+    ],
+    qs: [
+      ['Why is matching supply and demand the greatest challenge of the transition?', 'Because solar and wind production does not follow demand, which peaks in the evening, and electricity must be consumed at the moment it is generated.'],
+      ['How does pumped hydro storage work, and what is its main limit?', 'Surplus electricity pumps water from a lower to a higher reservoir; when demand rises, the water flows down through turbines and generates electricity. It requires suitable mountain sites.'],
+      ['What are the advantages and disadvantages of lithium-ion batteries?', 'They respond in milliseconds and can be installed in homes and in large grid plants; but they are expensive, have a limited lifespan, and extracting lithium, cobalt and nickel has environmental and social impacts.'],
+      ['How is green hydrogen produced?', 'By splitting water with renewable electricity.'],
+      ['How is a smart grid different from a traditional grid?', 'A traditional grid sends electricity in one direction from a few large plants to passive consumers; a smart grid uses sensors, digital meters and software to balance supply and demand in real time among many small producers.'],
+      ['What is a prosumer, and what can prosumers do in an energy community?', 'A consumer who also produces energy; in a renewable energy community prosumers can share the energy they produce.'],
+      ['Why does the text say that technicians will play a central role in the transition?', 'Because the transition depends on electronics, data and engineering, so skills in power electronics, automation and telecommunications are essential.']
+    ]
+  }
+];
+
+const GLOSSARY = [
+  ['renewable energy', 'energy from a source that is naturally replenished', 'energia rinnovabile'],
+  ['non-renewable / fossil fuel', 'coal, oil or gas formed over millions of years, in limited supply', 'combustibile fossile'],
+  ['to replenish', 'to fill up again, to be restored naturally', 'rigenerarsi, ricostituirsi'],
+  ['greenhouse gas emissions', 'gases such as CO₂ released into the atmosphere that trap heat', 'emissioni di gas serra'],
+  ['carbon footprint', 'the total amount of CO₂ produced by an activity or person', 'impronta di carbonio'],
+  ['power plant', 'an industrial facility that generates electricity', 'centrale elettrica'],
+  ['to generate / generation', 'to produce electricity', 'generare / produzione'],
+  ['output', 'the amount of energy a system produces', 'resa, potenza erogata'],
+  ['capacity', 'the maximum power a plant can produce, measured in MW or GW', 'potenza installata'],
+  ['efficiency', 'the percentage of input energy turned into useful energy', 'rendimento, efficienza'],
+  ['solar panel / PV module', 'a device made of solar cells that converts sunlight into electricity', 'pannello fotovoltaico'],
+  ['photovoltaic (PV) cell', 'a semiconductor device that turns light into electric current', 'cella fotovoltaica'],
+  ['semiconductor', 'a material, such as silicon, whose conductivity is between a conductor and an insulator', 'semiconduttore'],
+  ['doping', 'adding impurities to silicon to change its electrical properties', 'drogaggio'],
+  ['p-n junction', 'the boundary between p-type and n-type silicon where an electric field forms', 'giunzione p-n'],
+  ['inverter', 'a device that converts direct current (DC) into alternating current (AC)', 'inverter'],
+  ['wind turbine', 'a machine whose blades are turned by the wind to drive a generator', 'turbina eolica, pala eolica'],
+  ['blade / rotor / nacelle', 'the parts of a turbine: the arms, the rotating hub, the housing on top', 'pala / rotore / navicella'],
+  ['wind farm (onshore / offshore)', 'a group of turbines on land or at sea', 'parco eolico (a terra / in mare)'],
+  ['hydroelectric power / dam', 'electricity from flowing water, often held back by a dam', 'energia idroelettrica / diga'],
+  ['reservoir', 'an artificial lake that stores water', 'bacino artificiale'],
+  ['geothermal energy', 'heat from inside the Earth used for heating or electricity', 'energia geotermica'],
+  ['heat pump', 'a device that moves heat from one place to another using electricity', 'pompa di calore'],
+  ['biomass / biogas', 'organic material, or gas from it, burned or processed for energy', 'biomassa / biogas'],
+  ['intermittent', 'not continuous; starting and stopping', 'intermittente, discontinuo'],
+  ['energy storage', 'systems that keep energy to use later', 'accumulo di energia'],
+  ['lithium-ion battery', 'a rechargeable battery widely used for storage and electric vehicles', 'batteria agli ioni di litio'],
+  ['pumped hydro storage', 'pumping water uphill when energy is cheap and releasing it later', 'accumulo idroelettrico a pompaggio'],
+  ['(smart) grid', 'the network that distributes electricity; “smart” if it uses digital control', 'rete elettrica (intelligente)'],
+  ['energy transition', 'the shift from fossil fuels to low-carbon sources', 'transizione energetica']
+];
+
+const EXERCISES = {
+  vocab: [
+    { prompt: 'a device that converts direct current into alternating current', ok: ['inverter', 'an inverter', 'the inverter'] },
+    { prompt: 'an artificial lake that stores water behind a dam', ok: ['reservoir', 'a reservoir', 'the reservoir'] },
+    { prompt: 'not continuous; starting and stopping', ok: ['intermittent'] },
+    { prompt: 'a material whose conductivity is between that of a conductor and an insulator', ok: ['semiconductor', 'a semiconductor'] },
+    { prompt: 'adding small quantities of other elements to silicon to change its properties', ok: ['doping'] },
+    { prompt: 'the boundary between p-type and n-type silicon, where an electric field forms', ok: ['p-n junction', 'pn junction', 'p n junction', 'the p-n junction', 'a p-n junction'] },
+    { prompt: 'the housing on top of a wind turbine that contains the gearbox and the generator', ok: ['nacelle', 'the nacelle'] },
+    { prompt: 'the large pipe that carries water down to the turbine in a hydroelectric plant', ok: ['penstock', 'the penstock', 'a penstock'] },
+    { prompt: 'organic material, such as wood or crop waste, used to produce energy', ok: ['biomass'] },
+    { prompt: 'the total amount of CO₂ produced by a person or an activity', ok: ['carbon footprint', 'a carbon footprint', 'the carbon footprint'] },
+    { prompt: 'the percentage of input energy that is turned into useful energy', ok: ['efficiency'] },
+    { prompt: 'a consumer who also produces energy', ok: ['prosumer', 'a prosumer'] },
+    { prompt: 'an electricity network that uses sensors and software to balance supply and demand', ok: ['smart grid', 'a smart grid', 'the smart grid'] },
+    { prompt: 'a group of wind turbines built at sea', ok: ['offshore wind farm', 'an offshore wind farm', 'offshore wind farms'] },
+    { prompt: 'the shift from fossil fuels to low-carbon energy sources', ok: ['energy transition', 'the energy transition', 'transition'] }
+  ],
+  passive: [
+    { prompt: 'Engineers install the panels on the roof.', start: 'The panels …',
+      ok: ['the panels are installed on the roof', 'the panels are installed on the roof by engineers', 'the panels are installed by engineers on the roof'] },
+    { prompt: 'The wind turns the blades.', start: 'The blades …',
+      ok: ['the blades are turned by the wind'] },
+    { prompt: 'Bacteria break down the organic waste in the digester.', start: 'The organic waste …',
+      ok: ['the organic waste is broken down in the digester', 'the organic waste is broken down by bacteria in the digester', 'the organic waste is broken down in the digester by bacteria'] },
+    { prompt: 'They built the first geothermal power plant at Larderello.', start: 'The first geothermal power plant …',
+      ok: ['the first geothermal power plant was built at larderello'] },
+    { prompt: 'The inverter will convert the direct current into alternating current.', start: 'The direct current …',
+      ok: ['the direct current will be converted into alternating current', 'the direct current will be converted into alternating current by the inverter', 'the direct current will be converted by the inverter into alternating current'] },
+    { prompt: 'Technicians are monitoring the production of the panels.', start: 'The production of the panels …',
+      ok: ['the production of the panels is being monitored', 'the production of the panels is being monitored by technicians', 'the production of the panels is being monitored by the technicians'] }
+  ]
+};
+
+/* ---------- Render texts ---------- */
+function renderTexts() {
+  const c = document.getElementById('textsContainer');
+  c.innerHTML = TEXTS.map(t => `
+    <article class="card" id="${t.id}">
+      <h3 style="margin-top:0">${t.title}</h3>
+      <div class="text-body">${t.paras.map(p => `<p>${p}</p>`).join('')}</div>
+      <details class="qs">
+        <summary>Questions (${t.qs.length})</summary>
+        ${t.qs.map((q, i) => `
+          <div class="q">
+            <label for="${t.id}q${i}">${i + 1}. ${q[0]}</label>
+            <textarea id="${t.id}q${i}" placeholder="Write your answer…"></textarea>
+            <div class="row" style="margin-top:6px"><button class="ghost" onclick="toggleModel('${t.id}m${i}', this)">Show model answer</button></div>
+            <div class="model" id="${t.id}m${i}">${q[1]}</div>
+          </div>`).join('')}
+      </details>
+      <div class="row"><button class="ghost" onclick="downloadText('${t.id}')">Download text (Word)</button></div>
+    </article>`).join('');
+}
+
+function toggleModel(id, btn) {
+  const el = document.getElementById(id);
+  el.classList.toggle('show');
+  btn.textContent = el.classList.contains('show') ? 'Hide model answer' : 'Show model answer';
+}
+
+/* ---------- Exercises ---------- */
+function renderExercises() {
+  ['vocab', 'passive'].forEach(key => {
+    const box = document.getElementById(key + 'Ex');
+    box.innerHTML = EXERCISES[key].map((it, i) => `
+      <div class="ex-item">
+        <div class="prompt">${i + 1}. ${it.prompt}</div>
+        ${it.start ? `<div class="hint">Start with: <em>${it.start}</em></div>` : ''}
+        ${it.start ? `<textarea id="${key}${i}" rows="2" style="min-height:52px" spellcheck="false"></textarea>` : `<input type="text" id="${key}${i}" autocomplete="off" spellcheck="false">`}
+        <div class="fb" id="${key}fb${i}"></div>
+      </div>`).join('');
+  });
+}
+
+function norm(s) {
+  return s.toLowerCase()
+    .replace(/[’']/g, "'")
+    .replace(/[–—]/g, '-')
+    .replace(/[.,;:!?"“”]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function checkEx(key) {
+  let score = 0;
+  EXERCISES[key].forEach((it, i) => {
+    const input = document.getElementById(key + i);
+    const fb = document.getElementById(key + 'fb' + i);
+    const val = norm(input.value);
+    input.classList.remove('right', 'wrong');
+    fb.className = 'fb';
+    if (!val) { fb.textContent = ''; return; }
+    if (it.ok.map(norm).includes(val)) {
+      score++;
+      input.classList.add('right');
+      fb.classList.add('right');
+      fb.textContent = 'Correct!';
+    } else {
+      input.classList.add('wrong');
+      fb.classList.add('wrong');
+      fb.textContent = 'Not quite. Check spelling and verb form, then try again.';
+    }
+  });
+  document.getElementById(key + 'Score').textContent = `${score} / ${EXERCISES[key].length}`;
+}
+
+function showSolutions(key) {
+  EXERCISES[key].forEach((it, i) => {
+    const fb = document.getElementById(key + 'fb' + i);
+    const sol = it.ok[key === 'passive' ? 1 : 0] || it.ok[0];
+    fb.className = 'fb';
+    fb.innerHTML = `Solution: <strong>${capitalise(sol)}${key === 'passive' ? '.' : ''}</strong>`;
+  });
+}
+
+function resetEx(key) {
+  EXERCISES[key].forEach((it, i) => {
+    const input = document.getElementById(key + i);
+    input.value = '';
+    input.classList.remove('right', 'wrong');
+    const fb = document.getElementById(key + 'fb' + i);
+    fb.className = 'fb';
+    fb.textContent = '';
+  });
+  document.getElementById(key + 'Score').textContent = '';
+}
+
+function capitalise(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+
+/* ---------- Glossary ---------- */
+function renderGlossary() {
+  const q = norm(document.getElementById('glossSearch').value);
+  const rows = GLOSSARY.filter(r => !q || norm(r.join(' ')).includes(q));
+  document.getElementById('glossBody').innerHTML = rows.length
+    ? rows.map(r => `<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join('')
+    : '<tr><td colspan="3">No term found.</td></tr>';
+}
+
+/* ---------- Downloads (Word) ---------- */
+const DOC_STYLE = `
+  body { font-family: Calibri, Arial, sans-serif; font-size: 12pt; line-height: 1.4; }
+  h1 { font-size: 18pt; color: #1f7a4d; }
+  h2 { font-size: 14pt; color: #1f7a4d; margin-top: 18pt; }
+  p { margin: 0 0 8pt; text-align: justify; }
+  em { font-style: italic; }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { border: 1px solid #999; padding: 4pt 6pt; vertical-align: top; font-size: 11pt; }
+  th { background: #e3f1e9; }
+  .note { color: #2f5d9e; font-size: 10pt; }
+  .line { border-bottom: 1px solid #999; height: 18pt; }`;
+
+function wordFile(title, bodyHtml, filename) {
+  const html = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
+<head><meta charset="utf-8"><title>${title}</title><style>${DOC_STYLE}</style></head>
+<body>${bodyHtml}</body></html>`;
+  const blob = new Blob(['﻿', html], { type: 'application/msword' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+}
+
+const CIVIC_NOTE = '<p class="note">Renewable Energy Sources – Technical English. This topic is also part of the Educazione Civica programme (Agenda 2030, Goal 7).</p>';
+
+function textHtml(t) {
+  return `<h2>${t.title}</h2>${t.paras.map(p => `<p>${p}</p>`).join('')}
+    <h2>Questions</h2>${t.qs.map((q, i) => `<p>${i + 1}. ${q[0]}</p><p class="line">&nbsp;</p><p class="line">&nbsp;</p>`).join('')}`;
+}
+
+function downloadText(id) {
+  const t = TEXTS.find(x => x.id === id);
+  wordFile(t.title, `<h1>Renewable Energy Sources</h1>${CIVIC_NOTE}${textHtml(t)}`, `renewable-energy-${id}.doc`);
+}
+
+function downloadAllTexts() {
+  wordFile('Renewable Energy Sources – Texts',
+    `<h1>Renewable Energy Sources – Texts</h1>${CIVIC_NOTE}${TEXTS.map(textHtml).join('<br clear="all" style="page-break-before:always">')}`,
+    'renewable-energy-texts.doc');
+}
+
+function glossaryHtml() {
+  return `<table><tr><th>Term</th><th>Definition</th><th>Italiano</th></tr>${GLOSSARY.map(r => `<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join('')}</table>`;
+}
+
+function downloadGlossary() {
+  wordFile('Renewable Energy – Glossary', `<h1>Renewable Energy Sources – Glossary</h1>${CIVIC_NOTE}${glossaryHtml()}`, 'renewable-energy-glossary.doc');
+}
+
+function downloadEverything() {
+  wordFile('Renewable Energy Sources – Texts and glossary',
+    `<h1>Renewable Energy Sources</h1>${CIVIC_NOTE}${TEXTS.map(textHtml).join('<br clear="all" style="page-break-before:always">')}
+     <br clear="all" style="page-break-before:always"><h2>Glossary</h2>${glossaryHtml()}`,
+    'renewable-energy-complete.doc');
+}
+
+function renderDownloads() {
+  const items = TEXTS.map(t => [t.title.split(' – ')[0] + ': ' + t.title.split(' – ')[1].split(':')[0], `downloadText('${t.id}')`]);
+  items.push(['All four texts', 'downloadAllTexts()']);
+  items.push(['Glossary', 'downloadGlossary()']);
+  items.push(['Texts + glossary', 'downloadEverything()']);
+  document.getElementById('dlList').innerHTML = items.map(([label, fn]) =>
+    `<div class="dl"><span>${label}</span><button onclick="${fn}">Word</button></div>`).join('');
+}
+
+renderTexts();
+renderExercises();
+renderGlossary();
+renderDownloads();
+</script>
+</body>
+</html>
