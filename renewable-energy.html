@@ -195,7 +195,7 @@
       <span class="badge">Energy</span>
       <span class="badge b-civic">Educazione Civica</span>
     </div>
-    <p class="lead">Two videos, four texts, online exercises with instant feedback and a glossary of forty-nine technical terms. Texts and glossary can be downloaded.</p>
+    <p class="lead">Two videos, three texts that follow them, online exercises with instant feedback and a glossary of forty technical terms. Texts and glossary can be downloaded.</p>
     <div class="civic-box">
       <strong>Educazione Civica.</strong> Questo argomento rientra anche nel programma di Educazione Civica: Agenda 2030, Obiettivo 7 – <em>Energia pulita e accessibile</em>; transizione energetica, povertà energetica e comunità energetiche rinnovabili.
     </div>
@@ -286,64 +286,91 @@
 function track(name, num) { try { if (window.EFTrack) EFTrack.event(name, num); } catch (e) {} }
 
 const TEXTS = [
-  {
-    id: 't1',
-    title: 'Text 1 – Energy that does not run out',
-    paras: [
-      'For more than two centuries, industrial societies have depended on fossil fuels. Coal, oil and natural gas <em>were formed</em> over millions of years from the remains of plants and animals, and once they <em>are burned</em>, they cannot be replaced on any human timescale. This is why they are called non-renewable. Their combustion also releases carbon dioxide and other greenhouse gases, which trap heat in the atmosphere and are the main cause of global warming. In addition, burning fossil fuels pollutes the air in cities and damages human health.',
-      'Renewable energy comes from sources that <em>are naturally replenished</em>: sunlight, wind, flowing water, the internal heat of the Earth and organic matter. The sun will keep shining and the wind will keep blowing whether we use them or not, so these sources are, in practical terms, inexhaustible. During operation, most renewable technologies produce little or no CO₂, and their carbon footprint over their whole life cycle is far lower than that of a coal or gas power plant.',
-      'In recent decades, renewables have become the fastest-growing source of electricity in the world. The main reason is economic: the cost of solar panels and wind turbines has fallen dramatically, and in many countries new solar and wind plants are now cheaper to build than new fossil-fuel plants. Governments also support them through international agreements on climate, such as the Paris Agreement, and through programmes like the United Nations Agenda 2030, whose Goal 7 aims to ensure access to affordable, reliable and clean energy for all.',
-      'The transition, however, is not simple. Solar and wind are intermittent, so electricity <em>must be stored</em> or balanced with other sources. Large hydroelectric dams can damage ecosystems, wind farms can affect landscapes and birds, and the production of panels and batteries requires mining for raw materials. Experts agree that no single technology is the solution: the future energy system will be a mix of sources, <em>supported</em> by storage, efficient grids and a more responsible use of energy.'
+{
+  "id": "t1",
+  "title": "Text 1 – Energy that does not run out",
+  "paras": [
+    "Renewable energy comes from sources that <em>are naturally replenished</em>: sunlight, wind, flowing water, the heat inside the Earth and biomass, that is, organic matter such as wood and crop waste. Because they renew themselves, these sources will never run out. Fossil fuels, on the other hand, <em>were formed</em> over millions of years and cannot be replaced once they <em>are burned</em>.",
+    "Today most of the world's energy still comes from fossil fuels such as coal, oil and natural gas. However, renewable energy is the fastest-growing source of energy in the world, and its share increases every year.",
+    "Renewables have several benefits. First, they produce no direct greenhouse gas emissions, and only small indirect emissions, for example when solar panels and wind turbines <em>are manufactured</em>. For this reason, they can help to fight climate change. Second, they reduce air pollution, which means fewer health risks for people. Third, they are a reliable source of power: once a plant <em>is built</em>, running costs are low and prices stay stable over time, because the “fuel” – sun, wind and water – is free.",
+    "There are also challenges. It is difficult to generate renewable power on the same large scale as fossil fuels, and big projects such as hydroelectric dams can damage wildlife and ecosystems. In addition, solar and wind power are intermittent: solar panels produce nothing at night, and wind turbines stop when there is no wind. Energy can <em>be stored</em> in batteries, but large batteries are still expensive.",
+    "As technology improves, renewable energy is becoming more accessible, cheaper and more efficient. It is also a question of rights: Goal 7 of the United Nations Agenda 2030 aims to ensure access to affordable, reliable and clean energy for everyone."
+  ],
+  "qs": [
+    [
+      "Why will renewable sources never run out?",
+      "Because they are naturally replenished: they renew themselves."
     ],
-    qs: [
-      ['Why are fossil fuels called non-renewable?', 'Because they formed over millions of years and, once they are burned, they cannot be replaced on a human timescale.'],
-      ['What are the two main environmental problems caused by burning fossil fuels?', 'They release greenhouse gases, the main cause of global warming, and they pollute the air in cities, damaging human health.'],
-      ['Why can renewable sources be considered inexhaustible?', 'Because they are naturally replenished: the sun keeps shining and the wind keeps blowing whether we use them or not.'],
-      ['What is the main reason for the rapid growth of renewables?', 'An economic reason: solar panels and wind turbines have become much cheaper, and in many countries new solar and wind plants cost less than new fossil-fuel plants.'],
-      ['What is Goal 7 of the Agenda 2030?', 'It aims to ensure access to affordable, reliable and clean energy for everyone.'],
-      ['Why do experts believe that no single technology is the solution?', 'Because every source has limits (intermittency, impact on ecosystems and landscapes, mining for raw materials), so the future system will be a mix of sources supported by storage, efficient grids and a responsible use of energy.']
-    ]
-  },
-  {
-    id: 't2',
-    title: 'Text 2 – From silicon to the socket: how a photovoltaic system works',
-    paras: [
-      'The heart of a photovoltaic (PV) system is the solar cell, a thin wafer of silicon. Silicon is a semiconductor: in its pure form it conducts electricity poorly, but its properties can be changed by doping, that is, by adding small quantities of other elements. One layer is doped with phosphorus, which provides extra electrons, and becomes n-type silicon. The other layer is doped with boron, which creates “holes”, positive spaces where an electron is missing, and becomes p-type silicon. Where the two layers meet, a p-n junction forms, and with it an electric field.',
-      'When sunlight hits the cell, photons transfer their energy to electrons in the silicon and knock them free. The electric field at the junction then pushes the free electrons towards the n-side and the holes towards the p-side. As a result, a voltage appears between the two layers. Thin metal contacts on the front and back of the cell collect the electrons, and when the cell is connected to an external circuit, a direct current flows.',
-      'A single cell produces only about half a volt, so dozens of cells are connected in series to form a module, and modules are combined into arrays. Next, the direct current must be converted into alternating current, because homes and the grid use AC. This is the job of the inverter, which also uses a technique called Maximum Power Point Tracking to adjust the operating voltage and extract as much power as possible as light conditions change. Finally, the electricity is either used on site, stored in batteries or fed into the grid.',
-      'Commercial silicon panels convert roughly a fifth of the sunlight they receive into electricity. Since they have no moving parts, they need little maintenance and usually last twenty-five years or more. Researchers are now developing new materials, such as perovskites, which could make cells cheaper and more efficient.'
+    [
+      "Which energy sources still supply most of the world's energy?",
+      "Fossil fuels such as coal, oil and natural gas."
     ],
-    qs: [
-      ['Why is silicon used in solar cells?', 'Because it is a semiconductor whose electrical properties can be changed by doping.'],
-      ['What is the difference between n-type and p-type silicon?', 'N-type silicon is doped with phosphorus and has extra electrons; p-type silicon is doped with boron and has “holes”, where electrons are missing.'],
-      ['What happens inside the cell when it is hit by sunlight?', 'Photons free electrons; the electric field at the junction pushes electrons to the n-side and holes to the p-side, creating a voltage. Metal contacts collect the electrons and a direct current flows in the external circuit.'],
-      ['Why are cells connected in series?', 'Because a single cell produces only about half a volt, so cells are connected in series to obtain a higher voltage.'],
-      ['What are the two functions of the inverter described in the text?', 'It converts direct current into alternating current, and it uses Maximum Power Point Tracking to extract as much power as possible as light conditions change.'],
-      ['Why do PV panels need little maintenance?', 'Because they have no moving parts.']
+    [
+      "When do renewables produce small indirect emissions?",
+      "When solar panels and wind turbines are manufactured."
+    ],
+    [
+      "Why do renewables reduce health risks?",
+      "Because they reduce air pollution."
+    ],
+    [
+      "Why do the prices of renewable energy stay stable over time?",
+      "Because once the plant is built running costs are low, and the “fuel” (sun, wind, water) is free."
+    ],
+    [
+      "What are the two main challenges of renewable energy?",
+      "It is difficult to generate renewable power on a large scale (and big projects can damage wildlife), and solar and wind are intermittent."
+    ],
+    [
+      "Why are batteries not yet a complete solution?",
+      "Because large batteries are still expensive."
     ]
-  },
+  ]
+},
+{
+  "id": "t2",
+  "title": "Text 2 – From the sea to your home",
+  "paras": [
+    "Offshore wind farms are groups of wind turbines built at sea, where the wind is stronger and more regular than on land. Modern offshore turbines are enormous: the latest models are more than 250 metres tall, taller than the Eiffel Tower. They <em>are designed</em> to resist salt water, strong winds and big waves for decades.",
+    "When the wind turns the blades, a generator inside the nacelle converts this movement into electricity. The electricity first travels down the tower into a cable laid on the seabed, called an inter-array cable. These cables connect the turbines in strings and carry the power to a central point: the offshore substation.",
+    "The offshore substation is a giant transformer on a platform at sea. Here the voltage <em>is stepped up</em> before the power <em>is sent</em> to the coast. This is important because, for the same power, a higher voltage means a lower current, and a lower current means that less energy <em>is lost</em> as heat in the cables. Over long distances, these losses would otherwise be very large.",
+    "Next, the power travels to land through an export cable buried under the seabed. The cables <em>are laid</em> by special ships and then buried by underwater robots. The export cable reaches land through a tunnel drilled under the beach. There it connects to an onshore substation, where the voltage <em>is adjusted</em> to match the national grid. Finally, the electricity flows through the transmission network to homes and businesses.",
+    "The whole journey, from the wind hitting a blade far out at sea to a kettle boiling in a kitchen, takes a fraction of a second. Offshore wind is growing fast: the United Kingdom, for example, plans to multiply its offshore wind capacity by four by 2030."
+  ],
+  "qs": [
+    [
+      "Why are wind farms built at sea?",
+      "Because the wind at sea is stronger and more regular than on land."
+    ],
+    [
+      "What conditions must offshore turbines resist?",
+      "Salt water, strong winds and big waves, for decades."
+    ],
+    [
+      "Which part of the turbine converts the movement of the blades into electricity, and where is it?",
+      "The generator, inside the nacelle."
+    ],
+    [
+      "What is the function of the inter-array cables?",
+      "They connect the turbines in strings and carry the power to the offshore substation."
+    ],
+    [
+      "Why does the offshore substation step up the voltage? Use the words current and heat.",
+      "For the same power, a higher voltage means a lower current, so less energy is lost as heat in the cables."
+    ],
+    [
+      "How does the export cable reach land?",
+      "Through a tunnel drilled under the beach."
+    ],
+    [
+      "What happens at the onshore substation?",
+      "The voltage is adjusted to match the national grid."
+    ]
+  ]
+},
   {
     id: 't3',
-    title: 'Text 3 – Wind, water, heat and organic matter',
-    paras: [
-      'Most renewable technologies other than photovoltaics share the same basic principle: a moving fluid turns a turbine, and the turbine drives a generator, where electromagnetic induction converts mechanical energy into electrical energy. What changes is the source of the movement.',
-      'In a wind turbine, the wind pushes against two or three long blades shaped like aircraft wings, making the rotor spin. The rotor is connected to a shaft inside the nacelle, the housing on top of the tower, where a gearbox increases the speed of rotation before it reaches the generator. Wind farms can be built onshore or offshore; offshore winds are stronger and more regular, but construction and maintenance at sea cost much more.',
-      'In a hydroelectric plant, a dam holds back a river and creates a reservoir. When electricity is needed, gates are opened and the water falls through a large pipe, the penstock, striking the blades of a turbine. Hydropower is the oldest large-scale renewable source and is very flexible, as it can be switched on in minutes; however, large dams flood valleys and alter river ecosystems.',
-      'Geothermal plants exploit the heat inside the Earth. In volcanic areas, underground water is heated and turned into steam, which is brought to the surface through wells and used to drive a turbine. The cooled water is then pumped back underground. Italy played a pioneering role: at Larderello, in Tuscany, geothermal steam was used to generate electricity for the first time in the world at the beginning of the twentieth century.',
-      'Biomass includes wood, crop residues, manure and food waste. It can be burned to produce steam, or broken down by bacteria in a digester to produce biogas. Biomass has the advantage of being programmable, unlike sun and wind, but it releases CO₂ when burned and is renewable only if what is used is replanted.'
-    ],
-    qs: [
-      ['What principle do wind, hydro, geothermal and biomass plants have in common?', 'A moving fluid turns a turbine, which drives a generator; electromagnetic induction converts mechanical energy into electrical energy.'],
-      ['What is the function of the gearbox in a wind turbine?', 'It increases the speed of rotation before it reaches the generator.'],
-      ['Why is hydropower considered flexible?', 'Because it can be switched on in minutes, when electricity is needed.'],
-      ['Why is Larderello important in the history of energy?', 'Because it was the first place in the world where geothermal steam was used to generate electricity, at the beginning of the twentieth century.'],
-      ['In what two ways can biomass be used to produce energy?', 'It can be burned to produce steam for a turbine, or broken down by bacteria in a digester to produce biogas.'],
-      ['On what condition is biomass truly renewable?', 'Only if what is used is replanted.']
-    ]
-  },
-  {
-    id: 't4',
-    title: 'Text 4 – When the sun sets and the wind drops',
+    title: 'Text 3 – When the sun sets and the wind drops',
     paras: [
       'The greatest technical challenge of the energy transition is not producing renewable electricity but matching it with demand. Solar panels produce most of their energy around midday and nothing at night, while wind turbines stop when the wind is too weak or too strong. Demand, on the other hand, follows human habits: it rises in the morning, falls in the early afternoon and reaches a peak in the evening, when people come home. Since electricity must be consumed at the very moment it is generated, an electrical system based on intermittent sources needs ways to store energy and to manage the flows intelligently.',
       'The most widespread form of large-scale storage is still pumped hydro. When there is surplus electricity, it is used to pump water from a lower reservoir to a higher one; when demand increases, the water is released and flows down through turbines, generating electricity again. Pumped hydro is efficient and can store enormous amounts of energy, but it requires suitable mountain sites. For this reason, batteries are spreading quickly. Lithium-ion batteries, the same technology used in smartphones and electric vehicles, can respond in milliseconds and are now installed both in homes with solar panels and in large storage plants connected to the grid. Their main drawbacks are their cost, their limited lifespan and the environmental and social impact of extracting lithium, cobalt and nickel. Other solutions are being studied, including green hydrogen, which is produced by splitting water with renewable electricity and can be stored for months.',
@@ -363,88 +390,376 @@ const TEXTS = [
 ];
 
 const GLOSSARY = [
-  ['renewable energy', 'energy from a source that is naturally replenished', 'energia rinnovabile'],
-  ['non-renewable / fossil fuel', 'coal, oil or gas formed over millions of years, in limited supply', 'combustibile fossile'],
-  ['to replenish', 'to fill up again, to be restored naturally', 'rigenerarsi, ricostituirsi'],
-  ['greenhouse gas emissions', 'gases such as CO₂ released into the atmosphere that trap heat', 'emissioni di gas serra'],
-  ['carbon footprint', 'the total amount of CO₂ produced by an activity or person', 'impronta di carbonio'],
-  ['power plant', 'an industrial facility that generates electricity', 'centrale elettrica'],
-  ['to generate / generation', 'to produce electricity', 'generare / produzione'],
-  ['output', 'the amount of energy a system produces', 'resa, potenza erogata'],
-  ['capacity', 'the maximum power a plant can produce, measured in MW or GW', 'potenza installata'],
-  ['efficiency', 'the percentage of input energy turned into useful energy', 'rendimento, efficienza'],
-  ['solar panel / PV module', 'a device made of solar cells that converts sunlight into electricity', 'pannello fotovoltaico'],
-  ['photovoltaic (PV) cell', 'a semiconductor device that turns light into electric current', 'cella fotovoltaica'],
-  ['semiconductor', 'a material, such as silicon, whose conductivity is between a conductor and an insulator', 'semiconduttore'],
-  ['doping', 'adding impurities to silicon to change its electrical properties', 'drogaggio'],
-  ['p-n junction', 'the boundary between p-type and n-type silicon where an electric field forms', 'giunzione p-n'],
-  ['inverter', 'a device that converts direct current (DC) into alternating current (AC)', 'inverter'],
-  ['wind turbine', 'a machine whose blades are turned by the wind to drive a generator', 'turbina eolica, pala eolica'],
-  ['blade / rotor / nacelle', 'the parts of a turbine: the arms, the rotating hub, the housing on top', 'pala / rotore / navicella'],
-  ['wind farm (onshore / offshore)', 'a group of turbines on land or at sea', 'parco eolico (a terra / in mare)'],
-  ['hydroelectric power / dam', 'electricity from flowing water, often held back by a dam', 'energia idroelettrica / diga'],
-  ['reservoir', 'an artificial lake that stores water', 'bacino artificiale'],
-  ['geothermal energy', 'heat from inside the Earth used for heating or electricity', 'energia geotermica'],
-  ['heat pump', 'a device that moves heat from one place to another using electricity', 'pompa di calore'],
-  ['biomass / biogas', 'organic material, or gas from it, burned or processed for energy', 'biomassa / biogas'],
-  ['intermittent', 'not continuous; starting and stopping', 'intermittente, discontinuo'],
-  ['energy storage', 'systems that keep energy to use later', 'accumulo di energia'],
-  ['lithium-ion battery', 'a rechargeable battery widely used for storage and electric vehicles', 'batteria agli ioni di litio'],
-  ['pumped hydro storage', 'pumping water uphill when energy is cheap and releasing it later', 'accumulo idroelettrico a pompaggio'],
-  ['(smart) grid', 'the network that distributes electricity; “smart” if it uses digital control', 'rete elettrica (intelligente)'],
-  ['energy transition', 'the shift from fossil fuels to low-carbon sources', 'transizione energetica'],,,
-  ['volcanically active area', 'a place with volcanoes, where the Earth\'s heat is close to the surface', 'zona vulcanica attiva'],
-  ['well', 'a deep hole drilled in the ground to bring up water, steam, oil or gas', 'pozzo'],
-  ['steam', 'water in the form of gas, produced by heating it', 'vapore'],,
-  ['generator', 'a machine that converts mechanical energy into electrical energy', 'generatore'],
-  ['electromagnetic induction', 'the production of an electric current by a magnetic field that changes or moves', 'induzione elettromagnetica'],
-  ['gearbox', 'a device that changes the speed of rotation between a shaft and a generator', 'moltiplicatore di giri'],
-  ['penstock', 'a large pipe that carries water down to the turbine of a hydroelectric plant', 'condotta forzata'],
-  ['digester', 'a closed tank where bacteria break down organic matter and produce biogas', 'digestore'],
-  ['photon', 'a particle of light', 'fotone'],
-  ['electron / hole', 'a negative particle / the space left where an electron is missing', 'elettrone / lacuna'],
-  ['green hydrogen', 'hydrogen produced by splitting water with renewable electricity', 'idrogeno verde'],
-  ['prosumer', 'a consumer who also produces energy', 'prosumer (produttore-consumatore)'],
-  ['renewable energy community', 'a group of citizens, businesses and local authorities that produce and share renewable energy', 'comunità energetica rinnovabile'],
-  ['energy poverty', 'the situation of people who cannot afford to pay their energy bills', 'povertà energetica'],
-  ['substation', 'a place where the voltage of electricity is changed before it continues its journey', 'sottostazione elettrica'],
-  ['transformer', 'a device that increases or decreases the voltage of an alternating current', 'trasformatore'],
-  ['to step up / step down (voltage)', 'to increase / decrease the voltage', 'elevare / abbassare (la tensione)'],
-  ['inter-array cable / export cable', 'a cable that connects the turbines of a wind farm / a cable that carries the power to the coast', 'cavo di collegamento interno / cavo di esportazione'],
-  ['seabed', 'the ground at the bottom of the sea', 'fondale marino']
+  [
+    "renewable energy",
+    "energy from a source that is naturally replenished",
+    "energia rinnovabile"
+  ],
+  [
+    "fossil fuel",
+    "coal, oil or natural gas, formed over millions of years and in limited supply",
+    "combustibile fossile"
+  ],
+  [
+    "to replenish",
+    "to fill up again, to be restored naturally",
+    "rigenerarsi, ricostituirsi"
+  ],
+  [
+    "biomass",
+    "organic matter, such as wood and crop waste, used to produce energy",
+    "biomassa"
+  ],
+  [
+    "geothermal energy",
+    "energy from the heat inside the Earth",
+    "energia geotermica"
+  ],
+  [
+    "hydroelectric power / dam",
+    "electricity from flowing water / a wall built across a river to hold the water back",
+    "energia idroelettrica / diga"
+  ],
+  [
+    "greenhouse gas emissions",
+    "gases such as CO₂ released into the atmosphere that trap heat",
+    "emissioni di gas serra"
+  ],
+  [
+    "direct / indirect emissions",
+    "released while energy is generated / released elsewhere, e.g. when equipment is manufactured",
+    "emissioni dirette / indirette"
+  ],
+  [
+    "climate change",
+    "the long-term change in the Earth's climate caused mainly by greenhouse gases",
+    "cambiamento climatico"
+  ],
+  [
+    "air pollution",
+    "harmful substances in the air",
+    "inquinamento atmosferico"
+  ],
+  [
+    "power plant",
+    "an industrial facility that generates electricity",
+    "centrale elettrica"
+  ],
+  [
+    "to generate / generation",
+    "to produce electricity / the production of electricity",
+    "generare / produzione"
+  ],
+  [
+    "running costs",
+    "the money needed to operate a plant once it is built",
+    "costi di esercizio"
+  ],
+  [
+    "wildlife / ecosystem",
+    "wild animals and plants / all the living things in an area and their environment",
+    "fauna selvatica / ecosistema"
+  ],
+  [
+    "intermittent",
+    "not continuous; starting and stopping",
+    "intermittente, discontinuo"
+  ],
+  [
+    "energy storage",
+    "systems that keep energy to use later",
+    "accumulo di energia"
+  ],
+  [
+    "(lithium-ion) battery",
+    "a rechargeable device that stores electricity",
+    "batteria (agli ioni di litio)"
+  ],
+  [
+    "affordable",
+    "cheap enough for people to pay for",
+    "economicamente accessibile"
+  ],
+  [
+    "offshore / onshore wind farm",
+    "a group of wind turbines built at sea / on land",
+    "parco eolico in mare / a terra"
+  ],
+  [
+    "wind turbine",
+    "a machine whose blades are turned by the wind to produce electricity",
+    "turbina eolica, aerogeneratore"
+  ],
+  [
+    "blade / nacelle",
+    "one of the long arms of a turbine / the housing at the top of the tower",
+    "pala / navicella"
+  ],
+  [
+    "generator",
+    "a machine that converts movement into electrical energy",
+    "generatore"
+  ],
+  [
+    "seabed",
+    "the ground at the bottom of the sea",
+    "fondale marino"
+  ],
+  [
+    "inter-array cable / export cable",
+    "a cable that connects the turbines of a wind farm / a cable that carries the power to the coast",
+    "cavo di collegamento interno / cavo di esportazione"
+  ],
+  [
+    "substation",
+    "a place where the voltage is changed before the electricity continues its journey",
+    "sottostazione elettrica"
+  ],
+  [
+    "transformer",
+    "a device that increases or decreases the voltage of an alternating current",
+    "trasformatore"
+  ],
+  [
+    "voltage / current",
+    "the electrical “pressure” that pushes charges / the flow of electric charge",
+    "tensione / corrente"
+  ],
+  [
+    "to step up / step down (voltage)",
+    "to increase / decrease the voltage",
+    "elevare / abbassare (la tensione)"
+  ],
+  [
+    "energy losses",
+    "energy wasted, for example as heat in cables",
+    "perdite di energia"
+  ],
+  [
+    "(national) grid / transmission network",
+    "the network that carries electricity across a country",
+    "rete elettrica nazionale / rete di trasmissione"
+  ],
+  [
+    "capacity",
+    "the maximum power that a plant or a group of plants can produce",
+    "potenza installata"
+  ],
+  [
+    "supply and demand",
+    "the electricity produced / the electricity people need",
+    "offerta e domanda"
+  ],
+  [
+    "pumped hydro storage",
+    "pumping water up to a reservoir when there is surplus energy and releasing it through turbines later",
+    "accumulo idroelettrico a pompaggio"
+  ],
+  [
+    "reservoir",
+    "an artificial lake that stores water",
+    "bacino artificiale"
+  ],
+  [
+    "smart grid",
+    "a grid that uses sensors and software to balance supply and demand in real time",
+    "rete elettrica intelligente"
+  ],
+  [
+    "green hydrogen",
+    "hydrogen produced by splitting water with renewable electricity",
+    "idrogeno verde"
+  ],
+  [
+    "prosumer",
+    "a consumer who also produces energy",
+    "prosumer (produttore-consumatore)"
+  ],
+  [
+    "renewable energy community",
+    "a group of citizens, businesses and local authorities that produce and share renewable energy",
+    "comunità energetica rinnovabile"
+  ],
+  [
+    "energy poverty",
+    "the situation of people who cannot afford to pay their energy bills",
+    "povertà energetica"
+  ],
+  [
+    "energy transition",
+    "the shift from fossil fuels to low-carbon sources",
+    "transizione energetica"
+  ]
 ];
 
 const EXERCISES = {
-  vocab: [
-    { prompt: 'a device that converts direct current into alternating current', ok: ['inverter', 'an inverter', 'the inverter'] },
-    { prompt: 'an artificial lake that stores water behind a dam', ok: ['reservoir', 'a reservoir', 'the reservoir'] },
-    { prompt: 'not continuous; starting and stopping', ok: ['intermittent'] },
-    { prompt: 'a material whose conductivity is between that of a conductor and an insulator', ok: ['semiconductor', 'a semiconductor'] },
-    { prompt: 'adding small quantities of other elements to silicon to change its properties', ok: ['doping'] },
-    { prompt: 'the boundary between p-type and n-type silicon, where an electric field forms', ok: ['p-n junction', 'pn junction', 'p n junction', 'the p-n junction', 'a p-n junction'] },
-    { prompt: 'the housing on top of a wind turbine that contains the gearbox and the generator', ok: ['nacelle', 'the nacelle'] },
-    { prompt: 'the large pipe that carries water down to the turbine in a hydroelectric plant', ok: ['penstock', 'the penstock', 'a penstock'] },
-    { prompt: 'organic material, such as wood or crop waste, used to produce energy', ok: ['biomass'] },
-    { prompt: 'the total amount of CO₂ produced by a person or an activity', ok: ['carbon footprint', 'a carbon footprint', 'the carbon footprint'] },
-    { prompt: 'the percentage of input energy that is turned into useful energy', ok: ['efficiency'] },
-    { prompt: 'a consumer who also produces energy', ok: ['prosumer', 'a prosumer'] },
-    { prompt: 'an electricity network that uses sensors and software to balance supply and demand', ok: ['smart grid', 'a smart grid', 'the smart grid'] },
-    { prompt: 'a group of wind turbines built at sea', ok: ['offshore wind farm', 'an offshore wind farm', 'offshore wind farms'] },
-    { prompt: 'the shift from fossil fuels to low-carbon energy sources', ok: ['energy transition', 'the energy transition', 'transition'] }
+  "vocab": [
+    {
+      "prompt": "not continuous; starting and stopping",
+      "ok": [
+        "intermittent"
+      ]
+    },
+    {
+      "prompt": "coal, oil or natural gas, formed over millions of years",
+      "ok": [
+        "fossil fuel",
+        "fossil fuels",
+        "fossil"
+      ]
+    },
+    {
+      "prompt": "the money needed to operate a plant once it is built",
+      "ok": [
+        "running costs",
+        "running cost"
+      ]
+    },
+    {
+      "prompt": "harmful substances in the air",
+      "ok": [
+        "air pollution",
+        "pollution"
+      ]
+    },
+    {
+      "prompt": "cheap enough for people to pay for",
+      "ok": [
+        "affordable"
+      ]
+    },
+    {
+      "prompt": "the housing at the top of a wind turbine tower",
+      "ok": [
+        "nacelle",
+        "the nacelle"
+      ]
+    },
+    {
+      "prompt": "the ground at the bottom of the sea",
+      "ok": [
+        "seabed",
+        "the seabed",
+        "sea bed",
+        "sea-bed"
+      ]
+    },
+    {
+      "prompt": "a device that increases or decreases the voltage of an alternating current",
+      "ok": [
+        "transformer",
+        "a transformer"
+      ]
+    },
+    {
+      "prompt": "a place where the voltage is changed before the electricity continues its journey",
+      "ok": [
+        "substation",
+        "a substation",
+        "sub-station"
+      ]
+    },
+    {
+      "prompt": "energy wasted, for example as heat in cables",
+      "ok": [
+        "energy losses",
+        "energy loss",
+        "losses",
+        "loss"
+      ]
+    },
+    {
+      "prompt": "the network that carries electricity across a country",
+      "ok": [
+        "grid",
+        "national grid",
+        "the national grid",
+        "the grid",
+        "transmission network",
+        "electricity grid"
+      ]
+    },
+    {
+      "prompt": "a grid that uses sensors and software to balance supply and demand",
+      "ok": [
+        "smart grid",
+        "a smart grid"
+      ]
+    },
+    {
+      "prompt": "a consumer who also produces energy",
+      "ok": [
+        "prosumer",
+        "a prosumer"
+      ]
+    },
+    {
+      "prompt": "the situation of people who cannot afford to pay their energy bills",
+      "ok": [
+        "energy poverty"
+      ]
+    },
+    {
+      "prompt": "the shift from fossil fuels to low-carbon sources",
+      "ok": [
+        "energy transition",
+        "the energy transition"
+      ]
+    }
   ],
-  passive: [
-    { prompt: 'Engineers install the panels on the roof.', start: 'The panels …',
-      ok: ['the panels are installed on the roof', 'the panels are installed on the roof by engineers', 'the panels are installed by engineers on the roof'] },
-    { prompt: 'The wind turns the blades.', start: 'The blades …',
-      ok: ['the blades are turned by the wind'] },
-    { prompt: 'Bacteria break down the organic waste in the digester.', start: 'The organic waste …',
-      ok: ['the organic waste is broken down in the digester', 'the organic waste is broken down by bacteria in the digester', 'the organic waste is broken down in the digester by bacteria'] },
-    { prompt: 'They built the first geothermal power plant at Larderello.', start: 'The first geothermal power plant …',
-      ok: ['the first geothermal power plant was built at larderello'] },
-    { prompt: 'The inverter will convert the direct current into alternating current.', start: 'The direct current …',
-      ok: ['the direct current will be converted into alternating current', 'the direct current will be converted into alternating current by the inverter', 'the direct current will be converted by the inverter into alternating current'] },
-    { prompt: 'Technicians are monitoring the production of the panels.', start: 'The production of the panels …',
-      ok: ['the production of the panels is being monitored', 'the production of the panels is being monitored by technicians', 'the production of the panels is being monitored by the technicians'] }
+  "passive": [
+    {
+      "prompt": "Engineers design the turbines to resist salt water.",
+      "start": "The turbines …",
+      "ok": [
+        "the turbines are designed to resist salt water",
+        "the turbines are designed by engineers to resist salt water",
+        "the turbines are designed to resist salt water by engineers"
+      ]
+    },
+    {
+      "prompt": "The wind turns the blades.",
+      "start": "The blades …",
+      "ok": [
+        "the blades are turned by the wind"
+      ]
+    },
+    {
+      "prompt": "The offshore substation steps up the voltage.",
+      "start": "The voltage …",
+      "ok": [
+        "the voltage is stepped up",
+        "the voltage is stepped up by the offshore substation",
+        "the voltage is stepped up by the substation"
+      ]
+    },
+    {
+      "prompt": "Special ships laid the cables last year.",
+      "start": "The cables …",
+      "ok": [
+        "the cables were laid last year",
+        "the cables were laid by special ships last year",
+        "the cables were laid last year by special ships"
+      ]
+    },
+    {
+      "prompt": "Robots will bury the export cable under the seabed.",
+      "start": "The export cable …",
+      "ok": [
+        "the export cable will be buried under the seabed",
+        "the export cable will be buried under the seabed by robots",
+        "the export cable will be buried by robots under the seabed"
+      ]
+    },
+    {
+      "prompt": "Technicians are monitoring the production of the panels.",
+      "start": "The production of the panels …",
+      "ok": [
+        "the production of the panels is being monitored",
+        "the production of the panels is being monitored by technicians",
+        "the production of the panels is being monitored by the technicians"
+      ]
+    }
   ]
 };
 
@@ -616,7 +931,7 @@ function downloadEverything() {
 
 function renderDownloads() {
   const items = TEXTS.map(t => [t.title.split(' – ')[0] + ': ' + t.title.split(' – ')[1].split(':')[0], `downloadText('${t.id}')`]);
-  items.push(['All four texts', 'downloadAllTexts()']);
+  items.push(['All three texts', 'downloadAllTexts()']);
   items.push(['Glossary', 'downloadGlossary()']);
   items.push(['Texts + glossary', 'downloadEverything()']);
   document.getElementById('dlList').innerHTML = items.map(([label, fn]) =>
