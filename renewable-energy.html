@@ -195,7 +195,7 @@
       <span class="badge">Energy</span>
       <span class="badge b-civic">Educazione Civica</span>
     </div>
-    <p class="lead">Two videos, four texts, online exercises with instant feedback and a glossary of forty-seven technical terms. Texts and glossary can be downloaded.</p>
+    <p class="lead">Two videos, four texts, online exercises with instant feedback and a glossary of forty-eight technical terms. Texts and glossary can be downloaded.</p>
     <div class="civic-box">
       <strong>Educazione Civica.</strong> Questo argomento rientra anche nel programma di Educazione Civica: Agenda 2030, Obiettivo 7 – <em>Energia pulita e accessibile</em>; transizione energetica, povertà energetica e comunità energetiche rinnovabili.
     </div>
@@ -392,13 +392,10 @@ const GLOSSARY = [
   ['lithium-ion battery', 'a rechargeable battery widely used for storage and electric vehicles', 'batteria agli ioni di litio'],
   ['pumped hydro storage', 'pumping water uphill when energy is cheap and releasing it later', 'accumulo idroelettrico a pompaggio'],
   ['(smart) grid', 'the network that distributes electricity; “smart” if it uses digital control', 'rete elettrica (intelligente)'],
-  ['energy transition', 'the shift from fossil fuels to low-carbon sources', 'transizione energetica'],
-  ['mantle', 'the very hot layer of the Earth below the crust', 'mantello terrestre'],
-  ['crust', 'the outer, solid layer of the Earth', 'crosta terrestre'],
+  ['energy transition', 'the shift from fossil fuels to low-carbon sources', 'transizione energetica'],,,
   ['volcanically active area', 'a place with volcanoes, where the Earth\'s heat is close to the surface', 'zona vulcanica attiva'],
   ['well', 'a deep hole drilled in the ground to bring up water, steam, oil or gas', 'pozzo'],
-  ['steam', 'water in the form of gas, produced by heating it', 'vapore'],
-  ['to condense', 'to change from a gas into a liquid', 'condensare'],
+  ['steam', 'water in the form of gas, produced by heating it', 'vapore'],,
   ['generator', 'a machine that converts mechanical energy into electrical energy', 'generatore'],
   ['electromagnetic induction', 'the production of an electric current by a magnetic field that changes or moves', 'induzione elettromagnetica'],
   ['gearbox', 'a device that changes the speed of rotation between a shaft and a generator', 'moltiplicatore di giri'],
@@ -409,7 +406,11 @@ const GLOSSARY = [
   ['green hydrogen', 'hydrogen produced by splitting water with renewable electricity', 'idrogeno verde'],
   ['prosumer', 'a consumer who also produces energy', 'prosumer (produttore-consumatore)'],
   ['renewable energy community', 'a group of citizens, businesses and local authorities that produce and share renewable energy', 'comunità energetica rinnovabile'],
-  ['energy poverty', 'the situation of people who cannot afford to pay their energy bills', 'povertà energetica']
+  ['energy poverty', 'the situation of people who cannot afford to pay their energy bills', 'povertà energetica'],
+  ['tidal power / tidal barrage', 'electricity from the rise and fall of the tides / a dam built across a river estuary to use them', 'energia mareomotrice / sbarramento di marea'],
+  ['wave power', 'electricity from the movement of sea waves', 'energia del moto ondoso'],
+  ['carbon neutral', 'adding no extra carbon dioxide to the atmosphere overall', 'a impatto zero di carbonio'],
+  ['habitat', 'the natural home of animals and plants', 'habitat']
 ];
 
 const EXERCISES = {
@@ -648,19 +649,20 @@ const LISTENING = [
     ]
   },
   {
-    id: 'L2', video: 'deV4S6dX9Z8', segs: 521, outro: 6,
-    title: 'Video 2 – Energy from the Earth',
-    meta: 'About 3 minutes · 9 questions',
+    id: 'L2', video: 'pqzvUur7QRw', segs: 698, outro: 8,
+    title: 'Video 2 – Renewable sources: pros and cons',
+    meta: 'About 4 minutes · 10 questions',
     stops: [
-      { seg: 59, qs: [{ q: 'What does geothermal energy use? The Earth\'s …', all: [['heat', 'hot', 'warm']], sol: 'Heat (the heat of the Earth).' }] },
-      { seg: 97, qs: [{ q: 'Where does the heat come from? From the Earth\'s …', all: [['mantle']], sol: 'Mantle.' }] },
-      { seg: 166, qs: [{ q: 'The steam rises through pipes. What does it turn?', all: [['turbine', 'blade']], sol: 'The blades of turbines.' }] },
-      { seg: 211, qs: [{ q: 'What happens to the steam after it has turned the turbines?', any: ['cool', 'water', 'condens', 'back', 'reuse', 'again', 'pump'], min: 2, sol: 'It is cooled, turns back into water and is pumped down to be used again.' }] },
-      { seg: 282, qs: [{ q: 'In Iceland\'s capital, hot water runs under roads and pavements. What does it do in winter?', any: ['snow', 'ice', 'clear', 'warm', 'melt'], min: 1, sol: 'It melts the snow and keeps roads clear (and warms people).' }] },
-      { seg: 305, qs: [{ q: 'How much of Iceland\'s electricity comes from geothermal energy?', any: ['quarter', '25', 'twenty-five', 'twenty five', '1/4'], min: 1, sol: 'More than a quarter (over 25%).' }] },
-      { seg: 341, qs: [{ q: 'What is the big advantage of geothermal energy compared with wind and solar?', any: ['all the time', 'always', '24', 'every day', 'day and night', 'night', 'constant', 'continuous', '365', 'all day', 'all year'], min: 1, sol: 'It is available all the time, 24 hours a day, 365 days a year.' }] },
-      { seg: 452, qs: [{ q: 'Where can geothermal power plants be built?', any: ['volcan', 'ring of fire', 'iceland', 'japan', 'indonesia', 'new zealand', 'usa'], min: 1, sol: 'Only in volcanically active places (e.g. the Ring of Fire).' }] },
-      { seg: 495, qs: [{ q: 'Give one disadvantage of geothermal power plants.', any: ['expensive', 'cost', 'money', 'greenhouse', 'gas', 'co2', 'few places', 'only', 'limited', 'volcan'], min: 1, sol: 'They are expensive to build, digging releases greenhouse gases, and only a few places are suitable.' }] }
+      { seg: 137, qs: [{ q: 'Complete the definition: a renewable energy resource is one that is …', all: [['replenish', 'renew', 'regenerat', 'restored', 'never run out', 'won\'t run out', 'not run out']], sol: '… being (or can be) replenished as it is used.' }] },
+      { seg: 229, qs: [{ q: 'First advantage of all renewables: they will never …', all: [['run out']], sol: 'Run out.' }] },
+      { seg: 261, qs: [{ q: 'Second advantage: once they are in place, they do not add any … to the atmosphere.', all: [['carbon', 'co2', 'co 2', 'greenhouse']], sol: 'Carbon dioxide (CO₂).' }] },
+      { seg: 293, qs: [{ q: 'Why are wind and solar power not reliable?', any: ['wind', 'cloud', 'sun', 'weather', 'night'], min: 1, sol: 'Some days are not windy, and solar panels do not work well on cloudy days.' }] },
+      { seg: 334, qs: [{ q: 'Hydroelectric power is reliable, but what is destroyed when dams are built?', all: [['habitat', 'home', 'valley', 'nature', 'environment']], sol: 'Habitats (valleys are flooded).' }] },
+      { seg: 378, qs: [{ q: 'How often does the tide come in and go out?', all: [['twice', 'two times', '2 times']], sol: 'Twice a day.' }] },
+      { seg: 433, qs: [{ q: 'Why does wave power have huge potential in the UK?', all: [['coast', 'sea']], sol: 'Because the UK has a long (extensive) coastline.' }] },
+      { seg: 524, qs: [{ q: 'What do almost all cars in the UK run on?', any: ['petrol', 'diesel', 'fossil', 'gasoline', 'oil'], min: 1, sol: 'Petrol or diesel (fossil fuels).' }] },
+      { seg: 600, qs: [{ q: 'Biofuels release CO₂, but the plants took it in while growing. Scientists call this carbon …', all: [['neutral']], sol: 'Carbon neutral.' }] },
+      { seg: 641, qs: [{ q: 'What could happen if we use land to grow crops for fuel? It could push up the price of …', all: [['food']], sol: 'Food.' }] }
     ]
   }
 ];
