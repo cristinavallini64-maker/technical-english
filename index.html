@@ -8,21 +8,21 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #f7f5f0; --surface: #ffffff; --ink: #1d2433; --muted: #5b6475; --line: #e3e0d8;
-    --hero-a: #1f3b73; --hero-b: #2f6f9f;
-    --energy: #d48806; --energy-soft: #fff1cc;
-    --electronics: #3b5bdb; --electronics-soft: #e5ebff;
-    --safety: #e8590c; --safety-soft: #ffe6d5;
+    --bg: #fbf8f2; --surface: #ffffff; --ink: #1d2433; --muted: #5b6475; --line: #e3e0d8;
+    --hero-a: #2747d6; --hero-b: #0fa3c9;
+    --energy: #f08c00; --energy-soft: #ffe3a1;
+    --electronics: #3b5bff; --electronics-soft: #d6e0ff;
+    --safety: #f2540f; --safety-soft: #ffd5bd;
     --civic: #2f5d9e; --civic-soft: #e4ecf8;
     --chip-on: #1d2433;
   }
   @media (prefers-color-scheme: dark) {
     :root {
       --bg: #12151c; --surface: #1b202b; --ink: #e9ecf2; --muted: #a3abbb; --line: #2c3342;
-      --hero-a: #1a2d55; --hero-b: #1f4f74;
-      --energy: #f5b83d; --energy-soft: #3a2f14;
-      --electronics: #8ea3ff; --electronics-soft: #232c4d;
-      --safety: #ff9a5c; --safety-soft: #42281a;
+      --hero-a: #2238a8; --hero-b: #0b7fa0;
+      --energy: #ffb21f; --energy-soft: #4a3510;
+      --electronics: #7d95ff; --electronics-soft: #22306a;
+      --safety: #ff8a4c; --safety-soft: #55291a;
       --civic: #8fb4ec; --civic-soft: #1f2c42;
       --chip-on: #e9ecf2;
     }
@@ -85,19 +85,19 @@
     transition: transform .15s, box-shadow .15s, border-color .15s;
   }
   a.topic::before {
-    content: ''; position: absolute; inset: 0 0 auto 0; height: 6px; background: var(--c);
+    content: ''; position: absolute; inset: 0 0 auto 0; height: 8px; background: var(--c);
   }
   a.topic:hover { transform: translateY(-3px); border-color: var(--c); box-shadow: 0 10px 24px -14px var(--c); }
   .topic-top { display: flex; align-items: center; gap: 12px; margin-top: 4px; }
   .topic .icon {
     flex: none; width: 52px; height: 52px; border-radius: 16px; display: grid; place-items: center;
-    background: var(--soft); color: var(--c);
+    background: var(--c); color: #fff; box-shadow: 0 6px 14px -8px var(--c);
   }
   .topic .icon svg { width: 28px; height: 28px; }
   .topic h3 { font-size: 19px; margin: 0; }
   .topic p { margin: 0; color: var(--muted); font-size: 15px; flex: 1; }
   .topic-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
-  .tag { font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 999px; background: var(--soft); color: var(--c); }
+  .tag { font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 999px; background: var(--soft); color: var(--ink); }
   .b-civic { background: var(--civic-soft); color: var(--civic); }
   .go { margin-left: auto; font-weight: 700; color: var(--c); font-size: 15px; }
 
