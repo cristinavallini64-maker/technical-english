@@ -8,148 +8,258 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #f6f4ee; --surface: #ffffff; --ink: #1d2a24; --muted: #5d6b64; --line: #dcd8cc;
-    --accent: #1f7a4d; --accent-soft: #e3f1e9; --sun-soft: #fbf1d8; --civic: #2f5d9e; --civic-soft: #e4ecf8;
+    --bg: #f7f5f0; --surface: #ffffff; --ink: #1d2433; --muted: #5b6475; --line: #e3e0d8;
+    --hero-a: #1f3b73; --hero-b: #2f6f9f;
+    --energy: #d48806; --energy-soft: #fff1cc;
+    --electronics: #3b5bdb; --electronics-soft: #e5ebff;
+    --safety: #e8590c; --safety-soft: #ffe6d5;
+    --civic: #2f5d9e; --civic-soft: #e4ecf8;
+    --chip-on: #1d2433;
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --bg: #141a17; --surface: #1c2420; --ink: #e8ece9; --muted: #a2b0a9; --line: #2f3a35;
-      --accent: #5cc48c; --accent-soft: #1f3a2c; --sun-soft: #3a311a; --civic: #8fb4ec; --civic-soft: #1f2c42;
+      --bg: #12151c; --surface: #1b202b; --ink: #e9ecf2; --muted: #a3abbb; --line: #2c3342;
+      --hero-a: #1a2d55; --hero-b: #1f4f74;
+      --energy: #f5b83d; --energy-soft: #3a2f14;
+      --electronics: #8ea3ff; --electronics-soft: #232c4d;
+      --safety: #ff9a5c; --safety-soft: #42281a;
+      --civic: #8fb4ec; --civic-soft: #1f2c42;
+      --chip-on: #e9ecf2;
     }
   }
   * { box-sizing: border-box; }
   body { margin: 0; background: var(--bg); color: var(--ink); font-family: 'Source Sans 3', system-ui, sans-serif; font-size: 17px; line-height: 1.6; }
-  .wrap { max-width: 860px; margin: 0 auto; padding: 0 16px; }
-  header { padding: 32px 0 20px; }
-  .back {
-    display: inline-block; margin-bottom: 20px; text-decoration: none;
-    font-size: 15px; font-weight: 700; color: var(--accent);
-    background: var(--accent-soft); padding: 6px 16px; border-radius: 999px;
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 16px; }
+
+  header.hero {
+    color: #fff;
+    background:
+      radial-gradient(circle at 85% 20%, rgba(255,255,255,.14) 0 90px, transparent 91px),
+      radial-gradient(circle at 92% 75%, rgba(255,255,255,.08) 0 140px, transparent 141px),
+      linear-gradient(135deg, var(--hero-a), var(--hero-b));
+    padding: 22px 0 34px;
   }
-  .back:hover { background: var(--accent); color: #fff; }
-  h1, h2 { font-family: 'Fraunces', Georgia, serif; line-height: 1.2; }
-  h1 { font-size: clamp(30px, 6vw, 44px); margin: 0 0 8px; }
-  h2 { font-size: 22px; margin: 28px 0 12px; }
-  .lead { color: var(--muted); margin: 0; max-width: 620px; }
-  .filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 22px 0 6px; }
+  .back {
+    display: inline-block; margin-bottom: 22px; text-decoration: none;
+    font-size: 15px; font-weight: 700; color: #fff;
+    background: rgba(255,255,255,.16); padding: 6px 16px; border-radius: 999px;
+  }
+  .back:hover { background: rgba(255,255,255,.28); }
+  h1, h2, h3 { font-family: 'Fraunces', Georgia, serif; line-height: 1.2; }
+  h1 { font-size: clamp(34px, 7vw, 52px); margin: 0 0 8px; }
+  .lead { margin: 0; max-width: 560px; opacity: .9; }
+  .areas-legend { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+  .areas-legend a {
+    display: inline-flex; align-items: center; gap: 8px; text-decoration: none; color: #fff;
+    font-size: 15px; font-weight: 600; background: rgba(255,255,255,.12);
+    padding: 5px 14px 5px 6px; border-radius: 999px;
+  }
+  .areas-legend a:hover { background: rgba(255,255,255,.24); }
+  .areas-legend .dot { width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; background: #fff; }
+  .areas-legend .dot svg { width: 14px; height: 14px; }
+
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 26px 0 4px; }
   .chip {
     font: inherit; font-size: 15px; font-weight: 600; cursor: pointer;
-    padding: 6px 14px; border-radius: 999px; border: 1px solid var(--line);
+    padding: 6px 16px; border-radius: 999px; border: 1px solid var(--line);
     background: var(--surface); color: var(--ink);
   }
-  .chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
-  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 14px; }
-  a.topic {
-    display: block; text-decoration: none; color: var(--ink);
-    background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px;
-    transition: border-color .15s, transform .15s;
+  .chip[aria-pressed="true"] { background: var(--chip-on); border-color: var(--chip-on); color: var(--bg); }
+
+  .area { margin-top: 30px; scroll-margin-top: 16px; }
+  .area-head { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  .area-head .ico {
+    width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center;
+    background: var(--c); color: #fff;
   }
-  a.topic:hover { border-color: var(--accent); transform: translateY(-2px); }
-  .topic h3 { font-family: 'Fraunces', Georgia, serif; font-size: 20px; margin: 0 0 6px; }
-  .topic p { margin: 0 0 12px; color: var(--muted); font-size: 15px; }
-  .badges { display: flex; flex-wrap: wrap; gap: 6px; }
-  .badge { font-size: 12px; font-weight: 700; padding: 2px 9px; border-radius: 999px; }
+  .area-head .ico svg { width: 22px; height: 22px; }
+  .area-head h2 { margin: 0; font-size: 26px; }
+  .area-head .count { color: var(--muted); font-size: 15px; margin-left: auto; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 16px; }
+  a.topic {
+    position: relative; display: flex; flex-direction: column; gap: 10px;
+    text-decoration: none; color: var(--ink);
+    background: var(--surface); border: 1px solid var(--line); border-radius: 18px;
+    padding: 18px 18px 16px; overflow: hidden;
+    transition: transform .15s, box-shadow .15s, border-color .15s;
+  }
+  a.topic::before {
+    content: ''; position: absolute; inset: 0 0 auto 0; height: 6px; background: var(--c);
+  }
+  a.topic:hover { transform: translateY(-3px); border-color: var(--c); box-shadow: 0 10px 24px -14px var(--c); }
+  .topic-top { display: flex; align-items: center; gap: 12px; margin-top: 4px; }
+  .topic .icon {
+    flex: none; width: 52px; height: 52px; border-radius: 16px; display: grid; place-items: center;
+    background: var(--soft); color: var(--c);
+  }
+  .topic .icon svg { width: 28px; height: 28px; }
+  .topic h3 { font-size: 19px; margin: 0; }
+  .topic p { margin: 0; color: var(--muted); font-size: 15px; flex: 1; }
+  .topic-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+  .tag { font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 999px; background: var(--soft); color: var(--c); }
   .b-civic { background: var(--civic-soft); color: var(--civic); }
+  .go { margin-left: auto; font-weight: 700; color: var(--c); font-size: 15px; }
+
+  a.topic.featured { grid-column: span 2; }
+  a.topic.featured h3 { font-size: 23px; }
+  @media (max-width: 620px) { a.topic.featured { grid-column: auto; } }
+
   .empty { color: var(--muted); font-style: italic; }
-  footer { padding: 36px 0 40px; color: var(--muted); font-size: 14px; }
+  footer { padding: 40px 0; color: var(--muted); font-size: 14px; }
+
+  .energy      { --c: var(--energy);      --soft: var(--energy-soft); }
+  .electronics { --c: var(--electronics); --soft: var(--electronics-soft); }
+  .safety      { --c: var(--safety);      --soft: var(--safety-soft); }
 </style>
 </head>
 <body>
-<header>
+<header class="hero">
   <div class="wrap">
     <a href="https://sites.google.com/iisprimolevi.org/the-english-framework" class="back">← The English Framework</a>
     <h1>Technical English</h1>
     <p class="lead">Topics for the electronics track, organised by subject: texts, videos, exercises and flashcards.</p>
-    <div class="filters" id="filters"></div>
+    <div class="areas-legend" id="legend"></div>
   </div>
 </header>
 
-<main class="wrap" id="topics"></main>
+<main class="wrap">
+  <div class="filters" id="filters"></div>
+  <div id="topics"></div>
+</main>
 
 <footer><div class="wrap">Technical English · ITIS – Electronics</div></footer>
 
 <script>
+/* Icons: simple line drawings, 24×24 */
+const ICONS = {
+  sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+  bolt: '<path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/>',
+  plug: '<path d="M9 2v5M15 2v5M6 7h12v4a6 6 0 0 1-12 0V7zM12 17v5"/>',
+  battery: '<rect x="2" y="7" width="17" height="10" rx="2"/><path d="M22 11v2M6 10v4M10 10v4"/>',
+  batteries: '<rect x="3" y="7" width="7" height="14" rx="1.5"/><path d="M5.5 4.5h2"/><rect x="14" y="10" width="7" height="11" rx="1.5"/><path d="M16.5 7.5h2"/>',
+  drop: '<path d="M12 3s6 6.2 6 10.5a6 6 0 0 1-12 0C6 9.2 12 3 12 3z"/><path d="M10 12v4M14 12v4M10 14h4"/>',
+  snow: '<path d="M12 2v20M3.3 7l17.4 10M3.3 17 20.7 7"/><path d="m9 4 3 2 3-2M9 20l3-2 3 2"/>',
+  warning: '<path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/>',
+  clipboard: '<rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/>',
+  helmet: '<path d="M2 18h20M4 18v-3a8 8 0 0 1 16 0v3"/><path d="M10 7V5h4v2"/>',
+  aid: '<rect x="3" y="3" width="18" height="18" rx="4"/><path d="M12 8v8M8 12h8"/>',
+  shield: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/>'
+};
+function svg(name) {
+  return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[name]}</svg>`;
+}
+
+/* Areas: name, CSS class (colour) and icon */
+const AREAS = {
+  'Energy':         { cls: 'energy',      icon: 'sun' },
+  'Electronics':    { cls: 'electronics', icon: 'bolt' },
+  'Safety at work': { cls: 'safety',      icon: 'helmet' }
+};
+
 /* To add a topic: add an object to TOPICS.
-   area  = subject group (e.g. 'Energy', 'Electronics', 'Safety at work')
-   civic = true if it is also part of the Educazione Civica programme */
+   area  = one of the AREAS above (add a new area there if needed)
+   icon  = one of the ICONS above
+   kind  = what the page contains (e.g. 'Lesson · Videos · Exercises', 'Flashcards')
+   civic = true if it is also part of the Educazione Civica programme
+   featured = true to show a wider card */
 const TOPICS = [
   {
-    area: 'Energy',
+    area: 'Energy', icon: 'sun', featured: true,
     title: 'Renewable Energy Sources',
     desc: 'Solar, wind, hydro, geothermal and biomass; storage, smart grids and energy communities.',
+    kind: 'Texts · Videos · Exercises · Glossary',
     href: 'renewable-energy.html',
     civic: true
   },
   {
-    area: 'Electronics',
+    area: 'Electronics', icon: 'plug',
     title: 'Conductors and Insulators',
-    desc: 'Speaking flashcards: electric current, conductors, insulators and why metals conduct.',
+    desc: 'Electric current, conductors, insulators and why metals conduct.',
+    kind: 'Speaking flashcards',
     href: 'https://cristinavallini64-maker.github.io/conductors-and-insulators/flashcards_conductors.html'
   },
   {
-    area: 'Electronics',
+    area: 'Electronics', icon: 'battery',
     title: 'The Battery',
-    desc: 'Speaking flashcards: how a simple cell works – electrodes, electrolyte and current.',
+    desc: 'How a simple cell works: electrodes, electrolyte and current.',
+    kind: 'Speaking flashcards',
     href: 'https://cristinavallini64-maker.github.io/batteries/flashcards_battery.html'
   },
   {
-    area: 'Electronics',
+    area: 'Electronics', icon: 'batteries',
     title: 'Types of Battery',
-    desc: 'Speaking flashcards: primary and secondary cells, carbon-zinc, alkaline and their uses.',
+    desc: 'Primary and secondary cells, carbon-zinc, alkaline and their uses.',
+    kind: 'Speaking flashcards',
     href: 'https://cristinavallini64-maker.github.io/batteries/flashcards_types_of_battery.html'
   },
   {
-    area: 'Electronics',
+    area: 'Electronics', icon: 'drop',
     title: 'The Fuel Cell',
-    desc: 'Speaking flashcards: how a fuel cell produces electricity and where it is used.',
+    desc: 'How a fuel cell produces electricity and where it is used.',
+    kind: 'Speaking flashcards',
     href: 'https://cristinavallini64-maker.github.io/batteries/flashcards_fuel_cell.html'
   },
   {
-    area: 'Electronics',
+    area: 'Electronics', icon: 'snow',
     title: 'Superconductors',
-    desc: 'Speaking flashcards: what superconductors are, HTSC materials and their potential benefits.',
+    desc: 'What superconductors are, HTSC materials and their potential benefits.',
+    kind: 'Speaking flashcards',
     href: 'https://cristinavallini64-maker.github.io/batteries/flashcards_superconductors.html'
   },
   {
-    area: 'Safety at work',
+    area: 'Safety at work', icon: 'warning',
     title: 'Hazards in the Workplace',
-    desc: 'Speaking flashcards: physical, chemical, electrical, ergonomic and psychosocial hazards.',
+    desc: 'Physical, chemical, electrical, ergonomic and psychosocial hazards.',
+    kind: 'Speaking flashcards',
     href: 'https://cristinavallini64-maker.github.io/workplace-safety-flashcards/flashcards_hazards.html'
   },
   {
-    area: 'Safety at work',
+    area: 'Safety at work', icon: 'clipboard',
     title: 'Risk Assessment and Control Measures',
-    desc: 'Speaking flashcards: assessing risks and choosing control measures.',
+    desc: 'Assessing risks and choosing control measures.',
+    kind: 'Speaking flashcards',
     href: 'https://cristinavallini64-maker.github.io/workplace-safety-flashcards/flashcards_risk_assessment.html'
   },
   {
-    area: 'Safety at work',
+    area: 'Safety at work', icon: 'helmet',
     title: 'PPE and Safety Signs',
-    desc: 'Speaking flashcards: personal protective equipment and safety signs.',
+    desc: 'Personal protective equipment and safety signs.',
+    kind: 'Speaking flashcards',
     href: 'https://cristinavallini64-maker.github.io/workplace-safety-flashcards/flashcards_ppe.html'
   },
   {
-    area: 'Safety at work',
+    area: 'Safety at work', icon: 'bolt',
     title: 'Electrical Safety and Automation Hazards',
-    desc: 'Speaking flashcards: electrical risks and hazards of automated machinery.',
+    desc: 'Electrical risks and hazards of automated machinery.',
+    kind: 'Speaking flashcards',
     href: 'https://cristinavallini64-maker.github.io/workplace-safety-flashcards/flashcards_electrical.html'
   },
   {
-    area: 'Safety at work',
+    area: 'Safety at work', icon: 'aid',
     title: 'Accidents and Emergency Procedures',
-    desc: 'Speaking flashcards: what to do in case of accidents and emergencies.',
+    desc: 'What to do in case of accidents and emergencies.',
+    kind: 'Speaking flashcards',
     href: 'https://cristinavallini64-maker.github.io/workplace-safety-flashcards/flashcards_accidents.html'
   },
   {
-    area: 'Safety at work',
+    area: 'Safety at work', icon: 'shield',
     title: 'Safety Culture',
-    desc: 'Speaking flashcards: building a culture of safety in the workplace.',
+    desc: 'Building a culture of safety in the workplace.',
+    kind: 'Speaking flashcards',
     href: 'https://cristinavallini64-maker.github.io/workplace-safety-flashcards/flashcards_safety_culture.html'
   }
 ];
 
-const FILTERS = [['all', 'All'], ['civic', 'Educazione Civica']];
+const FILTERS = [['all', 'All topics'], ['civic', 'Educazione Civica']];
 let current = 'all';
+
+function slug(s) { return s.toLowerCase().replace(/[^a-z]+/g, '-'); }
+
+function renderLegend() {
+  document.getElementById('legend').innerHTML = Object.entries(AREAS).map(([name, a]) =>
+    `<a href="#${slug(name)}" class="${a.cls}"><span class="dot" style="color:var(--c)">${svg(a.icon)}</span>${name}</a>`).join('');
+}
 
 function renderFilters() {
   document.getElementById('filters').innerHTML = FILTERS.map(([k, label]) =>
@@ -158,26 +268,44 @@ function renderFilters() {
 
 function setFilter(k) { current = k; renderFilters(); renderTopics(); }
 
-function renderTopics() {
-  const list = TOPICS.filter(t =>
-    current === 'all' || t.civic);
-  const areas = [...new Set(list.map(t => t.area))];
-  const box = document.getElementById('topics');
-  if (!list.length) { box.innerHTML = '<p class="empty">No topics for this filter yet.</p>'; return; }
-  box.innerHTML = areas.map(area => `
-    <h2>${area}</h2>
-    <div class="grid">
-      ${list.filter(t => t.area === area).map(t => `
-        <a class="topic" href="${t.href}">
-          <h3>${t.title}</h3>
-          <p>${t.desc}</p>
-          <div class="badges">
-            ${t.civic ? '<span class="badge b-civic">Educazione Civica</span>' : ''}
-          </div>
-        </a>`).join('')}
-    </div>`).join('');
+function card(t) {
+  const a = AREAS[t.area];
+  return `
+    <a class="topic ${a.cls}${t.featured ? ' featured' : ''}" href="${t.href}">
+      <div class="topic-top">
+        <span class="icon">${svg(t.icon)}</span>
+        <h3>${t.title}</h3>
+      </div>
+      <p>${t.desc}</p>
+      <div class="topic-foot">
+        <span class="tag">${t.kind}</span>
+        ${t.civic ? '<span class="tag b-civic">Educazione Civica</span>' : ''}
+        <span class="go">Open →</span>
+      </div>
+    </a>`;
 }
 
+function renderTopics() {
+  const list = TOPICS.filter(t => current === 'all' || t.civic);
+  const box = document.getElementById('topics');
+  if (!list.length) { box.innerHTML = '<p class="empty">No topics for this filter yet.</p>'; return; }
+  const areas = Object.keys(AREAS).filter(name => list.some(t => t.area === name));
+  box.innerHTML = areas.map(name => {
+    const a = AREAS[name];
+    const items = list.filter(t => t.area === name);
+    return `
+      <section class="area ${a.cls}" id="${slug(name)}">
+        <div class="area-head">
+          <span class="ico">${svg(a.icon)}</span>
+          <h2>${name}</h2>
+          <span class="count">${items.length} ${items.length === 1 ? 'topic' : 'topics'}</span>
+        </div>
+        <div class="grid">${items.map(card).join('')}</div>
+      </section>`;
+  }).join('');
+}
+
+renderLegend();
 renderFilters();
 renderTopics();
 </script>
