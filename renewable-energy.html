@@ -152,6 +152,24 @@
     width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center;
     background: var(--soft); color: var(--strong); font-weight: 700;
   }
+
+  .listen h3 { margin-bottom: 4px; }
+  .player-box { position: relative; width: 100%; aspect-ratio: 16 / 9; border-radius: 12px; overflow: hidden; background: #000; margin: 12px 0 10px; }
+  .player-box > div, .player-box iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .player-shield { position: absolute; inset: 0; z-index: 2; }
+  .lbar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .progress { flex: 1; min-width: 140px; height: 10px; border-radius: 999px; background: var(--soft); position: relative; overflow: hidden; }
+  .progress i { position: absolute; inset: 0 auto 0 0; width: 0; background: var(--c); border-radius: 999px; }
+  .progress b { position: absolute; top: 0; bottom: 0; width: 3px; background: var(--ink); opacity: .45; }
+  .steps { font-size: 14px; font-weight: 700; color: var(--strong); }
+  .lstatus { font-size: 15px; color: var(--muted); margin-top: 8px; }
+  .qbox { display: none; margin-top: 14px; padding: 16px; border-radius: 14px; background: var(--soft); }
+  .qbox.show { display: block; }
+  .qbox h4 { margin: 0 0 8px; font-size: 16px; }
+  .qbox .ex-item { margin: 10px 0; }
+  .done { display: none; margin-top: 14px; padding: 14px 16px; border-radius: 14px; background: var(--ok-soft); color: var(--ok); font-weight: 700; }
+  .done.show { display: block; }
+  .setup-time { font-family: monospace; font-size: 14px; color: var(--ko); }
   footer { padding: 40px 0; color: var(--muted); font-size: 14px; }
 </style>
 </head>
@@ -189,18 +207,9 @@
 
   <section id="videos">
     <div class="sec-head"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="m10 9 5 3-5 3z"/></svg></span><h2>Videos</h2></div>
-    <div class="card">
-      <h3>Renewable Energy 101 – National Geographic</h3>
-      <div class="meta">3 min 16 s · An overview of solar, wind, hydro, geothermal and biomass, with benefits and limits.</div>
-      <div class="video"><iframe src="https://www.youtube-nocookie.com/embed/1kUE0BZtTRc" title="Renewable Energy 101 – National Geographic" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>
-      <div class="meta">While you watch: note every source mentioned, with one benefit and one limit for each.</div>
-    </div>
-    <div class="card">
-      <h3>How do solar panels work? – TED-Ed</h3>
-      <div class="meta">About 5 min · Silicon, doping, the p-n junction and the challenges of solar power.</div>
-      <div class="video"><iframe src="https://www.youtube-nocookie.com/embed/xKxrkht7CpY" title="How do solar panels work? – TED-Ed" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>
-      <div class="meta">While you watch: note the steps from sunlight to electric current.</div>
-    </div>
+    <p class="meta">Watch without subtitles. The video stops at some points: answer the questions to continue. If an answer is wrong, you listen to that part again.</p>
+    <div class="card listen" id="L1"></div>
+    <div class="card listen" id="L2"></div>
   </section>
 
   <section id="texts">
@@ -579,6 +588,270 @@ function renderDownloads() {
   document.getElementById('dlList').innerHTML = items.map(([label, fn]) =>
     `<div class="dl"><span>${label}</span><button onclick="${fn}">Word</button></div>`).join('');
 }
+
+/* ---------- Interactive listening ----------
+   stops: the video pauses at each time (in seconds) and shows the questions.
+   end: true = the stop is the end of the video.
+   Answer check: every group in "all" must be matched by one of its words;
+   "any" + "min" = at least min of the words must appear.
+   Teacher mode: open the page with ?setup at the end of the address to see the current time. */
+const LISTENING = [
+  {
+    id: 'L1', video: '1kUE0BZtTRc',
+    title: 'Renewable Energy 101 – National Geographic',
+    meta: '3 min 16 s · 4 stops',
+    stops: [
+      { t: 52, qs: [
+        { q: 'Name two renewable sources mentioned in the video.', any: ['solar', 'sun', 'wind', 'hydro', 'water', 'geothermal', 'biomass'], min: 2, sol: 'Any two of: solar, wind, hydro, geothermal, biomass.' },
+        { q: 'Why are these sources called renewable? Because they …', all: [['replenish', 'renew', 'regenerat', 'never run out', 'don\'t run out', 'do not run out', 'restored', 'naturally']], sol: 'They are naturally replenished / they never run out.' }
+      ]},
+      { t: 112, qs: [
+        { q: 'Which energy sources still supply most of the world\'s energy?', all: [['fossil', 'coal', 'oil', 'gas']], sol: 'Fossil fuels (coal, oil, natural gas).' },
+        { q: 'Do renewables produce direct greenhouse gas emissions? (yes / no)', all: [['no']], not: ['yes'], sol: 'No.' },
+        { q: 'Less pollution means fewer risks for people\'s …', all: [['health']], sol: 'Health.' }
+      ]},
+      { t: 138, qs: [
+        { q: 'What happens to the price of renewable energy over time?', all: [['stable', 'stays the same', 'steady', 'does not change', 'doesn\'t change', 'constant']], sol: 'It stays stable.' }
+      ]},
+      { t: 0, end: true, qs: [
+        { q: 'Which two renewable sources are intermittent?', all: [['solar', 'sun'], ['wind']], sol: 'Solar and wind.' },
+        { q: 'What can store their energy?', all: [['batter']], sol: 'Batteries.' },
+        { q: 'What is the problem with this solution?', all: [['expensive', 'cost', 'price', 'money']], sol: 'Batteries are expensive.' }
+      ]}
+    ]
+  },
+  {
+    id: 'L2', video: 'xKxrkht7CpY',
+    title: 'How do solar panels work? – TED-Ed',
+    meta: 'About 5 min · 5 stops',
+    stops: [
+      { t: 58, qs: [
+        { q: 'What are solar panels made of? Smaller units called …', all: [['cell']], sol: 'Solar cells.' },
+        { q: 'Which material are most solar cells made of?', all: [['silicon']], sol: 'Silicon.' },
+        { q: 'What kind of material is it?', all: [['semiconductor', 'semi-conductor', 'semi conductor']], sol: 'A semiconductor.' }
+      ]},
+      { t: 140, qs: [
+        { q: 'One layer of silicon has extra electrons. What does the other layer have?', all: [['hole']], sol: 'Holes (missing electrons).' },
+        { q: 'What knocks electrons free when light hits the cell?', all: [['photon', 'light', 'sun']], sol: 'Photons (particles of light).' }
+      ]},
+      { t: 178, qs: [
+        { q: 'How many volts does a single cell produce, more or less?', all: [['half', '0.5', '0,5', '.5']], sol: 'About half a volt (0.5 V).' },
+        { q: 'Why can solar cells last for decades?', all: [['moving part', 'no wear', 'don\'t wear', 'do not wear', 'not wear', 'wear out', 'nothing moves', 'no parts move']], sol: 'Because they have no moving parts / nothing wears out.' }
+      ]},
+      { t: 238, qs: [
+        { q: 'Give one problem that stops the world from relying only on solar energy.', any: ['politic', 'lobby', 'cloud', 'night', 'sunlight', 'uneven', 'inconsistent', 'storage', 'store', 'transmission', 'distance', 'efficien', 'reflect'], min: 1, sol: 'Politics, uneven sunlight, storage, long-distance transmission or low efficiency.' },
+        { q: 'What percentage of sunlight do commercial solar panels usually convert into electricity?', any: ['15', '20', 'fifteen', 'twenty'], min: 1, sol: '15–20%.' }
+      ]},
+      { t: 0, end: true, qs: [
+        { q: 'Which large desert is used to compare the land needed for solar panels?', all: [['sahara']], sol: 'The Sahara.' },
+        { q: 'Give one recent innovation in solar energy mentioned at the end.', all: [['float']], sol: 'Floating solar farms.' },
+        { q: 'In which places is solar already better than other options? Places without a reliable …', all: [['grid', 'electricity', 'network']], sol: 'Places without a reliable electric grid.' }
+      ]}
+    ]
+  }
+];
+
+const SETUP = /[?&]setup\b/.test(location.search);
+const LST = {};
+
+function buildListening() {
+  LISTENING.forEach(L => {
+    const box = document.getElementById(L.id);
+    box.innerHTML = `
+      <h3>${L.title}</h3>
+      <div class="meta">${L.meta}</div>
+      <div class="player-box"><div id="${L.id}p"></div><div class="player-shield"></div></div>
+      <div class="lbar">
+        <button id="${L.id}play">▶ Play</button>
+        <div class="progress" id="${L.id}prog"><i></i></div>
+        <span class="steps" id="${L.id}steps"></span>
+        ${SETUP ? `<span class="setup-time" id="${L.id}time"></span>` : ''}
+      </div>
+      <div class="lstatus" id="${L.id}status">Press Play to start.</div>
+      <div class="qbox" id="${L.id}q"></div>
+      <div class="done" id="${L.id}done">Well done! You have completed this video.</div>`;
+    LST[L.id] = { L, stop: 0, segStart: 0, playing: false, player: null, ready: false, duration: 0, waiting: false };
+    document.getElementById(L.id + 'play').onclick = () => togglePlay(L.id);
+    updateSteps(L.id);
+  });
+}
+
+function updateSteps(id) {
+  const st = LST[id];
+  document.getElementById(id + 'steps').textContent = `Part ${Math.min(st.stop + 1, st.L.stops.length)} / ${st.L.stops.length}`;
+}
+
+function onYouTubeIframeAPIReady() {
+  LISTENING.forEach(L => {
+    const st = LST[L.id];
+    st.player = new YT.Player(L.id + 'p', {
+      host: 'https://www.youtube-nocookie.com',
+      videoId: L.video,
+      playerVars: { controls: 0, disablekb: 1, cc_load_policy: 0, iv_load_policy: 3, rel: 0, fs: 0, playsinline: 1, modestbranding: 1, hl: 'en' },
+      events: {
+        onReady: () => { st.ready = true; st.duration = st.player.getDuration() || 0; drawMarks(L.id); },
+        onStateChange: e => onState(L.id, e.data)
+      }
+    });
+  });
+  setInterval(tick, 250);
+}
+
+function noCaptions(st) {
+  try { st.player.unloadModule('captions'); } catch (e) {}
+  try { st.player.unloadModule('cc'); } catch (e) {}
+  try { st.player.setOption('captions', 'track', {}); } catch (e) {}
+}
+
+function drawMarks(id) {
+  const st = LST[id];
+  if (!st.duration) return;
+  const prog = document.getElementById(id + 'prog');
+  st.L.stops.filter(s => !s.end).forEach(s => {
+    const b = document.createElement('b');
+    b.style.left = (100 * s.t / st.duration) + '%';
+    prog.appendChild(b);
+  });
+}
+
+function togglePlay(id) {
+  const st = LST[id];
+  if (!st.ready || st.waiting) return;
+  if (st.playing) { st.player.pauseVideo(); }
+  else { noCaptions(st); st.player.playVideo(); }
+}
+
+function onState(id, s) {
+  const st = LST[id];
+  const btn = document.getElementById(id + 'play');
+  if (s === YT.PlayerState.PLAYING) {
+    st.playing = true; btn.textContent = '❚❚ Pause';
+    noCaptions(st);
+    document.getElementById(id + 'status').textContent = 'Listening…';
+  } else if (s === YT.PlayerState.PAUSED) {
+    st.playing = false; btn.textContent = '▶ Play';
+  } else if (s === YT.PlayerState.ENDED) {
+    st.playing = false; btn.textContent = '▶ Play';
+    const cur = st.L.stops[st.stop];
+    if (cur && cur.end && !st.waiting) showQuestions(id);
+  }
+}
+
+function tick() {
+  Object.values(LST).forEach(st => {
+    if (!st.ready || !st.player.getCurrentTime) return;
+    const t = st.player.getCurrentTime();
+    if (!st.duration) { st.duration = st.player.getDuration() || 0; if (st.duration) drawMarks(st.L.id); }
+    const bar = document.querySelector(`#${st.L.id}prog i`);
+    if (st.duration) bar.style.width = Math.min(100, 100 * t / st.duration) + '%';
+    if (SETUP) {
+      const el = document.getElementById(st.L.id + 'time');
+      el.textContent = `t = ${t.toFixed(1)} s`;
+    }
+    const cur = st.L.stops[st.stop];
+    if (st.playing && cur && !cur.end && t >= cur.t && !st.waiting) {
+      st.player.pauseVideo();
+      showQuestions(st.L.id);
+    }
+  });
+}
+
+function showQuestions(id) {
+  const st = LST[id];
+  st.waiting = true;
+  const stop = st.L.stops[st.stop];
+  const qb = document.getElementById(id + 'q');
+  qb.innerHTML = `<h4>Answer to continue</h4>` + stop.qs.map((q, i) => `
+    <div class="ex-item">
+      <div class="prompt">${i + 1}. ${q.q}</div>
+      <input type="text" id="${id}a${i}" autocomplete="off" spellcheck="false">
+      <div class="fb" id="${id}f${i}"></div>
+    </div>`).join('') + `
+    <div class="row">
+      <button onclick="checkStop('${id}')">Check</button>
+      ${SETUP ? `<button class="ghost" onclick="revealStop('${id}')">Show answers (teacher)</button>` : ''}
+    </div>`;
+  qb.classList.add('show');
+  document.getElementById(id + 'status').textContent = 'The video is paused. Answer the questions.';
+  const first = document.getElementById(id + 'a0');
+  if (first) first.focus();
+}
+
+function matches(q, val) {
+  const v = norm(val);
+  if (!v) return false;
+  const has = w => {
+    const k = norm(w);
+    return /^[a-z]+$/.test(k) && k.length <= 3 ? new RegExp('\\b' + k + '\\b').test(v) : v.includes(k);
+  };
+  if (q.not && q.not.some(has)) return false;
+  if (q.all && !q.all.every(group => group.some(has))) return false;
+  if (q.any && q.any.filter(has).length < (q.min || 1)) return false;
+  return true;
+}
+
+function checkStop(id) {
+  const st = LST[id];
+  const stop = st.L.stops[st.stop];
+  let allOk = true;
+  stop.qs.forEach((q, i) => {
+    const inp = document.getElementById(id + 'a' + i);
+    const fb = document.getElementById(id + 'f' + i);
+    const ok = matches(q, inp.value);
+    inp.classList.remove('right', 'wrong');
+    inp.classList.add(ok ? 'right' : 'wrong');
+    fb.className = 'fb ' + (ok ? 'right' : 'wrong');
+    fb.textContent = ok ? 'Correct!' : 'Not correct.';
+    if (!ok) allOk = false;
+  });
+  if (allOk) {
+    setTimeout(() => nextStop(id), 700);
+  } else {
+    document.getElementById(id + 'status').textContent = 'Some answers are not correct: listen to this part again.';
+    setTimeout(() => replaySegment(id), 1200);
+  }
+}
+
+function revealStop(id) {
+  const stop = LST[id].L.stops[LST[id].stop];
+  stop.qs.forEach((q, i) => { document.getElementById(id + 'f' + i).textContent = 'Answer: ' + q.sol; });
+}
+
+function replaySegment(id) {
+  const st = LST[id];
+  st.waiting = false;
+  document.getElementById(id + 'q').classList.remove('show');
+  st.player.seekTo(st.segStart, true);
+  noCaptions(st);
+  st.player.playVideo();
+  document.getElementById(id + 'status').textContent = 'Listen again, then answer.';
+}
+
+function nextStop(id) {
+  const st = LST[id];
+  const stop = st.L.stops[st.stop];
+  document.getElementById(id + 'q').classList.remove('show');
+  st.waiting = false;
+  if (stop.end) {
+    document.getElementById(id + 'done').classList.add('show');
+    document.getElementById(id + 'status').textContent = '';
+    st.stop = st.L.stops.length;
+    updateSteps(id);
+    return;
+  }
+  st.segStart = stop.t;
+  st.stop++;
+  updateSteps(id);
+  noCaptions(st);
+  st.player.playVideo();
+}
+
+buildListening();
+(function loadYT() {
+  const tag = document.createElement('script');
+  tag.src = 'https://www.youtube.com/iframe_api';
+  document.head.appendChild(tag);
+})();
 
 renderTexts();
 renderExercises();
