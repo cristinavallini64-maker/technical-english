@@ -170,6 +170,15 @@
   .done { display: none; margin-top: 14px; padding: 14px 16px; border-radius: 14px; background: var(--ok-soft); color: var(--ok); font-weight: 700; }
   .done.show { display: block; }
   .setup-time { font-family: monospace; font-size: 14px; color: var(--ko); }
+
+  .calib { margin-top: 16px; padding: 16px; border: 2px dashed var(--ko); border-radius: 14px; }
+  .calib h4 { margin: 0 0 6px; color: var(--ko); }
+  .calib ol { margin: 8px 0; padding-left: 22px; }
+  .calib li { margin: 6px 0; padding: 4px 8px; border-radius: 8px; }
+  .calib li.cur { background: var(--soft); font-weight: 700; }
+  .calib li .tt { font-family: monospace; color: var(--ko); margin-left: 6px; }
+  .calib li .ans { display: block; font-weight: 400; color: var(--muted); font-size: 14px; }
+  .calib textarea { min-height: 50px; font-family: monospace; font-size: 14px; }
   footer { padding: 40px 0; color: var(--muted); font-size: 14px; }
 </style>
 </head>
@@ -644,6 +653,7 @@ const LISTENING = [
 
 /* time (s) of a stop: end of its part + a few seconds of margin */
 function stopTime(st, s) {
+  if (typeof s.t === 'number') return s.t;
   const usable = Math.max(0, st.duration - st.L.outro);
   return Math.min(st.duration - 1, s.seg / st.L.segs * usable + 4);
 }
@@ -674,11 +684,53 @@ function buildListening() {
       <div class="lstatus" id="${L.id}status">Press Play to start.</div>
       <div class="qbox" id="${L.id}q"></div>
       <div class="done" id="${L.id}done">Well done! You have completed this video.</div>`;
+    if (SETUP) buildCalib(L.id);
     LST[L.id] = { L, stop: 0, tries: 0, segStart: 0, playing: false, player: null, ready: false, duration: 0, waiting: false };
     document.getElementById(L.id + 'play').onclick = () => togglePlay(L.id);
     updateSteps(L.id);
   });
 }
+
+/* ---------- Teacher mode: place the questions ---------- */
+function buildCalib(id) {
+  const L = LST[id] ? LST[id].L : LISTENING.find(x => x.id === id);
+  const box = document.createElement('div');
+  box.className = 'calib';
+  box.innerHTML = `
+    <h4>Modalità insegnante – posiziona le domande</h4>
+    <div class="meta">Il video non si ferma. Premi Play e, appena il video ha dato la risposta alla domanda evidenziata, premi il pulsante rosso. Poi passa da sola alla domanda successiva.</div>
+    <ol id="${id}cl">${L.stops.map((st, i) => `<li id="${id}cl${i}"><span>${st.qs[0].q}</span><span class="tt" id="${id}ct${i}"></span><span class="ans">Risposta: ${st.qs[0].sol}</span></li>`).join('')}</ol>
+    <div class="row">
+      <button id="${id}mark" style="background:var(--ko);border-color:var(--ko);color:#fff">⏱ Metti qui la domanda 1</button>
+      <button class="ghost" onclick="calibBack('${id}')">↩ Annulla l'ultima</button>
+    </div>
+    <p class="meta" style="margin-top:12px">Quando hai finito, copia questa riga e mandala a Claude:</p>
+    <textarea id="${id}cout" readonly></textarea>`;
+  document.getElementById(id).appendChild(box);
+  CAL[id] = [];
+  document.getElementById(id + 'mark').onclick = () => calibMark(id);
+  calibShow(id);
+}
+const CAL = {};
+function calibShow(id) {
+  const L = LISTENING.find(x => x.id === id);
+  const n = CAL[id].length;
+  L.stops.forEach((st, i) => {
+    document.getElementById(`${id}cl${i}`).classList.toggle('cur', i === n);
+    document.getElementById(`${id}ct${i}`).textContent = CAL[id][i] !== undefined ? `→ ${CAL[id][i]} s` : '';
+  });
+  const btn = document.getElementById(id + 'mark');
+  btn.textContent = n < L.stops.length ? `⏱ Metti qui la domanda ${n + 1}` : 'Tutte le domande posizionate';
+  btn.disabled = n >= L.stops.length;
+  document.getElementById(id + 'cout').value = `${id} (${L.title}): ${CAL[id].join(', ')}`;
+}
+function calibMark(id) {
+  const st = LST[id];
+  if (!st || !st.ready) return;
+  CAL[id].push(Math.round(st.player.getCurrentTime() * 10) / 10);
+  calibShow(id);
+}
+function calibBack(id) { CAL[id].pop(); calibShow(id); }
 
 function updateSteps(id) {
   const st = LST[id];
@@ -737,7 +789,7 @@ function onState(id, s) {
   } else if (s === YT.PlayerState.ENDED) {
     st.playing = false; btn.textContent = '▶ Play';
     const cur = st.L.stops[st.stop];
-    if (cur && !st.waiting) showQuestions(id);
+    if (!SETUP && cur && !st.waiting) showQuestions(id);
   }
 }
 
@@ -753,7 +805,7 @@ function tick() {
       el.textContent = `t = ${t.toFixed(1)} s`;
     }
     const cur = st.L.stops[st.stop];
-    if (cur && st.duration && t >= stopTime(st, cur) - 0.3 && !st.waiting && (st.playing || st.autoNext)) {
+    if (!SETUP && cur && st.duration && t >= stopTime(st, cur) - 0.3 && !st.waiting && (st.playing || st.autoNext)) {
       st.autoNext = false;
       st.player.pauseVideo();
       showQuestions(st.L.id);
