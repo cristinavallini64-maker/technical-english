@@ -500,11 +500,11 @@ function checkEx(key) {
     }
   });
   document.getElementById(key + 'Score').textContent = `${score} / ${EXERCISES[key].length}`;
-  track(key === 'vocab' ? 'esercizio-lessico' : 'esercizio-trasformazioni', score);
+  const tot = EXERCISES[key].length;
+  track((key === 'vocab' ? 'Esercizio 1 – Vocabulary' : 'Esercizio 2 – Technical descriptions') + ' (su ' + tot + ')', Math.round(100 * score / tot));
 }
 
 function showSolutions(key) {
-  track(key === 'vocab' ? 'soluzioni-lessico' : 'soluzioni-trasformazioni', null);
   EXERCISES[key].forEach((it, i) => {
     const fb = document.getElementById(key + 'fb' + i);
     const sol = it.ok[key === 'passive' ? 1 : 0] || it.ok[0];
@@ -862,9 +862,8 @@ function checkStop(id) {
     if (!ok) allOk = false;
   });
   st.tries++;
-  const vname = 'video' + id.slice(1) + '-domanda' + (st.stop + 1);
   if (allOk) {
-    track(vname, st.tries);
+    if (st.tries === 1) st.firstOk = (st.firstOk || 0) + 1;
     st.tries = 0;
     setTimeout(() => nextStop(id), 700);
   } else {
@@ -897,7 +896,8 @@ function nextStop(id) {
   if (st.stop >= st.L.stops.length) {
     document.getElementById(id + 'done').classList.add('show');
     document.getElementById(id + 'status').textContent = '';
-    track('video' + id.slice(1) + '-completato', 1);
+    const nq = st.L.stops.length;
+    track('Video ' + id.slice(1) + ' – domande giuste al 1° tentativo (su ' + nq + ')', Math.round(100 * (st.firstOk || 0) / nq));
     st.player.playVideo();
     return;
   }
