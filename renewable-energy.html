@@ -207,7 +207,7 @@
 
   <section id="videos">
     <div class="sec-head"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="m10 9 5 3-5 3z"/></svg></span><h2>Videos</h2></div>
-    <p class="meta">Watch without subtitles. The video stops at some points: answer the questions to continue. If an answer is wrong, you listen to that part again.</p>
+    <p class="meta">Watch without subtitles. The video stops after each piece of information: answer the question to continue. If the answer is wrong, you listen to that part again.</p>
     <div class="card listen" id="L1"></div>
     <div class="card listen" id="L2"></div>
   </section>
@@ -271,7 +271,11 @@
   <div class="wrap">Technical English · ITIS – Electronics · Renewable Energy Sources</div>
 </footer>
 
+<script src="https://cristinavallini64-maker.github.io/grammar-tutor/tracker.js"></script>
 <script>
+/* Results sent to the teacher's tracker (grammar-tutor/tracker.js) */
+function track(name, num) { try { if (window.EFTrack) EFTrack.event(name, num); } catch (e) {} }
+
 const TEXTS = [
   {
     id: 't1',
@@ -487,9 +491,11 @@ function checkEx(key) {
     }
   });
   document.getElementById(key + 'Score').textContent = `${score} / ${EXERCISES[key].length}`;
+  track(key === 'vocab' ? 'esercizio-lessico' : 'esercizio-trasformazioni', score);
 }
 
 function showSolutions(key) {
+  track(key === 'vocab' ? 'soluzioni-lessico' : 'soluzioni-trasformazioni', null);
   EXERCISES[key].forEach((it, i) => {
     const fb = document.getElementById(key + 'fb' + i);
     const sol = it.ok[key === 'passive' ? 1 : 0] || it.ok[0];
@@ -595,61 +601,59 @@ function renderDownloads() {
    Answer check: every group in "all" must be matched by one of its words;
    "any" + "min" = at least min of the words must appear.
    Teacher mode: open the page with ?setup at the end of the address to see the current time. */
+/* Each stop = ONE question, placed right after the part of the video that gives the answer.
+   seg: the video is divided into "segs" equal parts (content order); the stop comes at the end of part "seg".
+   outro: seconds of credits at the end, not counted. Teacher mode (?setup) shows the time to check the stops. */
 const LISTENING = [
   {
-    id: 'L1', video: '1kUE0BZtTRc',
+    id: 'L1', video: '1kUE0BZtTRc', segs: 9, outro: 4,
     title: 'Video 1 – Renewable energy: an overview',
-    meta: '3 min 16 s · 4 stops',
+    meta: 'About 3 minutes · 9 questions',
     stops: [
-      { t: 52, qs: [
-        { q: 'Name two renewable sources mentioned in the video.', any: ['solar', 'sun', 'wind', 'hydro', 'water', 'geothermal', 'biomass'], min: 2, sol: 'Any two of: solar, wind, hydro, geothermal, biomass.' },
-        { q: 'Why are these sources called renewable? Because they …', all: [['replenish', 'renew', 'regenerat', 'never run out', 'don\'t run out', 'do not run out', 'restored', 'naturally']], sol: 'They are naturally replenished / they never run out.' }
-      ]},
-      { t: 112, qs: [
-        { q: 'Which energy sources still supply most of the world\'s energy?', all: [['fossil', 'coal', 'oil', 'gas']], sol: 'Fossil fuels (coal, oil, natural gas).' },
-        { q: 'Do renewables produce direct greenhouse gas emissions? (yes / no)', all: [['no']], not: ['yes'], sol: 'No.' },
-        { q: 'Less pollution means fewer risks for people\'s …', all: [['health']], sol: 'Health.' }
-      ]},
-      { t: 138, qs: [
-        { q: 'What happens to the price of renewable energy over time?', all: [['stable', 'stays the same', 'steady', 'does not change', 'doesn\'t change', 'constant']], sol: 'It stays stable.' }
-      ]},
-      { t: 0, end: true, qs: [
-        { q: 'Which two renewable sources are intermittent?', all: [['solar', 'sun'], ['wind']], sol: 'Solar and wind.' },
-        { q: 'What can store their energy?', all: [['batter']], sol: 'Batteries.' },
-        { q: 'What is the problem with this solution?', all: [['expensive', 'cost', 'price', 'money']], sol: 'Batteries are expensive.' }
-      ]}
+      { seg: 2, qs: [{ q: 'Name two renewable sources mentioned in the video.', any: ['solar', 'sun', 'wind', 'hydro', 'water', 'geothermal', 'biomass'], min: 2, sol: 'Any two of: solar, wind, hydro, geothermal, biomass.' }] },
+      { seg: 2, qs: [{ q: 'Why are these sources called renewable? Because they …', all: [['replenish', 'renew', 'regenerat', 'never run out', 'don\'t run out', 'do not run out', 'restored', 'naturally']], sol: 'They are naturally replenished / they never run out.' }] },
+      { seg: 3, qs: [{ q: 'Which energy sources still supply most of the world\'s energy?', all: [['fossil', 'coal', 'oil', 'gas']], sol: 'Fossil fuels (coal, oil, natural gas).' }] },
+      { seg: 4, qs: [{ q: 'Do renewables produce direct greenhouse gas emissions? (yes / no)', all: [['no']], not: ['yes'], sol: 'No.' }] },
+      { seg: 5, qs: [{ q: 'Less pollution means fewer risks for people\'s …', all: [['health']], sol: 'Health.' }] },
+      { seg: 6, qs: [{ q: 'What happens to the price of renewable energy over time?', all: [['stable', 'stays the same', 'steady', 'does not change', 'doesn\'t change', 'constant']], sol: 'It stays stable.' }] },
+      { seg: 8, qs: [{ q: 'Which two renewable sources are intermittent?', all: [['solar', 'sun'], ['wind']], sol: 'Solar and wind.' }] },
+      { seg: 8, qs: [{ q: 'What can store their energy?', all: [['batter']], sol: 'Batteries.' }] },
+      { seg: 8, qs: [{ q: 'What is the problem with this solution?', all: [['expensive', 'cost', 'price', 'money']], sol: 'Batteries are expensive.' }] }
     ]
   },
   {
-    id: 'L2', video: 'xKxrkht7CpY',
+    id: 'L2', video: 'xKxrkht7CpY', segs: 25, outro: 12,
     title: 'Video 2 – How solar panels work',
-    meta: 'About 5 min · 5 stops',
+    meta: 'About 5 minutes · 12 questions',
     stops: [
-      { t: 58, qs: [
-        { q: 'What are solar panels made of? Smaller units called …', all: [['cell']], sol: 'Solar cells.' },
-        { q: 'Which material are most solar cells made of?', all: [['silicon']], sol: 'Silicon.' },
-        { q: 'What kind of material is it?', all: [['semiconductor', 'semi-conductor', 'semi conductor']], sol: 'A semiconductor.' }
-      ]},
-      { t: 140, qs: [
-        { q: 'One layer of silicon has extra electrons. What does the other layer have?', all: [['hole']], sol: 'Holes (missing electrons).' },
-        { q: 'What knocks electrons free when light hits the cell?', all: [['photon', 'light', 'sun']], sol: 'Photons (particles of light).' }
-      ]},
-      { t: 178, qs: [
-        { q: 'How many volts does a single cell produce, more or less?', all: [['half', '0.5', '0,5', '.5']], sol: 'About half a volt (0.5 V).' },
-        { q: 'Why can solar cells last for decades?', all: [['moving part', 'no wear', 'don\'t wear', 'do not wear', 'not wear', 'wear out', 'nothing moves', 'no parts move']], sol: 'Because they have no moving parts / nothing wears out.' }
-      ]},
-      { t: 238, qs: [
-        { q: 'Give one problem that stops the world from relying only on solar energy.', any: ['politic', 'lobby', 'cloud', 'night', 'sunlight', 'uneven', 'inconsistent', 'storage', 'store', 'transmission', 'distance', 'efficien', 'reflect'], min: 1, sol: 'Politics, uneven sunlight, storage, long-distance transmission or low efficiency.' },
-        { q: 'What percentage of sunlight do commercial solar panels usually convert into electricity?', any: ['15', '20', 'fifteen', 'twenty'], min: 1, sol: '15–20%.' }
-      ]},
-      { t: 0, end: true, qs: [
-        { q: 'Which large desert is used to compare the land needed for solar panels?', all: [['sahara']], sol: 'The Sahara.' },
-        { q: 'Give one recent innovation in solar energy mentioned at the end.', all: [['float']], sol: 'Floating solar farms.' },
-        { q: 'In which places is solar already better than other options? Places without a reliable …', all: [['grid', 'electricity', 'network']], sol: 'Places without a reliable electric grid.' }
-      ]}
+      { seg: 4, qs: [{ q: 'Solar panels are made of smaller units. What are they called?', all: [['cell']], sol: 'Solar cells.' }] },
+      { seg: 5, qs: [{ q: 'Which material are most solar cells made of?', all: [['silicon']], sol: 'Silicon.' }] },
+      { seg: 5, qs: [{ q: 'What kind of material is it?', all: [['semiconductor', 'semi-conductor', 'semi conductor']], sol: 'A semiconductor.' }] },
+      { seg: 8, qs: [{ q: 'One layer of silicon has extra electrons. What does the other layer have?', all: [['hole']], sol: 'Holes (missing electrons).' }] },
+      { seg: 10, qs: [{ q: 'What knocks electrons free when light hits the cell?', all: [['photon', 'light', 'sun']], sol: 'Photons (particles of light).' }] },
+      { seg: 13, qs: [{ q: 'How many volts does a single cell produce, more or less?', all: [['half', '0.5', '0,5', '.5']], sol: 'About half a volt (0.5 V).' }] },
+      { seg: 15, qs: [{ q: 'Why can solar cells last for decades?', all: [['moving part', 'no wear', 'don\'t wear', 'do not wear', 'not wear', 'wear out', 'nothing moves', 'no parts move']], sol: 'Because they have no moving parts / nothing wears out.' }] },
+      { seg: 18, qs: [{ q: 'Give one problem that stops the world from relying only on solar energy.', any: ['politic', 'lobby', 'cloud', 'night', 'sunlight', 'uneven', 'inconsistent', 'storage', 'store', 'transmission', 'distance'], min: 1, sol: 'Politics, uneven sunlight, storage or long-distance transmission.' }] },
+      { seg: 20, qs: [{ q: 'What percentage of sunlight do commercial solar panels usually convert into electricity?', any: ['15', '20', 'fifteen', 'twenty'], min: 1, sol: '15–20%.' }] },
+      { seg: 22, qs: [{ q: 'Which large desert is used to compare the land needed for solar panels?', all: [['sahara']], sol: 'The Sahara.' }] },
+      { seg: 23, qs: [{ q: 'Give one recent innovation in solar energy.', all: [['float']], sol: 'Floating solar farms.' }] },
+      { seg: 24, qs: [{ q: 'Where is solar already better than other options? In places without a reliable …', all: [['grid', 'electricity', 'network']], sol: 'Electric grid.' }] }
     ]
   }
 ];
+
+/* time (s) of a stop: end of its part + a few seconds of margin */
+function stopTime(st, s) {
+  const usable = Math.max(0, st.duration - st.L.outro);
+  return Math.min(st.duration - 1, s.seg / st.L.segs * usable + 4);
+}
+/* where to restart when an answer is wrong: the previous stop at an earlier time */
+function replayFrom(st) {
+  const cur = stopTime(st, st.L.stops[st.stop]);
+  let from = 0;
+  st.L.stops.slice(0, st.stop).forEach(s => { const t = stopTime(st, s); if (t < cur - 0.5) from = Math.max(from, t); });
+  return from;
+}
 
 const SETUP = /[?&]setup\b/.test(location.search);
 const LST = {};
@@ -670,7 +674,7 @@ function buildListening() {
       <div class="lstatus" id="${L.id}status">Press Play to start.</div>
       <div class="qbox" id="${L.id}q"></div>
       <div class="done" id="${L.id}done">Well done! You have completed this video.</div>`;
-    LST[L.id] = { L, stop: 0, segStart: 0, playing: false, player: null, ready: false, duration: 0, waiting: false };
+    LST[L.id] = { L, stop: 0, tries: 0, segStart: 0, playing: false, player: null, ready: false, duration: 0, waiting: false };
     document.getElementById(L.id + 'play').onclick = () => togglePlay(L.id);
     updateSteps(L.id);
   });
@@ -678,7 +682,7 @@ function buildListening() {
 
 function updateSteps(id) {
   const st = LST[id];
-  document.getElementById(id + 'steps').textContent = `Part ${Math.min(st.stop + 1, st.L.stops.length)} / ${st.L.stops.length}`;
+  document.getElementById(id + 'steps').textContent = `Question ${Math.min(st.stop + 1, st.L.stops.length)} / ${st.L.stops.length}`;
 }
 
 function onYouTubeIframeAPIReady() {
@@ -707,9 +711,9 @@ function drawMarks(id) {
   const st = LST[id];
   if (!st.duration) return;
   const prog = document.getElementById(id + 'prog');
-  st.L.stops.filter(s => !s.end).forEach(s => {
+  [...new Set(st.L.stops.map(s => stopTime(st, s).toFixed(1)))].forEach(t => {
     const b = document.createElement('b');
-    b.style.left = (100 * s.t / st.duration) + '%';
+    b.style.left = (100 * t / st.duration) + '%';
     prog.appendChild(b);
   });
 }
@@ -733,7 +737,7 @@ function onState(id, s) {
   } else if (s === YT.PlayerState.ENDED) {
     st.playing = false; btn.textContent = '▶ Play';
     const cur = st.L.stops[st.stop];
-    if (cur && cur.end && !st.waiting) showQuestions(id);
+    if (cur && !st.waiting) showQuestions(id);
   }
 }
 
@@ -749,7 +753,8 @@ function tick() {
       el.textContent = `t = ${t.toFixed(1)} s`;
     }
     const cur = st.L.stops[st.stop];
-    if (st.playing && cur && !cur.end && t >= cur.t && !st.waiting) {
+    if (cur && st.duration && t >= stopTime(st, cur) - 0.3 && !st.waiting && (st.playing || st.autoNext)) {
+      st.autoNext = false;
       st.player.pauseVideo();
       showQuestions(st.L.id);
     }
@@ -761,7 +766,7 @@ function showQuestions(id) {
   st.waiting = true;
   const stop = st.L.stops[st.stop];
   const qb = document.getElementById(id + 'q');
-  qb.innerHTML = `<h4>Answer to continue</h4>` + stop.qs.map((q, i) => `
+  qb.innerHTML = `<h4>Question ${st.stop + 1} of ${st.L.stops.length}</h4>` + stop.qs.map((q, i) => `
     <div class="ex-item">
       <div class="prompt">${i + 1}. ${q.q}</div>
       <input type="text" id="${id}a${i}" autocomplete="off" spellcheck="false">
@@ -804,7 +809,11 @@ function checkStop(id) {
     fb.textContent = ok ? 'Correct!' : 'Not correct.';
     if (!ok) allOk = false;
   });
+  st.tries++;
+  const vname = 'video' + id.slice(1) + '-domanda' + (st.stop + 1);
   if (allOk) {
+    track(vname, st.tries);
+    st.tries = 0;
     setTimeout(() => nextStop(id), 700);
   } else {
     document.getElementById(id + 'status').textContent = 'Some answers are not correct: listen to this part again.';
@@ -821,7 +830,7 @@ function replaySegment(id) {
   const st = LST[id];
   st.waiting = false;
   document.getElementById(id + 'q').classList.remove('show');
-  st.player.seekTo(st.segStart, true);
+  st.player.seekTo(replayFrom(st), true);
   noCaptions(st);
   st.player.playVideo();
   document.getElementById(id + 'status').textContent = 'Listen again, then answer.';
@@ -829,19 +838,19 @@ function replaySegment(id) {
 
 function nextStop(id) {
   const st = LST[id];
-  const stop = st.L.stops[st.stop];
   document.getElementById(id + 'q').classList.remove('show');
   st.waiting = false;
-  if (stop.end) {
-    document.getElementById(id + 'done').classList.add('show');
-    document.getElementById(id + 'status').textContent = '';
-    st.stop = st.L.stops.length;
-    updateSteps(id);
-    return;
-  }
-  st.segStart = stop.t;
   st.stop++;
   updateSteps(id);
+  if (st.stop >= st.L.stops.length) {
+    document.getElementById(id + 'done').classList.add('show');
+    document.getElementById(id + 'status').textContent = '';
+    track('video' + id.slice(1) + '-completato', 1);
+    st.player.playVideo();
+    return;
+  }
+  const t = st.player.getCurrentTime();
+  if (t >= stopTime(st, st.L.stops[st.stop]) - 0.3) { showQuestions(id); return; }
   noCaptions(st);
   st.player.playVideo();
 }
