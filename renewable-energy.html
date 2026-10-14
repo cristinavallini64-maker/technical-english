@@ -195,7 +195,7 @@
       <span class="badge">Energy</span>
       <span class="badge b-civic">Educazione Civica</span>
     </div>
-    <p class="lead">Two videos, four texts, online exercises with instant feedback and a glossary of forty-eight technical terms. Texts and glossary can be downloaded.</p>
+    <p class="lead">Two videos, four texts, online exercises with instant feedback and a glossary of forty-nine technical terms. Texts and glossary can be downloaded.</p>
     <div class="civic-box">
       <strong>Educazione Civica.</strong> Questo argomento rientra anche nel programma di Educazione Civica: Agenda 2030, Obiettivo 7 – <em>Energia pulita e accessibile</em>; transizione energetica, povertà energetica e comunità energetiche rinnovabili.
     </div>
@@ -407,10 +407,11 @@ const GLOSSARY = [
   ['prosumer', 'a consumer who also produces energy', 'prosumer (produttore-consumatore)'],
   ['renewable energy community', 'a group of citizens, businesses and local authorities that produce and share renewable energy', 'comunità energetica rinnovabile'],
   ['energy poverty', 'the situation of people who cannot afford to pay their energy bills', 'povertà energetica'],
-  ['tidal power / tidal barrage', 'electricity from the rise and fall of the tides / a dam built across a river estuary to use them', 'energia mareomotrice / sbarramento di marea'],
-  ['wave power', 'electricity from the movement of sea waves', 'energia del moto ondoso'],
-  ['carbon neutral', 'adding no extra carbon dioxide to the atmosphere overall', 'a impatto zero di carbonio'],
-  ['habitat', 'the natural home of animals and plants', 'habitat']
+  ['substation', 'a place where the voltage of electricity is changed before it continues its journey', 'sottostazione elettrica'],
+  ['transformer', 'a device that increases or decreases the voltage of an alternating current', 'trasformatore'],
+  ['to step up / step down (voltage)', 'to increase / decrease the voltage', 'elevare / abbassare (la tensione)'],
+  ['inter-array cable / export cable', 'a cable that connects the turbines of a wind farm / a cable that carries the power to the coast', 'cavo di collegamento interno / cavo di esportazione'],
+  ['seabed', 'the ground at the bottom of the sea', 'fondale marino']
 ];
 
 const EXERCISES = {
@@ -649,20 +650,19 @@ const LISTENING = [
     ]
   },
   {
-    id: 'L2', video: 'pqzvUur7QRw', segs: 698, outro: 8,
-    title: 'Video 2 – Renewable sources: pros and cons',
-    meta: 'About 4 minutes · 10 questions',
+    id: 'L2', video: 'gZG5o6eGn5o', segs: 442, outro: 4,
+    title: 'Video 2 – From the sea to your home',
+    meta: 'About 3 minutes · 9 questions',
     stops: [
-      { seg: 137, qs: [{ q: 'Complete the definition: a renewable energy resource is one that is …', all: [['replenish', 'renew', 'regenerat', 'restored', 'never run out', 'won\'t run out', 'not run out']], sol: '… being (or can be) replenished as it is used.' }] },
-      { seg: 229, qs: [{ q: 'First advantage of all renewables: they will never …', all: [['run out']], sol: 'Run out.' }] },
-      { seg: 261, qs: [{ q: 'Second advantage: once they are in place, they do not add any … to the atmosphere.', all: [['carbon', 'co2', 'co 2', 'greenhouse']], sol: 'Carbon dioxide (CO₂).' }] },
-      { seg: 293, qs: [{ q: 'Why are wind and solar power not reliable?', any: ['wind', 'cloud', 'sun', 'weather', 'night'], min: 1, sol: 'Some days are not windy, and solar panels do not work well on cloudy days.' }] },
-      { seg: 334, qs: [{ q: 'Hydroelectric power is reliable, but what is destroyed when dams are built?', all: [['habitat', 'home', 'valley', 'nature', 'environment']], sol: 'Habitats (valleys are flooded).' }] },
-      { seg: 378, qs: [{ q: 'How often does the tide come in and go out?', all: [['twice', 'two times', '2 times']], sol: 'Twice a day.' }] },
-      { seg: 433, qs: [{ q: 'Why does wave power have huge potential in the UK?', all: [['coast', 'sea']], sol: 'Because the UK has a long (extensive) coastline.' }] },
-      { seg: 524, qs: [{ q: 'What do almost all cars in the UK run on?', any: ['petrol', 'diesel', 'fossil', 'gasoline', 'oil'], min: 1, sol: 'Petrol or diesel (fossil fuels).' }] },
-      { seg: 600, qs: [{ q: 'Biofuels release CO₂, but the plants took it in while growing. Scientists call this carbon …', all: [['neutral']], sol: 'Carbon neutral.' }] },
-      { seg: 641, qs: [{ q: 'What could happen if we use land to grow crops for fuel? It could push up the price of …', all: [['food']], sol: 'Food.' }] }
+      { seg: 68, qs: [{ q: 'How tall are the latest offshore wind turbines?', any: ['250', 'two hundred and fifty', 'two hundred fifty', 'eiffel'], min: 1, sol: 'Over 250 metres (taller than the Eiffel Tower).' }] },
+      { seg: 133, qs: [{ q: 'The electricity goes down the tower into a cable along the seabed. What is this cable called?', all: [['inter-array', 'interarray', 'inter array', 'array']], sol: 'An inter-array cable.' }] },
+      { seg: 167, qs: [{ q: 'The offshore substation is a giant electricity …', all: [['transformer']], sol: 'Transformer.' }] },
+      { seg: 190, qs: [{ q: 'What does the offshore substation do to the voltage before sending the power to shore?', any: ['up', 'increase', 'rais', 'higher', 'boost'], min: 1, sol: 'It steps the voltage up (it increases it).' }] },
+      { seg: 199, qs: [{ q: 'Why is a higher voltage better? Because less energy is …', all: [['lost', 'loss', 'wasted', 'waste']], sol: 'Lost over long distances.' }] },
+      { seg: 270, qs: [{ q: 'How does the export cable come onto land?', all: [['tunnel']], sol: 'Through a tunnel drilled under the beach.' }] },
+      { seg: 289, qs: [{ q: 'At the onshore substation, the voltage is adjusted to match the …', all: [['grid', 'network']], sol: 'National grid.' }] },
+      { seg: 330, qs: [{ q: 'How long does the journey from the turbine to a kitchen kettle take?', any: ['fraction', 'second', 'instant', 'immediate'], min: 1, sol: 'A fraction of a second.' }] },
+      { seg: 348, qs: [{ q: 'What does the UK plan to do with its offshore wind capacity by 2030?', any: ['quadruple', 'four times', '4 times', 'x4', 'multiply', 'increase', 'grow', 'more'], min: 1, sol: 'Quadruple it (multiply it by four).' }] }
     ]
   }
 ];
