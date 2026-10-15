@@ -165,6 +165,7 @@
   .lstatus { font-size: 15px; color: var(--muted); margin-top: 8px; }
   .qbox { display: none; margin-top: 14px; padding: 16px; border-radius: 14px; background: var(--soft); }
   .qbox.show { display: block; }
+  .qbox.ghost { display: block; visibility: hidden; }   /* mentre il video riparte la casella tiene il suo spazio: la pagina non salta */
   .qbox h4 { margin: 0 0 8px; font-size: 16px; }
   .qbox .ex-item { margin: 10px 0; }
   .done { display: none; margin-top: 14px; padding: 14px 16px; border-radius: 14px; background: var(--ok-soft); color: var(--ok); font-weight: 700; }
@@ -794,6 +795,8 @@ function renderExercises() {
         ${it.start ? `<textarea id="${key}${i}" rows="2" style="min-height:52px" spellcheck="false"></textarea>` : `<input type="text" id="${key}${i}" autocomplete="off" spellcheck="false">`}
         <div class="fb" id="${key}fb${i}"></div>
       </div>`).join('');
+    /* Invio = Check (nelle frasi lunghe Maiusc+Invio va a capo) */
+    box.onkeydown = e => { if (e.key === 'Enter' && !e.shiftKey && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) { e.preventDefault(); checkEx(key); } };
   });
 }
 
@@ -1144,10 +1147,14 @@ function showQuestions(id) {
       <button onclick="checkStop('${id}')">Check</button>
       ${SETUP ? `<button class="ghost" onclick="revealStop('${id}')">Show answers (teacher)</button>` : ''}
     </div>`;
+  qb.classList.remove('ghost'); qb.style.minHeight = '';
   qb.classList.add('show');
   document.getElementById(id + 'status').textContent = 'The video is paused. Answer the questions.';
+  st.checking = false;
+  /* Invio = Check */
+  qb.onkeydown = e => { if (e.key === 'Enter' && e.target.tagName === 'INPUT') { e.preventDefault(); checkStop(id); } };
   const first = document.getElementById(id + 'a0');
-  if (first) first.focus();
+  if (first) first.focus({ preventScroll: true });   /* il video resta dov'e': la pagina non scorre */
 }
 
 function matches(q, val) {
@@ -1165,6 +1172,8 @@ function matches(q, val) {
 
 function checkStop(id) {
   const st = LST[id];
+  if (st.checking) return;   /* evita doppio controllo (es. Invio premuto due volte) */
+  st.checking = true;
   const stop = st.L.stops[st.stop];
   let allOk = true;
   stop.qs.forEach((q, i) => {
@@ -1193,10 +1202,15 @@ function revealStop(id) {
   stop.qs.forEach((q, i) => { document.getElementById(id + 'f' + i).textContent = 'Answer: ' + q.sol; });
 }
 
+function hideQ(id) {
+  const qb = document.getElementById(id + 'q');
+  if (qb.classList.contains('show')) { qb.style.minHeight = qb.offsetHeight + 'px'; qb.classList.add('ghost'); }
+  qb.classList.remove('show');
+}
 function replaySegment(id) {
   const st = LST[id];
   st.waiting = false;
-  document.getElementById(id + 'q').classList.remove('show');
+  hideQ(id);
   st.player.seekTo(replayFrom(st), true);
   noCaptions(st);
   st.player.playVideo();
@@ -1205,11 +1219,12 @@ function replaySegment(id) {
 
 function nextStop(id) {
   const st = LST[id];
-  document.getElementById(id + 'q').classList.remove('show');
+  hideQ(id);
   st.waiting = false;
   st.stop++;
   updateSteps(id);
   if (st.stop >= st.L.stops.length) {
+    { const qb = document.getElementById(id + 'q'); qb.classList.remove('ghost'); qb.style.minHeight = ''; }
     document.getElementById(id + 'done').classList.add('show');
     document.getElementById(id + 'status').textContent = '';
     const nq = st.L.stops.length;
