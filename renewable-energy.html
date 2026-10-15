@@ -165,7 +165,15 @@
   .lstatus { font-size: 15px; color: var(--muted); margin-top: 8px; }
   .qbox { display: none; margin-top: 14px; padding: 16px; border-radius: 14px; background: var(--soft); }
   .qbox.show { display: block; }
-  .qbox.ghost { display: block; visibility: hidden; }   /* mentre il video riparte la casella tiene il suo spazio: la pagina non salta */
+  .qbox.ghost { display: block; visibility: hidden; }
+  /* video e domande affiancati (uno sotto l'altro sugli schermi stretti) */
+  .card.listen { width: min(1180px, calc(100vw - 32px)); margin-left: calc((100% - min(1180px, calc(100vw - 32px))) / 2); }
+  .lgrid { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 20px; align-items: start; }
+  .lquest .qbox { margin-top: 12px; }
+  @media (min-width: 821px) { .lquest .qbox.ghost { display: none; } }
+  .qhint { margin-top: 12px; padding: 16px; border-radius: 14px; border: 2px dashed var(--soft); color: var(--muted); font-size: 15px; }
+  .lquest:has(.qbox.show) .qhint { display: none; }
+  @media (max-width: 820px) { .lgrid { grid-template-columns: 1fr; } .qhint { display: none; } }   /* mentre il video riparte la casella tiene il suo spazio: la pagina non salta */
   .qbox h4 { margin: 0 0 8px; font-size: 16px; }
   .qbox .ex-item { margin: 10px 0; }
   .done { display: none; margin-top: 14px; padding: 14px 16px; border-radius: 14px; background: var(--ok-soft); color: var(--ok); font-weight: 700; }
@@ -993,16 +1001,23 @@ function buildListening() {
     box.innerHTML = `
       <h3>${L.title}</h3>
       <div class="meta">${L.meta}</div>
-      <div class="player-box"><div id="${L.id}p"></div><div class="player-shield"></div></div>
-      <div class="lbar">
-        <button id="${L.id}play">▶ Play</button>
-        <div class="progress" id="${L.id}prog"><i></i></div>
-        <span class="steps" id="${L.id}steps"></span>
-        ${SETUP ? `<span class="setup-time" id="${L.id}time"></span>` : ''}
-      </div>
-      <div class="lstatus" id="${L.id}status">Press Play to start.</div>
-      <div class="qbox" id="${L.id}q"></div>
-      <div class="done" id="${L.id}done">Well done! You have completed this video.</div>`;
+      <div class="lgrid">
+        <div class="lvideo">
+          <div class="player-box"><div id="${L.id}p"></div><div class="player-shield"></div></div>
+          <div class="lbar">
+            <button id="${L.id}play">▶ Play</button>
+            <div class="progress" id="${L.id}prog"><i></i></div>
+            <span class="steps" id="${L.id}steps"></span>
+            ${SETUP ? `<span class="setup-time" id="${L.id}time"></span>` : ''}
+          </div>
+          <div class="lstatus" id="${L.id}status">Press Play to start.</div>
+          <div class="done" id="${L.id}done">Well done! You have completed this video.</div>
+        </div>
+        <div class="lquest">
+          <div class="qhint">The questions will appear here when the video stops.</div>
+          <div class="qbox" id="${L.id}q"></div>
+        </div>
+      </div>`;
     if (SETUP) buildCalib(L.id);
     LST[L.id] = { L, stop: 0, tries: 0, segStart: 0, playing: false, player: null, ready: false, duration: 0, waiting: false };
     document.getElementById(L.id + 'play').onclick = () => togglePlay(L.id);
@@ -1079,6 +1094,7 @@ function noCaptions(st) {
 }
 
 function drawMarks(id) {
+  return;   /* i segni delle domande sulla barra sono stati tolti: non si deve sapere dove si ferma il video */
   const st = LST[id];
   if (!st.duration) return;
   const prog = document.getElementById(id + 'prog');
