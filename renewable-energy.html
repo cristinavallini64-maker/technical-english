@@ -282,11 +282,7 @@
   <div class="wrap">Technical English · Electronics and Electrotechnics · Renewable Energy Sources</div>
 </footer>
 
-<script src="https://cristinavallini64-maker.github.io/grammar-tutor/tracker.js"></script>
 <script>
-/* Results sent to the teacher's tracker (grammar-tutor/tracker.js) */
-function track(name, num) { try { if (window.EFTrack) EFTrack.event(name, num); } catch (e) {} }
-
 const TEXTS = [
 {
   "id": "t1",
@@ -838,8 +834,6 @@ function checkEx(key) {
     }
   });
   document.getElementById(key + 'Score').textContent = `${score} / ${EXERCISES[key].length}`;
-  const tot = EXERCISES[key].length;
-  track((key === 'vocab' ? 'Esercizio 1 – Vocabulary' : 'Esercizio 2 – Technical descriptions') + ' (su ' + tot + ')', Math.round(100 * score / tot));
 }
 
 function showSolutions(key) {
@@ -1205,13 +1199,11 @@ function checkStop(id) {
   });
   st.tries++;
   if (allOk) {
-    if (st.tries === 1) st.firstOk = (st.firstOk || 0) + 1;
     st.tries = 0;
     setTimeout(() => nextStop(id), 700);
   } else if (st.tries >= MAX_TRIES) {
     /* 3 wrong attempts: show the correct answer, then the student moves on */
     st.tries = 0;
-    st.helped = (st.helped || 0) + 1;
     stop.qs.forEach((q, i) => {
       const fb = document.getElementById(id + 'f' + i);
       if (fb.classList.contains('wrong')) fb.innerHTML = 'The correct answer is: <strong>' + q.sol + '</strong>';
@@ -1257,8 +1249,6 @@ function nextStop(id) {
     { const qb = document.getElementById(id + 'q'); qb.classList.remove('ghost'); qb.style.minHeight = ''; }
     document.getElementById(id + 'done').classList.add('show');
     document.getElementById(id + 'status').textContent = '';
-    const nq = st.L.stops.length;
-    track('Video ' + id.slice(1) + ' – domande giuste al 1° tentativo (su ' + nq + ')', Math.round(100 * (st.firstOk || 0) / nq));
     st.player.playVideo();
     return;
   }
