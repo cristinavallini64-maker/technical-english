@@ -1186,6 +1186,7 @@ function matches(q, val) {
   return true;
 }
 
+const MAX_TRIES = 3;   /* after 3 wrong attempts the correct answer is shown */
 function checkStop(id) {
   const st = LST[id];
   if (st.checking) return;   /* evita doppio controllo (es. Invio premuto due volte) */
@@ -1207,8 +1208,21 @@ function checkStop(id) {
     if (st.tries === 1) st.firstOk = (st.firstOk || 0) + 1;
     st.tries = 0;
     setTimeout(() => nextStop(id), 700);
+  } else if (st.tries >= MAX_TRIES) {
+    /* 3 wrong attempts: show the correct answer, then the student moves on */
+    st.tries = 0;
+    st.helped = (st.helped || 0) + 1;
+    stop.qs.forEach((q, i) => {
+      const fb = document.getElementById(id + 'f' + i);
+      if (fb.classList.contains('wrong')) fb.innerHTML = 'The correct answer is: <strong>' + q.sol + '</strong>';
+    });
+    const qb = document.getElementById(id + 'q');
+    const row = qb.querySelector('.row');
+    if (row) row.innerHTML = '<button onclick="nextStop(\'' + id + '\')">Continue \u25b6</button>';
+    document.getElementById(id + 'status').textContent = 'Read the correct answer, then press Continue.';
   } else {
-    document.getElementById(id + 'status').textContent = 'Some answers are not correct: listen to this part again.';
+    const left = MAX_TRIES - st.tries;
+    document.getElementById(id + 'status').textContent = 'Not correct: listen to this part again (' + left + (left === 1 ? ' attempt' : ' attempts') + ' left).';
     setTimeout(() => replaySegment(id), 1200);
   }
 }
