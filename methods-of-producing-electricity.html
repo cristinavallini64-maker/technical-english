@@ -363,7 +363,7 @@
 </main>
 
 <footer>
-  <div class="wrap">Technical English · Electronics and Electrotechnics · Methods of Producing Electricity</div>
+  <div class="wrap"><div class="row" style="margin:0 0 14px"><button class="ghost" onclick="restartAll()">↺ Start everything again</button></div>Technical English · Electronics and Electrotechnics · Methods of Producing Electricity</div>
 </footer>
 
 <script>
@@ -969,6 +969,35 @@ function gate(areaId, btnId, gateId, min) {
   upd();
 }
 
+/* start the whole page again: scenes, text lock, all exercises */
+function restartAll() {
+  if (!confirmRestart()) return;
+  clearTimers();
+  Object.assign(S, { idx: 0, sub: 0, tries: 0, started: false, checking: false });
+  renderSchema(); updateSteps(); drawCover(); lockText(false);
+  document.getElementById('qbox').classList.remove('show');
+  document.getElementById('sdone').classList.remove('show');
+  document.querySelector('#sprog i').style.cssText = 'width:0';
+  document.getElementById('sstatus').textContent = 'Press Start to watch the first scene.';
+  const pb = document.getElementById('playBtn');
+  pb.textContent = '▶ Start'; pb.disabled = false; pb.onclick = startScene;
+  Object.keys(EXERCISES).forEach(resetEx);
+  document.querySelectorAll('#transEx textarea, #summary').forEach(t => { t.value = ''; t.dispatchEvent(new Event('input')); });
+  document.querySelectorAll('.model.show').forEach(m => m.classList.remove('show'));
+  document.querySelectorAll('.model').forEach(m => { const btn = m.previousElementSibling && m.previousElementSibling.querySelector('button'); if (btn) btn.textContent = 'Show model answer'; });
+  showEx(0);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+/* a small in-page confirmation (no browser pop-up) */
+let RESTART_ARMED = false;
+function confirmRestart() {
+  if (RESTART_ARMED) { RESTART_ARMED = false; return true; }
+  RESTART_ARMED = true;
+  document.querySelectorAll('button[onclick="restartAll()"]').forEach(btn => { btn.textContent = 'Press again to delete all your answers'; });
+  setTimeout(() => { RESTART_ARMED = false; document.querySelectorAll('button[onclick="restartAll()"]').forEach(btn => { btn.textContent = '↺ Start everything again'; }); }, 4000);
+  return false;
+}
+
 /* one exercise at a time */
 let EX_CUR = 0;
 function showEx(n, scroll) {
@@ -978,7 +1007,9 @@ function showEx(n, scroll) {
   const nav = `
     <button class="ghost" onclick="showEx(EX_CUR - 1, true)" ${EX_CUR === 0 ? 'disabled' : ''}>← Previous exercise</button>
     <span class="where">Exercise ${EX_CUR + 1} of ${cards.length}</span>
-    <button onclick="showEx(EX_CUR + 1, true)" ${EX_CUR === cards.length - 1 ? 'disabled' : ''}>Next exercise →</button>`;
+    ${EX_CUR === cards.length - 1
+      ? '<button onclick="restartAll()">↺ Start everything again</button>'
+      : '<button onclick="showEx(EX_CUR + 1, true)">Next exercise →</button>'}`;
   document.getElementById('exnavTop').innerHTML = nav;
   document.getElementById('exnavBottom').innerHTML = nav;
   if (scroll) document.getElementById('exercises').scrollIntoView({ behavior: 'smooth' });
