@@ -13,7 +13,7 @@
     --energy: #f08c00; --energy-soft: #ffe3a1;
     --electronics: #3b5bff; --electronics-soft: #d6e0ff;
     --safety: #f2540f; --safety-soft: #ffd5bd;
-    --civic: #2f5d9e; --civic-soft: #e4ecf8;
+    --civic: #2f5d9e; --civic-soft: #dbe7fa;
     --chip-on: #1d2433;
   }
   @media (prefers-color-scheme: dark) {
@@ -23,7 +23,7 @@
       --energy: #ffb21f; --energy-soft: #4a3510;
       --electronics: #7d95ff; --electronics-soft: #22306a;
       --safety: #ff8a4c; --safety-soft: #55291a;
-      --civic: #8fb4ec; --civic-soft: #1f2c42;
+      --civic: #5b8fd9; --civic-soft: #1f2c42;
       --chip-on: #e9ecf2;
     }
   }
@@ -108,6 +108,7 @@
   .empty { color: var(--muted); font-style: italic; }
   footer { padding: 40px 0; color: var(--muted); font-size: 14px; }
 
+  .civic       { --c: var(--civic);       --soft: var(--civic-soft); }
   .energy      { --c: var(--energy);      --soft: var(--energy-soft); }
   .electronics { --c: var(--electronics); --soft: var(--electronics-soft); }
   .safety      { --c: var(--safety);      --soft: var(--safety-soft); }
@@ -124,7 +125,6 @@
 </header>
 
 <main class="wrap">
-  <div class="filters" id="filters"></div>
   <div id="topics"></div>
 </main>
 
@@ -144,6 +144,7 @@ const ICONS = {
   clipboard: '<rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/>',
   helmet: '<path d="M2 18h20M4 18v-3a8 8 0 0 1 16 0v3"/><path d="M10 7V5h4v2"/>',
   aid: '<rect x="3" y="3" width="18" height="18" rx="4"/><path d="M12 8v8M8 12h8"/>',
+  globe: '<circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/>',
   shield: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/>'
 };
 function svg(name) {
@@ -152,6 +153,7 @@ function svg(name) {
 
 /* Areas: name, CSS class (colour) and icon */
 const AREAS = {
+  'Educazione Civica': { cls: 'civic',       icon: 'globe' },
   'Energy':         { cls: 'energy',      icon: 'sun' },
   'Electronics':    { cls: 'electronics', icon: 'bolt' },
   'Safety at work': { cls: 'safety',      icon: 'helmet' }
@@ -161,16 +163,14 @@ const AREAS = {
    area  = one of the AREAS above (add a new area there if needed)
    icon  = one of the ICONS above
    kind  = what the page contains (e.g. 'Lesson · Videos · Exercises', 'Flashcards')
-   civic = true if it is also part of the Educazione Civica programme
    featured = true to show a wider card */
 const TOPICS = [
   {
-    area: 'Energy', icon: 'sun', featured: true,
+    area: 'Educazione Civica', icon: 'sun',
     title: 'Renewable Energy Sources',
     desc: 'Solar, wind, hydro, geothermal and biomass; storage, smart grids and energy communities.',
     kind: 'Texts · Videos · Exercises · Glossary',
-    href: 'renewable-energy.html',
-    civic: true
+    href: 'renewable-energy.html'
   },
   {
     area: 'Energy', icon: 'bolt',
@@ -293,7 +293,7 @@ function card(t) {
 }
 
 function renderTopics() {
-  const list = TOPICS.filter(t => current === 'all' || t.civic);
+  const list = TOPICS;
   const box = document.getElementById('topics');
   if (!list.length) { box.innerHTML = '<p class="empty">No topics for this filter yet.</p>'; return; }
   const areas = Object.keys(AREAS).filter(name => list.some(t => t.area === name));
@@ -313,7 +313,6 @@ function renderTopics() {
 }
 
 renderLegend();
-renderFilters();
 renderTopics();
 </script>
 </body>

@@ -239,7 +239,7 @@
         <div class="squest">
           <div class="qhint">The question will appear here when the scene stops.</div>
           <div class="qbox" id="qbox"></div>
-          <div class="done" id="sdone">Well done! The diagram is complete. Use it to write your summary in exercise 4.</div>
+          <div class="done" id="sdone">Well done! The diagram is complete. Use it to write your summary in exercise 7.</div>
         </div>
       </div>
       <div class="schema" id="schema"></div>
@@ -261,9 +261,20 @@
         <span class="score" id="keyScore"></span>
       </div>
     </div>
-
     <div class="card">
-      <h3>2. Vocabulary</h3>
+      <h3>2. Label the picture</h3>
+      <p class="meta">Write the name of each numbered part of the picture.</p>
+      <div class="stage" id="labelPic" style="aspect-ratio:30/13;margin-top:12px"></div>
+      <div id="labelEx"></div>
+      <div class="row">
+        <button onclick="checkEx('label')">Check</button>
+        <button class="ghost" onclick="showSolutions('label')">Show solutions</button>
+        <button class="ghost" onclick="resetEx('label')">Reset</button>
+        <span class="score" id="labelScore"></span>
+      </div>
+    </div>
+    <div class="card">
+      <h3>3. Vocabulary</h3>
       <p class="meta">Write the technical term that matches each definition.</p>
       <div id="vocabEx"></div>
       <div class="row">
@@ -273,9 +284,19 @@
         <span class="score" id="vocabScore"></span>
       </div>
     </div>
-
     <div class="card">
-      <h3>3. Technical descriptions</h3>
+      <h3>4. Complete the sentences</h3>
+      <p class="meta">Complete each sentence with one technical word. The first letter is given.</p>
+      <div id="gapEx"></div>
+      <div class="row">
+        <button onclick="checkEx('gap')">Check</button>
+        <button class="ghost" onclick="showSolutions('gap')">Show solutions</button>
+        <button class="ghost" onclick="resetEx('gap')">Reset</button>
+        <span class="score" id="gapScore"></span>
+      </div>
+    </div>
+    <div class="card">
+      <h3>5. Technical descriptions</h3>
       <p class="meta">Rewrite each sentence starting with the words given, without changing its meaning.</p>
       <div id="passiveEx"></div>
       <div class="row">
@@ -285,10 +306,15 @@
         <span class="score" id="passiveScore"></span>
       </div>
     </div>
+    <div class="card">
+      <h3>6. Translation</h3>
+      <p class="meta">Translate the sentences into English, then compare your translation with the model.</p>
+      <div id="transEx"></div>
+    </div>
 
     <div class="card">
-      <h3>4. Summary</h3>
-      <p class="meta">Give a summary of the main methods of generating electricity (80–120 words). Then compare it with the model.</p>
+      <h3>7. Summary</h3>
+      <p class="meta">Give a summary of the main methods of generating electricity (80–120 words). Use the diagram you completed in the scenes, then compare your summary with the model.</p>
       <textarea id="summary" style="min-height:160px" placeholder="Write your summary…"></textarea>
       <div class="row"><button class="ghost" onclick="toggleModel('summaryModel', this)">Show model answer</button></div>
       <div class="model" id="summaryModel"></div>
@@ -438,19 +464,40 @@ const EXERCISES = {
     { prompt: 'forni', ok: ['furnaces'] },
     { prompt: 'spazzatura', ok: ['rubbish'] }
   ],
+  label: [
+    { prompt: 'Number 1', ok: ['chimney', 'a chimney', 'the chimney'] },
+    { prompt: 'Number 2', ok: ['pylon', 'a pylon', 'the pylon', 'pylons'] },
+    { prompt: 'Number 3', ok: ['steam'] },
+    { prompt: 'Number 4', ok: ['dam', 'a dam', 'the dam'] },
+    { prompt: 'Number 5', ok: ['coal'] },
+    { prompt: 'Number 6', ok: ['blade', 'a blade', 'the blade', 'blades'] },
+    { prompt: 'Number 7', ok: ['cooling tower', 'a cooling tower', 'the cooling tower'] },
+    { prompt: 'Number 8', ok: ['fumes'] },
+    { prompt: 'Number 9', ok: ['pipe', 'a pipe', 'the pipe'] }
+  ],
   vocab: [
     { prompt: 'a machine with blades that is turned by wind, water or steam', ok: ['turbine', 'a turbine'] },
     { prompt: 'a closed container where water is heated to produce steam', ok: ['boiler', 'a boiler'] },
-    { prompt: 'water in the form of gas, produced by boiling', ok: ['steam'] },
-    { prompt: 'a tall pipe that takes smoke out of a building', ok: ['chimney', 'a chimney'] },
-    { prompt: 'the smoke and gases produced when fuel is burnt', ok: ['fumes'] },
     { prompt: 'an enclosed space where a very hot fire is made', ok: ['furnace', 'a furnace'] },
-    { prompt: 'the part of a nuclear power station where fission takes place', ok: ['reactor', 'a reactor', 'the reactor', 'reactor core', 'core'] },
-    { prompt: 'a wide tower where the steam of a power station is cooled', ok: ['cooling tower', 'a cooling tower'] },
+    { prompt: 'the central part of a nuclear reactor, where fission takes place', ok: ['core', 'the core', 'reactor core', 'the reactor core'] },
+    { prompt: 'a piece of equipment that cools steam and turns it back into water', ok: ['condenser', 'a condenser', 'the condenser'] },
+    { prompt: 'the part of a machine that turns round, for example the blades and hub of a turbine', ok: ['rotor', 'a rotor', 'the rotor'] },
+    { prompt: 'a tiny particle of light that carries energy', ok: ['photon', 'a photon'] },
+    { prompt: 'a gas, such as carbon dioxide, that traps heat in the atmosphere', ok: ['greenhouse gas', 'a greenhouse gas'] },
+    { prompt: 'a situation in which a machine stops working because of a fault', ok: ['breakdown', 'a breakdown'] },
     { prompt: 'a plant where rubbish is burnt', ok: ['incinerator', 'an incinerator'] },
-    { prompt: 'wood and other plant material used as fuel', ok: ['biomass'] },
-    { prompt: 'a tall metal structure that carries electricity cables', ok: ['pylon', 'a pylon'] },
-    { prompt: 'the network of cables that carries electricity across a country', ok: ['grid', 'the grid', 'national grid', 'the national grid', 'electricity grid'] }
+    { prompt: 'the network of cables that carries electricity across a country', ok: ['grid', 'the grid', 'national grid', 'the national grid', 'electricity grid'] },
+    { prompt: 'the amount of electricity that is available for users', ok: ['supply', 'the supply', 'electricity supply'] }
+  ],
+  gap: [
+    { prompt: 'Power companies b________ their production at times of peak demand, for example on cold winter evenings.', ok: ['boost'] },
+    { prompt: 'Burning coal causes serious air p________ in many industrial cities.', ok: ['pollution'] },
+    { prompt: 'Wind and sunlight are r________ sources: they will never run out.', ok: ['renewable'] },
+    { prompt: 'The ash that remains in the furnace after burning coal is a w________ product.', ok: ['waste'] },
+    { prompt: 'Coal, oil and natural gas are the f________ used in most thermal power stations.', ok: ['fuels'] },
+    { prompt: 'The o________ of a power station is the amount of electricity it produces.', ok: ['output'] },
+    { prompt: 'When a storm damages the cables, a b________ can leave a whole town without electricity.', ok: ['blackout', 'black-out'] },
+    { prompt: 'Dozens of wind turbines are often built together in a wind f________.', ok: ['farm'] }
   ],
   passive: [
     { prompt: 'Power stations burn coal to heat the water.', start: 'Coal …',
@@ -471,6 +518,31 @@ const EXERCISES = {
       ok: ['the heat from the splitting of the atoms is controlled by the reactor', 'the heat from the splitting of the atoms is controlled inside the reactor', 'the heat from the splitting of the atoms is controlled in the reactor'], sol: 'The heat from the splitting of the atoms is controlled by the reactor.' }
   ]
 };
+
+const TRANS = [
+  ['Il vapore fa girare la turbina, che è collegata al generatore.', 'The steam turns the turbine, which is connected to the generator.'],
+  ['Le centrali a carbone producono molti fumi inquinanti.', 'Coal-fired power stations produce a lot of polluting fumes.'],
+  ['Nel condensatore il vapore viene raffreddato e ritorna acqua.', 'In the condenser the steam is cooled and turns back into water.'],
+  ['L\'elettricità viene trasportata da cavi sostenuti da tralicci.', 'Electricity is carried by cables supported by pylons.'],
+  ['Un guasto nel nocciolo del reattore può essere molto pericoloso.', 'A breakdown in the reactor core can be very dangerous.'],
+  ['Le fonti rinnovabili riducono le emissioni di gas serra.', 'Renewable sources reduce greenhouse gas emissions.']
+];
+
+const NUM = (n, x, y) => `<circle cx="${x}" cy="${y}" r="13" fill="#1d2433" stroke="#fff" stroke-width="2"/><text x="${x}" y="${y + 5}" text-anchor="middle" font-size="15" font-weight="700" fill="#fff" font-family="sans-serif">${n}</text>`;
+const LABEL_SVG = '<svg viewBox="0 0 600 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Power station with numbered parts">' +
+  '<rect width="600" height="260" fill="#cfe8ff"/><rect y="210" width="600" height="50" fill="#9ccf7a"/>' +
+  '<rect x="0" y="120" width="88" height="90" fill="#3b82f6"/><polygon points="82,105 108,105 146,210 70,210" fill="#9ca3af" stroke="#6b7280" stroke-width="2"/>' +
+  '<path d="M196 210 L202 92 L208 210 Z" fill="#f1f5f9" stroke="#94a3b8"/>' +
+  [0, 120, 240].map(a => `<path d="M202 88 L198 70 L202 30 L206 70 Z" fill="#fff" stroke="#94a3b8" transform="rotate(${a + 20} 202 88)"/>`).join('') + '<circle cx="202" cy="88" r="5" fill="#64748b"/>' +
+  [0, 1, 2, 3, 4, 5].map(i => `<circle cx="${250 + i * 8}" cy="${205 - (i % 2) * 6}" r="7" fill="#1c1917"/>`).join('') +
+  '<rect x="300" y="140" width="110" height="70" fill="#a8a29e" stroke="#57534e" stroke-width="2"/><rect x="380" y="55" width="18" height="85" fill="#78716c"/>' +
+  '<circle cx="392" cy="44" r="10" fill="#6b7280"/><circle cx="404" cy="30" r="13" fill="#6b7280" opacity=".8"/><circle cx="420" cy="16" r="15" fill="#6b7280" opacity=".6"/>' +
+  '<rect x="410" y="176" width="40" height="10" fill="#64748b"/>' +
+  '<path d="M440 210 Q456 160 446 115 L508 115 Q498 160 514 210 Z" fill="#cbd5e1" stroke="#94a3b8"/>' +
+  '<circle cx="470" cy="100" r="13" fill="#fff"/><circle cx="486" cy="86" r="16" fill="#fff"/><circle cx="470" cy="72" r="12" fill="#fff"/>' +
+  '<path d="M545 210 L557 120 L569 210 M548 188 L566 188 M551 160 L563 160 M538 130 L576 130" stroke="#64748b" stroke-width="3" fill="none"/><path d="M410 150 L540 130" stroke="#64748b" stroke-width="1.5"/>' +
+  NUM(1, 360, 80) + NUM(2, 585, 160) + NUM(3, 515, 70) + NUM(4, 125, 135) + NUM(5, 270, 180) + NUM(6, 232, 40) + NUM(7, 478, 165) + NUM(8, 448, 26) + NUM(9, 430, 160) +
+  '</svg>';
 
 const SUMMARY_MODEL = 'Electricity can be generated in two ways. Photovoltaic cells in solar panels turn sunlight directly into current, while in a generator rotating electromagnets create a current. The generator is moved by a turbine, which can be turned by wind, by water (rivers, waves and tides) or by steam. Steam is produced by boiling water, and the heat can come from burning fossil fuels such as coal, oil and gas, from nuclear fission, from solar furnaces, where mirrors focus the sun\'s rays, from burning biomass and rubbish, or from the hot rocks under the Earth\'s surface (geothermal energy).';
 
@@ -504,7 +576,21 @@ const GLOSSARY = [
   ['chimney / fumes', 'a tall pipe that takes smoke out / the smoke and gases produced by burning', 'camino, ciminiera / fumi'],
   ['cooling tower', 'a wide tower where the steam of a power station is cooled', 'torre di raffreddamento'],
   ['pylon', 'a tall metal structure that carries electricity cables', 'traliccio'],
-  ['grid', 'the network of cables that carries electricity across a country', 'rete elettrica']
+  ['wind farm', 'a group of wind turbines built together', 'parco eolico'],
+  ['grid', 'the network of cables that carries electricity across a country', 'rete elettrica'],
+  ['coal / pipe', 'a black fossil fuel / a tube that carries water, steam or gas', 'carbone / tubo, condotta'],
+  ['core', 'the central part of a nuclear reactor, where fission takes place', 'nocciolo (del reattore)'],
+  ['condenser', 'a piece of equipment that cools steam and turns it back into water', 'condensatore'],
+  ['rotor', 'the part of a machine that turns round', 'rotore'],
+  ['photon', 'a tiny particle of light that carries energy', 'fotone'],
+  ['greenhouse gas', 'a gas, such as carbon dioxide, that traps heat in the atmosphere', 'gas serra'],
+  ['breakdown', 'a situation in which a machine stops working because of a fault', 'guasto'],
+  ['supply / demand', 'the electricity available / the electricity people need', 'offerta, fornitura / domanda'],
+  ['to boost', 'to increase', 'aumentare, potenziare'],
+  ['pollution', 'harmful substances in the air, water or soil', 'inquinamento'],
+  ['renewable', 'that will never run out', 'rinnovabile'],
+  ['output', 'the amount of electricity a plant produces', 'produzione, potenza erogata'],
+  ['blackout', 'a complete loss of electricity in an area', 'blackout, interruzione di corrente']
 ];
 
 /* ---------- Render text ---------- */
@@ -664,7 +750,7 @@ function drawCover() {
 
 /* ---------- Exercises ---------- */
 function renderExercises() {
-  ['key', 'vocab', 'passive'].forEach(key => {
+  ['key', 'label', 'vocab', 'gap', 'passive'].forEach(key => {
     const box = document.getElementById(key + 'Ex');
     box.innerHTML = EXERCISES[key].map((it, i) => `
       <div class="ex-item">
@@ -779,6 +865,14 @@ updateSteps();
 drawCover();
 renderExercises();
 document.getElementById('summaryModel').textContent = SUMMARY_MODEL;
+document.getElementById('labelPic').innerHTML = LABEL_SVG;
+document.getElementById('transEx').innerHTML = TRANS.map((t, i) => `
+  <div class="ex-item">
+    <div class="prompt">${i + 1}. ${t[0]}</div>
+    <textarea id="tr${i}" rows="2" style="min-height:52px" placeholder="Write your translation…"></textarea>
+    <div class="row" style="margin-top:6px"><button class="ghost" onclick="toggleModel('trm${i}', this)">Show model answer</button></div>
+    <div class="model" id="trm${i}">${t[1]}</div>
+  </div>`).join('');
 renderGlossary();
 </script>
 </body>
