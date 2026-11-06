@@ -378,7 +378,7 @@ const TEXT = [
   '<span class="sub">Steam.</span> Since the Industrial Revolution, steam produced by boiling water has been an important source of power. The heat for the boiler can come from different sources.',
   '<span class="sub">Fossil fuels.</span> Coal, oil and natural gas are burnt to heat the water. They are called fossil fuels because they come from the <em>remains</em> of plants and animals that lived millions of years ago. They are found underground or under the sea, and they are obtained by mining or <em>drilling</em>.',
   '<span class="sub">Nuclear fission.</span> In a nuclear power station, atoms of uranium or plutonium are split. This <em>splitting</em> releases a huge quantity of heat, which is controlled inside the reactor and used to make steam.',
-  '<span class="sub">Solar furnaces.</span> Many mirrors focus the sun\'s rays onto a tank of water at the top of a tower. The water heats up and turns into steam.',
+  '<span class="sub">Solar furnaces.</span> Many mirrors focus the sun\'s rays onto a tank of water. The water heats up and turns into steam.',
   '<span class="sub">Biomass.</span> Wood and other plant material from agriculture or forestry can be burnt to produce steam. Some cities also have incinerators that burn household <em>rubbish</em> and other waste and are connected to power stations.',
   '<span class="sub">Geothermal energy.</span> Here the heat comes from below the Earth\'s surface. In some areas engineers drill deep holes and send water down to the hot rocks, and the water comes back up as steam.'
 ];
@@ -455,10 +455,10 @@ const SCENES = [
       '<circle class="neutron" cx="320" cy="85" r="5" fill="#2563eb"/>',
   },
   { box: 'b8', label: 'solar furnaces', dur: 6,
-    svg: SKY + GRASS + SUN(50, 45) +
-      '<rect x="292" y="66" width="16" height="124" fill="#9ca3af"/><g class="glow"><rect x="280" y="44" width="40" height="24" rx="4" fill="#f97316"/></g><rect x="284" y="48" width="32" height="16" rx="3" fill="#fb923c" opacity=".5"/>' +
-      [90, 140, 190, 240].map((x, i) => `<line class="ray" style="animation-delay:${i * .2}s" x1="62" y1="55" x2="${x}" y2="178" stroke="#fde047" stroke-width="2"/><line class="ray flow" style="animation-delay:${.6 + i * .2}s" x1="${x}" y1="178" x2="298" y2="58" stroke="#facc15" stroke-width="2"/><rect x="${x - 14}" y="178" width="28" height="6" fill="#7dd3fc" stroke="#0369a1" transform="rotate(-12 ${x} 181)"/>`).join('') +
-      PUFFS(300, 40),
+    svg: SKY + GRASS + SUN(60, 42) +
+      '<rect x="196" y="150" width="8" height="40" fill="#6b7280"/><g class="glow"><rect x="178" y="128" width="44" height="26" rx="5" fill="#f97316"/></g><rect x="182" y="132" width="36" height="18" rx="4" fill="#fb923c" opacity=".5"/>' +
+      [[70, 168, 28], [120, 178, 18], [280, 178, -18], [330, 168, -28]].map(([x, y, r], i) => `<line class="ray" style="animation-delay:${i * .2}s" x1="72" y1="52" x2="${x}" y2="${y}" stroke="#fde047" stroke-width="2"/><line class="ray flow" style="animation-delay:${.6 + i * .2}s" x1="${x}" y1="${y}" x2="200" y2="141" stroke="#facc15" stroke-width="2"/><rect x="${x - 16}" y="${y}" width="32" height="6" fill="#7dd3fc" stroke="#0369a1" transform="rotate(${r} ${x} ${y + 3})"/><rect x="${x - 2}" y="${y + 6}" width="4" height="${190 - y - 6}" fill="#64748b"/>`).join('') +
+      PUFFS(200, 122),
   },
   { box: 'b9', label: 'biomass', dur: 6,
     svg: SKY + GRASS +
@@ -514,7 +514,7 @@ const STOPS = {
     [{ q: 'Where is the heat from the splitting controlled?', all: [['reactor']], sol: 'Inside the reactor.' }]
   ],
   b8: [
-    [{ q: 'What do the mirrors focus the sun\'s rays onto?', all: [['tank']], sol: 'Onto a tank of water at the top of a tower.' }],
+    [{ q: 'What do the mirrors focus the sun\'s rays onto?', all: [['tank']], sol: 'Onto a tank of water.' }],
     [{ q: 'What happens to the water in the tank?', all: [['steam', 'boil', 'heat', 'hot']], sol: 'It heats up and turns into steam.' }]
   ],
   b9: [
