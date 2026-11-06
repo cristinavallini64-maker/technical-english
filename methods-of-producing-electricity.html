@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Methods of Producing Electricity – Technical English</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fbf8f2; --surface: #ffffff; --ink: #1d2433; --muted: #5b6475; --line: #e3e0d8;
+    --hero-a: #2747d6; --hero-b: #0fa3c9;
+    --c: #f08c00; --soft: #ffe3a1; --strong: #a85400;
+    --ok: #1f7a4d; --ok-soft: #e3f1e9; --ko: #b23a2e; --ko-soft: #f8e3e0;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #12151c; --surface: #1b202b; --ink: #e9ecf2; --muted: #a3abbb; --line: #2c3342;
+      --hero-a: #2238a8; --hero-b: #0b7fa0;
+      --c: #ffb21f; --soft: #4a3510; --strong: #ffc24d;
+      --ok: #5cc48c; --ok-soft: #1f3a2c; --ko: #f08a7e; --ko-soft: #42231f;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: 'Source Sans 3', system-ui, sans-serif; font-size: 17px; line-height: 1.6; }
+  a { color: var(--strong); }
+  .wrap { max-width: 900px; margin: 0 auto; padding: 0 16px; }
+  h1, h2, h3 { font-family: 'Fraunces', Georgia, serif; line-height: 1.2; }
+
+  header.hero {
+    color: #fff;
+    background:
+      radial-gradient(circle at 88% 22%, rgba(255,255,255,.14) 0 90px, transparent 91px),
+      radial-gradient(circle at 95% 80%, rgba(255,255,255,.08) 0 150px, transparent 151px),
+      linear-gradient(135deg, var(--hero-a), var(--hero-b));
+    padding: 22px 0 32px;
+  }
+  .back {
+    display: inline-block; margin-bottom: 22px; text-decoration: none;
+    font-size: 15px; font-weight: 700; color: #fff;
+    background: rgba(255,255,255,.16); padding: 6px 16px; border-radius: 999px;
+  }
+  .back:hover { background: rgba(255,255,255,.28); }
+  .hero-title { display: flex; align-items: center; gap: 16px; }
+  .hero-icon {
+    flex: none; width: 64px; height: 64px; border-radius: 20px; display: grid; place-items: center;
+    background: #ffb21f; color: #fff; box-shadow: 0 8px 20px -10px rgba(0,0,0,.4);
+  }
+  .hero-icon svg { width: 36px; height: 36px; }
+  h1 { font-size: clamp(30px, 6.5vw, 48px); margin: 0; }
+  .badges { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 12px; }
+  .badge { font-size: 13px; font-weight: 700; padding: 3px 12px; border-radius: 999px; background: rgba(255,255,255,.16); color: #fff; }
+  .lead { margin: 0; max-width: 640px; opacity: .92; }
+
+  nav.toc { position: sticky; top: 0; z-index: 5; background: var(--bg); border-bottom: 1px solid var(--line); }
+  nav.toc .wrap { display: flex; gap: 6px; overflow-x: auto; padding-top: 10px; padding-bottom: 10px; }
+  nav.toc a {
+    flex: none; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; color: var(--ink);
+    font-size: 14px; font-weight: 600; padding: 6px 12px 6px 10px;
+    border: 1px solid var(--line); border-radius: 999px; background: var(--surface);
+  }
+  nav.toc a svg { width: 16px; height: 16px; color: var(--c); }
+  nav.toc a:hover { border-color: var(--c); }
+
+  section { padding: 34px 0 10px; scroll-margin-top: 56px; }
+  .sec-head { display: flex; align-items: center; gap: 12px; margin-bottom: 6px; }
+  .sec-head .ico { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; background: var(--c); color: #fff; flex: none; }
+  .sec-head .ico svg { width: 22px; height: 22px; }
+  h2 { font-size: 27px; margin: 0; }
+  h3 { font-size: 20px; margin: 0 0 8px; }
+  h4 { margin: 0 0 8px; font-size: 16px; }
+
+  .card {
+    position: relative; overflow: hidden;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 18px;
+    padding: 24px 20px 20px; margin: 16px 0;
+  }
+  .card::before { content: ''; position: absolute; inset: 0 0 auto 0; height: 8px; background: var(--c); }
+  .meta { font-size: 15px; color: var(--muted); }
+
+  .text-body p { margin: 0 0 12px; }
+  .text-body em { font-style: normal; font-weight: 700; color: var(--strong); }
+  .text-body .sub { font-weight: 700; }
+  .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 14px; }
+
+  button {
+    font: inherit; font-size: 15px; font-weight: 700;
+    padding: 8px 16px; border-radius: 999px; cursor: pointer;
+    border: 1.5px solid var(--ink); background: var(--ink); color: var(--bg);
+  }
+  button.ghost { background: transparent; color: var(--ink); border-color: var(--line); }
+  button.ghost:hover { border-color: var(--c); }
+  button:hover { filter: brightness(1.1); }
+  button:disabled { opacity: .5; cursor: default; }
+
+  textarea, input[type=text] {
+    width: 100%; font: inherit; font-size: 16px; color: var(--ink);
+    background: var(--bg); border: 1.5px solid var(--line); border-radius: 10px; padding: 8px 12px;
+  }
+  textarea:focus, input[type=text]:focus { outline: none; border-color: var(--c); }
+  textarea { min-height: 70px; resize: vertical; }
+  .model { display: none; margin-top: 8px; padding: 10px 14px; border-radius: 10px; background: var(--soft); font-size: 15px; }
+  .model.show { display: block; }
+
+  .ex-item { margin: 16px 0; }
+  .ex-item .prompt { font-weight: 600; margin-bottom: 6px; }
+  .ex-item .hint { font-size: 14px; color: var(--muted); margin-bottom: 6px; }
+  .fb { font-size: 14px; margin-top: 4px; min-height: 1.2em; }
+  input.right, textarea.right { border-color: var(--ok); background: var(--ok-soft); }
+  input.wrong, textarea.wrong { border-color: var(--ko); background: var(--ko-soft); }
+  .fb.right { color: var(--ok); font-weight: 600; }
+  .fb.wrong { color: var(--ko); }
+  .score { font-weight: 700; margin-left: 6px; padding: 4px 12px; border-radius: 999px; background: var(--soft); color: var(--strong); }
+  .score:empty { display: none; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 15px; }
+  th, td { text-align: left; padding: 9px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-size: 13px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+  td:first-child { font-weight: 700; color: var(--strong); }
+  tbody tr:hover { background: var(--soft); }
+  .table-scroll { overflow-x: auto; }
+  #glossSearch { margin: 14px 0 8px; }
+
+  /* ---------- Scenes (animation without audio) ---------- */
+  .card.scenes { width: min(1180px, calc(100vw - 32px)); margin-left: calc((100% - min(1180px, calc(100vw - 32px))) / 2); }
+  .sgrid { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 20px; align-items: start; }
+  @media (max-width: 820px) { .sgrid { grid-template-columns: 1fr; } }
+  .stage { width: 100%; aspect-ratio: 5 / 3; border-radius: 12px; overflow: hidden; background: #cfe8ff; border: 1px solid var(--line); }
+  .stage svg { display: block; width: 100%; height: 100%; }
+  .sbar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+  .steps { font-size: 14px; font-weight: 700; color: var(--strong); }
+  .sstatus { font-size: 15px; color: var(--muted); margin-top: 8px; }
+  .qbox { display: none; padding: 16px; border-radius: 14px; background: var(--soft); }
+  .qbox.show { display: block; }
+  .qhint { padding: 16px; border-radius: 14px; border: 2px dashed var(--soft); color: var(--muted); font-size: 15px; }
+  .squest:has(.qbox.show) .qhint, .squest:has(.done.show) .qhint { display: none; }
+  .done { display: none; margin-top: 14px; padding: 14px 16px; border-radius: 14px; background: var(--ok-soft); color: var(--ok); font-weight: 700; }
+  .done.show { display: block; }
+
+  .schema { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-top: 22px; }
+  @media (max-width: 620px) { .schema { grid-template-columns: 1fr; } }
+  .scol h4 { font-size: 13px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); font-family: 'Source Sans 3', sans-serif; margin: 0 0 8px; }
+  .scol h4::after { content: ' →'; color: var(--c); }
+  .scol:last-child h4::after { content: ''; }
+  .sbox {
+    min-height: 40px; margin: 0 0 8px; padding: 8px 12px; border-radius: 10px;
+    border: 2px dashed var(--line); color: var(--muted); font-weight: 700; font-size: 15px;
+    display: flex; align-items: center; transition: background .3s, border-color .3s;
+  }
+  .sbox.cur { border-color: var(--c); background: var(--soft); }
+  .sbox.filled { border-style: solid; border-color: var(--ok); background: var(--ok-soft); color: var(--ok); }
+
+  /* animations: they run only while the scene plays */
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes flow { to { stroke-dashoffset: -32; } }
+  @keyframes puff { 0% { transform: translate(0, 0) scale(.6); opacity: .9; } 100% { transform: translate(12px, -60px) scale(1.9); opacity: 0; } }
+  @keyframes flick { to { transform: scaleY(.7); } }
+  @keyframes glow { from { opacity: .35; } to { opacity: 1; } }
+  @keyframes photon { 0% { transform: translate(0, 0); opacity: 0; } 10% { opacity: 1; } 100% { transform: translate(170px, 80px); opacity: .9; } }
+  @keyframes ray { 0% { opacity: 0; } 30%, 100% { opacity: 1; } }
+  @keyframes belt { 0% { transform: translate(0, 0); opacity: 1; } 85% { opacity: 1; } 100% { transform: translate(150px, 0); opacity: 0; } }
+  @keyframes rock { from { transform: rotate(-14deg); } to { transform: rotate(14deg); } }
+  @keyframes neutron { 0% { transform: translate(-46px, 0); opacity: 1; } 35% { transform: translate(-12px, 0); opacity: 1; } 40%, 100% { transform: translate(-12px, 0); opacity: 0; } }
+  @keyframes splitL { 0%, 38% { transform: translate(0, 0); } 70%, 100% { transform: translate(-22px, -14px); } }
+  @keyframes splitR { 0%, 38% { transform: translate(0, 0); } 70%, 100% { transform: translate(22px, 14px); } }
+  @keyframes flash { 0%, 38% { opacity: 0; transform: scale(.3); } 50% { opacity: 1; transform: scale(1.2); } 100% { opacity: 0; transform: scale(1.6); } }
+  @keyframes wave { from { transform: translate(0, 0); } to { transform: translate(-40px, 0); } }
+  .spin { transform-box: fill-box; transform-origin: center; animation: spin 2.4s linear infinite; }
+  .spin.slow { animation-duration: 4s; }
+  .flow { stroke-dasharray: 10 6; animation: flow .9s linear infinite; }
+  .puff { transform-box: fill-box; transform-origin: center; animation: puff 3s ease-out infinite; }
+  .flick { transform-box: fill-box; transform-origin: 50% 100%; animation: flick .35s ease-in-out infinite alternate; }
+  .glow { animation: glow 1.4s ease-in-out infinite alternate; }
+  .photon { animation: photon 1.8s linear infinite; }
+  .ray { animation: ray 1.5s ease-out both; }
+  .belt { animation: belt 4.5s linear infinite; }
+  .rock { transform-box: fill-box; transform-origin: center; animation: rock 1.4s ease-in-out infinite alternate; }
+  .neutron { animation: neutron 3s linear infinite; }
+  .splitL { animation: splitL 3s ease-in-out infinite; }
+  .splitR { animation: splitR 3s ease-in-out infinite; }
+  .flash { transform-box: fill-box; transform-origin: center; animation: flash 3s ease-out infinite; }
+  .wave { animation: wave 2s linear infinite; }
+  .stage.paused * { animation-play-state: paused !important; }
+
+  footer { padding: 40px 0; color: var(--muted); font-size: 14px; }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <a href="index.html" class="back">← Technical English</a>
+    <div class="hero-title">
+      <span class="hero-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg></span>
+      <h1>Methods of Producing Electricity</h1>
+    </div>
+    <div class="badges">
+      <span class="badge">Energy</span>
+    </div>
+    <p class="lead">A text on the main ways of generating electricity, an animation that stops with a question after each scene, online exercises with instant feedback and a glossary. The text and the glossary can be downloaded.</p>
+  </div>
+</header>
+
+<nav class="toc">
+  <div class="wrap">
+    <a href="#text"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 4h7a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H2zM22 4h-7a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h8z"/></svg>Text</a>
+    <a href="#scenes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="m10 9 5 3-5 3z"/></svg>Scenes</a>
+    <a href="#exercises"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>Exercises</a>
+    <a href="#glossary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"/><path d="M8 7h8M8 11h6"/></svg>Glossary</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+  <section id="text">
+    <div class="sec-head"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 4h7a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H2zM22 4h-7a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h8z"/></svg></span><h2>Text</h2></div>
+    <p class="meta">Read the text carefully: you will need it to answer the questions in the scenes.</p>
+    <article class="card">
+      <h3>Methods of producing electricity</h3>
+      <div class="text-body" id="textBody"></div>
+      <div class="row"><button class="ghost" onclick="downloadText()">Download text (Word)</button></div>
+    </article>
+  </section>
+
+  <section id="scenes">
+    <div class="sec-head"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="m10 9 5 3-5 3z"/></svg></span><h2>Scenes</h2></div>
+    <p class="meta">Watch each scene. When it stops, answer the question using what you read in the text. If the answer is wrong, the scene starts again. Each correct answer completes the diagram below.</p>
+    <div class="card scenes">
+      <div class="sgrid">
+        <div>
+          <div class="stage" id="stage"></div>
+          <div class="sbar">
+            <button id="playBtn" onclick="startScene()">▶ Start</button>
+            <span class="steps" id="steps"></span>
+          </div>
+          <div class="sstatus" id="sstatus">Press Start to watch the first scene.</div>
+        </div>
+        <div class="squest">
+          <div class="qhint">The question will appear here when the scene stops.</div>
+          <div class="qbox" id="qbox"></div>
+          <div class="done" id="sdone">Well done! The diagram is complete. Use it to write your summary in exercise 4.</div>
+        </div>
+      </div>
+      <div class="schema" id="schema"></div>
+    </div>
+  </section>
+
+  <section id="exercises">
+    <div class="sec-head"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></span><h2>Exercises</h2></div>
+    <p class="meta">Type your answers, then press <strong>Check</strong>. Wrong answers are marked in red: try again before showing the solution.</p>
+
+    <div class="card">
+      <h3>1. Key words</h3>
+      <p class="meta">Write the English word from the text (in orange) that corresponds to each Italian word.</p>
+      <div id="keyEx"></div>
+      <div class="row">
+        <button onclick="checkEx('key')">Check</button>
+        <button class="ghost" onclick="showSolutions('key')">Show solutions</button>
+        <button class="ghost" onclick="resetEx('key')">Reset</button>
+        <span class="score" id="keyScore"></span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>2. Vocabulary</h3>
+      <p class="meta">Write the technical term that matches each definition.</p>
+      <div id="vocabEx"></div>
+      <div class="row">
+        <button onclick="checkEx('vocab')">Check</button>
+        <button class="ghost" onclick="showSolutions('vocab')">Show solutions</button>
+        <button class="ghost" onclick="resetEx('vocab')">Reset</button>
+        <span class="score" id="vocabScore"></span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>3. Technical descriptions</h3>
+      <p class="meta">Rewrite each sentence starting with the words given, without changing its meaning.</p>
+      <div id="passiveEx"></div>
+      <div class="row">
+        <button onclick="checkEx('passive')">Check</button>
+        <button class="ghost" onclick="showSolutions('passive')">Show solutions</button>
+        <button class="ghost" onclick="resetEx('passive')">Reset</button>
+        <span class="score" id="passiveScore"></span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>4. Summary</h3>
+      <p class="meta">Give a summary of the main methods of generating electricity (80–120 words). Then compare it with the model.</p>
+      <textarea id="summary" style="min-height:160px" placeholder="Write your summary…"></textarea>
+      <div class="row"><button class="ghost" onclick="toggleModel('summaryModel', this)">Show model answer</button></div>
+      <div class="model" id="summaryModel"></div>
+    </div>
+  </section>
+
+  <section id="glossary">
+    <div class="sec-head"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"/><path d="M8 7h8M8 11h6"/></svg></span><h2>Glossary</h2></div>
+    <input type="text" id="glossSearch" placeholder="Search a term in English or Italian…" oninput="renderGlossary()">
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Term</th><th>Definition</th><th>Italiano</th></tr></thead>
+        <tbody id="glossBody"></tbody>
+      </table>
+    </div>
+    <div class="row"><button onclick="downloadGlossary()">Download glossary (Word)</button></div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">Technical English · Electronics and Electrotechnics · Methods of Producing Electricity</div>
+</footer>
+
+<script>
+/* ---------- Text ---------- */
+const TEXT = [
+  'There are two basic ways to generate electricity. The first is direct: photovoltaic cells, grouped together in solar panels, turn sunlight straight into electric current. The second is based on electromagnetism: inside a generator, electromagnets rotate and create a current. To make them rotate, a turbine is needed, and turbines can be moved by three forces: wind, water or steam.',
+  '<span class="sub">Wind.</span> People have used the wind for centuries in <em>mills</em>. Today the wind pushes the <em>blades</em> of a turbine, and the blades turn a shaft connected to the generator.',
+  '<span class="sub">Water.</span> Water power is also very old: watermills were built next to rivers. Today we build <em>dams</em> to increase the force of the water, which turns the turbines of hydroelectric power stations. The sea can be used too: the movement of <em>waves</em>, <em>tides</em> and currents can drive turbines.',
+  '<span class="sub">Steam.</span> Since the Industrial Revolution, steam produced by boiling water has been an important source of power. The heat for the boiler can come from different sources.',
+  '<span class="sub">Fossil fuels.</span> Coal, oil and natural gas are burnt to heat the water. They are called fossil fuels because they come from the <em>remains</em> of plants and animals that lived millions of years ago. They are found underground or under the sea, and they are obtained by mining or <em>drilling</em>.',
+  '<span class="sub">Nuclear fission.</span> In a nuclear power station, atoms of uranium or plutonium are split. This <em>splitting</em> releases a huge quantity of heat, which is controlled inside the reactor and used to make steam.',
+  '<span class="sub">Solar furnaces.</span> Many mirrors focus the sun\'s rays onto a tank of water at the top of a tower. The water heats up and turns into steam.',
+  '<span class="sub">Biomass.</span> Wood and other plant material from agriculture or forestry can be burnt to produce steam. Some cities also have incinerators that burn household <em>rubbish</em> and other waste and are connected to power stations.',
+  '<span class="sub">Geothermal energy.</span> Here the heat comes from below the Earth\'s surface. In some areas engineers drill deep holes and send water down to the hot rocks, and the water comes back up as steam.'
+];
+
+/* ---------- Diagram (same structure as the table in the book) ---------- */
+const SCHEMA = [
+  { title: 'Methods of creating electricity', boxes: ['b1', 'b2'] },
+  { title: 'Forces able to turn turbines', boxes: ['b3', 'b4', 'b5'] },
+  { title: 'Methods of producing steam', boxes: ['b6', 'b7', 'b8', 'b9', 'b10'] }
+];
+
+/* ---------- Scene drawings (no words: the answer is in the text) ---------- */
+const SKY = '<rect width="400" height="240" fill="#cfe8ff"/>';
+const GRASS = '<rect y="190" width="400" height="50" fill="#9ccf7a"/>';
+const SUN = (x, y) => `<g class="glow"><circle cx="${x}" cy="${y}" r="22" fill="#ffd23f"/></g><circle cx="${x}" cy="${y}" r="16" fill="#ffb300"/>`;
+const PUFFS = (x, y, col = '#ffffff') => [0, -1, -2].map(d => `<circle class="puff" cx="${x}" cy="${y}" r="9" fill="${col}" style="animation-delay:${d}s"/>`).join('');
+const FLAME = (x, y) => `<path class="flick" d="M${x - 10} ${y} Q${x - 12} ${y - 16} ${x} ${y - 28} Q${x + 12} ${y - 16} ${x + 10} ${y} Z" fill="#ff7a00"/><path class="flick" style="animation-delay:-.2s" d="M${x - 5} ${y} Q${x - 6} ${y - 9} ${x} ${y - 16} Q${x + 6} ${y - 9} ${x + 5} ${y} Z" fill="#ffd23f"/>`;
+const BULB = (x, y) => `<g class="glow"><circle cx="${x}" cy="${y}" r="20" fill="#fff59d"/></g><circle cx="${x}" cy="${y}" r="11" fill="#ffe14d" stroke="#8a6d00" stroke-width="2"/><rect x="${x - 6}" y="${y + 10}" width="12" height="9" fill="#777"/>`;
+const ROTOR = (x, y, len, col = '#ffffff', cls = 'spin') => `<g class="${cls}"><circle cx="${x}" cy="${y}" r="${len + 2}" fill="none"/>${[0, 120, 240].map(a => `<path d="M${x} ${y} L${x - 4} ${y - len * .3} L${x} ${y - len} L${x + 4} ${y - len * .3} Z" fill="${col}" stroke="#94a3b8" transform="rotate(${a} ${x} ${y})"/>`).join('')}<circle cx="${x}" cy="${y}" r="5" fill="#64748b"/></g>`;
+const WHEEL = (x, y, r, cls = 'spin') => `<g class="${cls}"><circle cx="${x}" cy="${y}" r="${r}" fill="#e2e8f0" stroke="#475569" stroke-width="3"/>${[0, 45, 90, 135].map(a => `<line x1="${x - r}" y1="${y}" x2="${x + r}" y2="${y}" stroke="#475569" stroke-width="3" transform="rotate(${a} ${x} ${y})"/>`).join('')}</g>`;
+const PYLON = x => `<path d="M${x} 190 L${x + 10} 120 L${x + 20} 190 M${x + 3} 170 L${x + 17} 170 M${x + 6} 145 L${x + 14} 145 M${x - 4} 128 L${x + 24} 128" stroke="#64748b" stroke-width="2.5" fill="none"/>`;
+const COOLING = (x) => `<path d="M${x} 190 Q${x + 14} 140 ${x + 4} 100 L${x + 56} 100 Q${x + 46} 140 ${x + 60} 190 Z" fill="#cbd5e1" stroke="#94a3b8"/>${PUFFS(x + 30, 92)}`;
+
+const SCENES = [
+  { box: 'b1', label: 'photovoltaic cells', dur: 6,
+    svg: SKY + GRASS + SUN(60, 50) +
+      [0, -.45, -.9, -1.35].map(d => `<circle class="photon" cx="75" cy="62" r="4" fill="#ffb300" style="animation-delay:${d}s"/>`).join('') +
+      '<polygon points="170,175 290,175 320,120 200,120" fill="#1e3a8a" stroke="#cbd5e1" stroke-width="2"/><path d="M210 120 L180 175 M240 120 L210 175 M270 120 L240 175 M300 120 L270 175 M185 147 L305 147" stroke="#93c5fd" stroke-width="1.5"/><rect x="236" y="175" width="8" height="15" fill="#64748b"/>' +
+      '<path class="flow" d="M300 160 L345 160 L345 150" stroke="#f59e0b" stroke-width="4" fill="none"/>' + BULB(345, 128),
+    qs: [{ q: 'The cells in this panel turn sunlight directly into electric current. What are they called?', all: [['photovoltaic', 'photo-voltaic', 'pv', 'solar cell']], sol: 'Photovoltaic cells.' }] },
+  { box: 'b2', label: 'electromagnetism (generator)', dur: 6,
+    svg: '<rect width="400" height="240" fill="#e8eef6"/>' +
+      '<rect x="120" y="55" width="160" height="140" rx="14" fill="#cbd5e1" stroke="#64748b" stroke-width="3"/>' +
+      [0, 1, 2, 3, 4, 5, 6, 7].map(i => `<rect x="${134 + i * 17}" y="62" width="9" height="126" rx="4" fill="#d97706" opacity=".55"/>`).join('') +
+      '<g class="spin slow"><circle cx="200" cy="125" r="52" fill="none"/><rect x="160" y="113" width="40" height="24" fill="#dc2626"/><rect x="200" y="113" width="40" height="24" fill="#2563eb"/><text x="172" y="131" font-size="15" font-weight="700" fill="#fff" font-family="sans-serif">N</text><text x="213" y="131" font-size="15" font-weight="700" fill="#fff" font-family="sans-serif">S</text></g>' +
+      '<path class="flow" d="M280 125 L340 125 L340 100" stroke="#f59e0b" stroke-width="4" fill="none"/>' + BULB(340, 78),
+    qs: [{ q: 'In this second method, electromagnets rotate and create a current. Inside which machine does this happen?', all: [['generator']], sol: 'Inside a generator.' }] },
+  { box: 'b3', label: 'wind', dur: 6,
+    svg: SKY + GRASS +
+      '<path d="M100 190 L106 125 L112 190 Z" fill="#e2e8f0" stroke="#94a3b8"/>' + ROTOR(106, 122, 30) +
+      '<path d="M244 190 L252 82 L260 190 Z" fill="#f1f5f9" stroke="#94a3b8"/><rect x="242" y="72" width="26" height="14" rx="5" fill="#e2e8f0" stroke="#94a3b8"/>' + ROTOR(252, 79, 62) +
+      [0, -1, -2].map(d => `<path class="wave" d="M20 ${40 + d * -18} q20 -8 40 0 t40 0 t40 0" stroke="#ffffff" stroke-width="2" fill="none" opacity=".8" style="animation-delay:${d}s"/>`).join(''),
+    qs: [{ q: 'The wind pushes the blades. What do the blades turn?', all: [['shaft']], sol: 'A shaft connected to the generator.' }] },
+  { box: 'b4', label: 'water (rivers, waves, tides)', dur: 6,
+    svg: SKY + GRASS +
+      '<rect x="0" y="95" width="168" height="95" fill="#3b82f6"/><g class="wave"><path d="M0 95 q10 -5 20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0" stroke="#bfdbfe" stroke-width="3" fill="none"/></g>' +
+      '<polygon points="160,70 192,70 236,190 150,190" fill="#9ca3af" stroke="#6b7280" stroke-width="2"/>' +
+      '<path class="flow" d="M150 165 L215 178 L292 182" stroke="#1d4ed8" stroke-width="7" fill="none"/>' +
+      '<rect x="270" y="150" width="70" height="40" fill="#e5e7eb" stroke="#6b7280"/>' + WHEEL(305, 172, 14) + PYLON(355) +
+      '<path d="M345 132 L305 150" stroke="#64748b" stroke-width="1.5"/>',
+    qs: [{ q: 'The water behind the dam turns the turbines. What are these power stations called?', all: [['hydro']], sol: 'Hydroelectric power stations.' }] },
+  { box: 'b5', label: 'steam', dur: 6,
+    svg: '<rect width="400" height="240" fill="#e8eef6"/><rect y="200" width="400" height="40" fill="#cbd5e1"/>' +
+      '<rect x="50" y="95" width="100" height="80" rx="18" fill="#94a3b8" stroke="#475569" stroke-width="3"/>' + FLAME(82, 200) + FLAME(118, 200) +
+      '<path d="M100 95 L100 60 L245 60 L245 98" stroke="#64748b" stroke-width="14" fill="none"/><path class="flow" d="M100 95 L100 60 L245 60 L245 98" stroke="#f8fafc" stroke-width="6" fill="none"/>' +
+      WHEEL(245, 125, 26) + '<rect x="270" y="121" width="40" height="8" fill="#475569"/><rect x="308" y="102" width="56" height="46" rx="6" fill="#64748b"/>' +
+      '<path class="flow" d="M336 102 L336 70 L380 70" stroke="#f59e0b" stroke-width="4" fill="none"/>' + PUFFS(260, 92),
+    qs: [{ q: 'Since when has steam been an important source of power?', all: [['industrial']], sol: 'Since the Industrial Revolution.' }] },
+  { box: 'b6', label: 'fossil fuels', dur: 6,
+    svg: SKY + GRASS +
+      '<rect x="60" y="110" width="140" height="80" fill="#a8a29e" stroke="#57534e" stroke-width="2"/><rect x="85" y="140" width="40" height="30" fill="#292524"/>' + FLAME(105, 170) +
+      '<rect x="160" y="40" width="18" height="70" fill="#78716c"/>' + PUFFS(169, 36, '#6b7280') +
+      [0, 1, 2, 3, 4].map(i => `<circle cx="${20 + i * 8}" cy="${186 - (i % 2) * 5}" r="6" fill="#1c1917"/>`).join('') +
+      '<path d="M300 190 L318 110 L336 190 M306 165 L330 165 M311 140 L325 140" stroke="#57534e" stroke-width="3" fill="none"/>' +
+      '<g class="rock"><rect x="276" y="104" width="84" height="8" fill="#334155"/><circle cx="318" cy="108" r="40" fill="none"/></g>' +
+      '<rect x="0" y="215" width="400" height="25" fill="#1f2937"/><path class="flow" d="M318 215 L318 190" stroke="#111827" stroke-width="5"/>',
+    qs: [{ q: 'Why are coal, oil and natural gas called fossil fuels?', all: [['remains', 'plant', 'animal', 'million']], sol: 'Because they come from the remains of plants and animals that lived millions of years ago.' }] },
+  { box: 'b7', label: 'nuclear fission', dur: 6,
+    svg: SKY + GRASS +
+      '<path d="M40 190 L40 130 Q100 70 160 130 L160 190 Z" fill="#e5e7eb" stroke="#6b7280" stroke-width="2"/>' + COOLING(185) +
+      '<circle cx="320" cy="85" r="58" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/>' +
+      '<circle class="flash" cx="320" cy="85" r="22" fill="#fde047"/>' +
+      '<g class="splitL"><path d="M320 67 A18 18 0 0 0 320 103 Z" fill="#16a34a"/></g><g class="splitR"><path d="M320 67 A18 18 0 0 1 320 103 Z" fill="#15803d"/></g>' +
+      '<circle class="neutron" cx="320" cy="85" r="5" fill="#2563eb"/>',
+    qs: [{ q: 'Atoms are split inside the reactor. Name one of the two elements mentioned in the text.', any: ['uranium', 'plutonium'], min: 1, sol: 'Uranium or plutonium.' }] },
+  { box: 'b8', label: 'solar furnaces', dur: 6,
+    svg: SKY + GRASS + SUN(50, 45) +
+      '<rect x="292" y="66" width="16" height="124" fill="#9ca3af"/><g class="glow"><rect x="280" y="44" width="40" height="24" rx="4" fill="#f97316"/></g><rect x="284" y="48" width="32" height="16" rx="3" fill="#fb923c" opacity=".5"/>' +
+      [90, 140, 190, 240].map((x, i) => `<line class="ray" style="animation-delay:${i * .2}s" x1="62" y1="55" x2="${x}" y2="178" stroke="#fde047" stroke-width="2"/><line class="ray flow" style="animation-delay:${.6 + i * .2}s" x1="${x}" y1="178" x2="298" y2="58" stroke="#facc15" stroke-width="2"/><rect x="${x - 14}" y="178" width="28" height="6" fill="#7dd3fc" stroke="#0369a1" transform="rotate(-12 ${x} 181)"/>`).join('') +
+      PUFFS(300, 40),
+    qs: [{ q: 'What happens to the water in the tank at the top of the tower?', all: [['steam', 'boil', 'heat', 'hot']], sol: 'It heats up and turns into steam.' }] },
+  { box: 'b9', label: 'biomass', dur: 6,
+    svg: SKY + GRASS +
+      '<rect x="28" y="140" width="10" height="50" fill="#92400e"/><circle cx="33" cy="125" r="26" fill="#16a34a"/>' +
+      '<rect x="60" y="180" width="170" height="8" fill="#475569"/>' +
+      [0, -1.5, -3].map((d, i) => i === 1
+        ? `<g class="belt" style="animation-delay:${d}s"><path d="M70 180 q-4 -18 8 -22 q4 -8 10 0 q12 4 8 22 Z" fill="#14532d"/></g>`
+        : `<g class="belt" style="animation-delay:${d}s"><rect x="66" y="166" width="34" height="12" rx="6" fill="#a16207" stroke="#713f12"/></g>`).join('') +
+      '<rect x="225" y="105" width="120" height="85" fill="#a8a29e" stroke="#57534e" stroke-width="2"/><rect x="225" y="160" width="26" height="30" fill="#292524"/>' + FLAME(270, 188) + FLAME(300, 188) +
+      '<rect x="315" y="45" width="16" height="60" fill="#78716c"/>' + PUFFS(323, 40, '#9ca3af'),
+    qs: [{ q: 'Where does the wood used as biomass come from? Name one source mentioned in the text.', any: ['agricultur', 'forest'], min: 1, sol: 'From agriculture or forestry.' }] },
+  { box: 'b10', label: 'geothermal energy', dur: 6,
+    svg: '<rect width="400" height="80" fill="#cfe8ff"/><rect y="80" width="400" height="60" fill="#a16207"/><rect y="140" width="400" height="60" fill="#78716c"/>' +
+      '<g class="glow"><rect y="200" width="400" height="40" fill="#dc2626"/></g><rect y="200" width="400" height="40" fill="#f97316" opacity=".5"/>' +
+      '<rect x="110" y="45" width="110" height="35" fill="#e5e7eb" stroke="#6b7280"/>' + PUFFS(150, 40) + PUFFS(185, 40) +
+      '<path class="flow" d="M135 80 L135 212" stroke="#2563eb" stroke-width="7" fill="none"/>' +
+      '<path class="flow" d="M195 212 L195 80" stroke="#f8fafc" stroke-width="7" fill="none"/>' +
+      '<path d="M135 212 L195 212" stroke="#f97316" stroke-width="7"/>' + PYLON(300) + '<path d="M220 60 L300 128" stroke="#64748b" stroke-width="1.5"/>',
+    qs: [{ q: 'Where do engineers send the water to heat it?', all: [['rock', 'underground', 'below', 'under the']], sol: 'Down deep holes, to the hot rocks below the surface.' }] }
+];
+
+/* ---------- Exercises ---------- */
+const EXERCISES = {
+  key: [
+    { prompt: 'mulini', ok: ['mills'] },
+    { prompt: 'pale (di una turbina)', ok: ['blades'] },
+    { prompt: 'dighe', ok: ['dams'] },
+    { prompt: 'onde', ok: ['waves'] },
+    { prompt: 'maree', ok: ['tides'] },
+    { prompt: 'resti', ok: ['remains'] },
+    { prompt: 'trivellazione', ok: ['drilling'] },
+    { prompt: 'scissione', ok: ['splitting'] },
+    { prompt: 'forni', ok: ['furnaces'] },
+    { prompt: 'spazzatura', ok: ['rubbish'] }
+  ],
+  vocab: [
+    { prompt: 'a machine with blades that is turned by wind, water or steam', ok: ['turbine', 'a turbine'] },
+    { prompt: 'a closed container where water is heated to produce steam', ok: ['boiler', 'a boiler'] },
+    { prompt: 'water in the form of gas, produced by boiling', ok: ['steam'] },
+    { prompt: 'a tall pipe that takes smoke out of a building', ok: ['chimney', 'a chimney'] },
+    { prompt: 'the smoke and gases produced when fuel is burnt', ok: ['fumes'] },
+    { prompt: 'an enclosed space where a very hot fire is made', ok: ['furnace', 'a furnace'] },
+    { prompt: 'the part of a nuclear power station where fission takes place', ok: ['reactor', 'a reactor', 'the reactor', 'reactor core', 'core'] },
+    { prompt: 'a wide tower where the steam of a power station is cooled', ok: ['cooling tower', 'a cooling tower'] },
+    { prompt: 'a plant where rubbish is burnt', ok: ['incinerator', 'an incinerator'] },
+    { prompt: 'wood and other plant material used as fuel', ok: ['biomass'] },
+    { prompt: 'a tall metal structure that carries electricity cables', ok: ['pylon', 'a pylon'] },
+    { prompt: 'the network of cables that carries electricity across a country', ok: ['grid', 'the grid', 'national grid', 'the national grid', 'electricity grid'] }
+  ],
+  passive: [
+    { prompt: 'Power stations burn coal to heat the water.', start: 'Coal …',
+      ok: ['coal is burnt to heat the water', 'coal is burned to heat the water', 'coal is burnt by power stations to heat the water', 'coal is burned by power stations to heat the water', 'coal is burnt to heat the water by power stations', 'coal is burned to heat the water by power stations'], sol: 'Coal is burnt by power stations to heat the water.' },
+    { prompt: 'People have used water power for centuries.', start: 'Water power …',
+      ok: ['water power has been used for centuries', 'water power has been used by people for centuries', 'water power has been used for centuries by people'], sol: 'Water power has been used for centuries.' },
+    { prompt: 'Engineers built the first hydroelectric dams over a century ago.', start: 'The first hydroelectric dams …',
+      ok: ['the first hydroelectric dams were built over a century ago', 'the first hydroelectric dams were built by engineers over a century ago', 'the first hydroelectric dams were built over a century ago by engineers'], sol: 'The first hydroelectric dams were built by engineers over a century ago.' },
+    { prompt: 'They obtain oil by drilling under the sea.', start: 'Oil …',
+      ok: ['oil is obtained by drilling under the sea'], sol: 'Oil is obtained by drilling under the sea.' },
+    { prompt: 'The mirrors focus the sun\'s rays onto the tank.', start: 'The sun\'s rays …',
+      ok: ["the sun's rays are focused onto the tank", "the sun's rays are focussed onto the tank", "the sun's rays are focused onto the tank by the mirrors", "the sun's rays are focussed onto the tank by the mirrors", "the sun's rays are focused by the mirrors onto the tank", "the sun's rays are focussed by the mirrors onto the tank"], sol: 'The sun\'s rays are focused onto the tank by the mirrors.' },
+    { prompt: 'The company is drilling new holes near the volcano.', start: 'New holes …',
+      ok: ['new holes are being drilled near the volcano', 'new holes are being drilled by the company near the volcano', 'new holes are being drilled near the volcano by the company'], sol: 'New holes are being drilled near the volcano.' },
+    { prompt: 'The city will build a new incinerator next year.', start: 'A new incinerator …',
+      ok: ['a new incinerator will be built next year', 'a new incinerator will be built by the city next year', 'a new incinerator will be built next year by the city'], sol: 'A new incinerator will be built next year.' },
+    { prompt: 'The reactor controls the heat from the splitting of the atoms.', start: 'The heat from the splitting of the atoms …',
+      ok: ['the heat from the splitting of the atoms is controlled by the reactor', 'the heat from the splitting of the atoms is controlled inside the reactor', 'the heat from the splitting of the atoms is controlled in the reactor'], sol: 'The heat from the splitting of the atoms is controlled by the reactor.' }
+  ]
+};
+
+const SUMMARY_MODEL = 'Electricity can be generated in two ways. Photovoltaic cells in solar panels turn sunlight directly into current, while in a generator rotating electromagnets create a current. The generator is moved by a turbine, which can be turned by wind, by water (rivers, waves and tides) or by steam. Steam is produced by boiling water, and the heat can come from burning fossil fuels such as coal, oil and gas, from nuclear fission, from solar furnaces, where mirrors focus the sun\'s rays, from burning biomass and rubbish, or from the hot rocks under the Earth\'s surface (geothermal energy).';
+
+const GLOSSARY = [
+  ['photovoltaic cell', 'a cell that turns sunlight directly into electricity', 'cella fotovoltaica'],
+  ['solar panel', 'a group of photovoltaic cells', 'pannello solare'],
+  ['electromagnetism', 'the production of current by magnets and electric coils', 'elettromagnetismo'],
+  ['generator', 'a machine that converts movement into electricity', 'generatore'],
+  ['turbine', 'a machine with blades that is turned by wind, water or steam', 'turbina'],
+  ['shaft', 'a rotating bar that connects the turbine to the generator', 'albero (di trasmissione)'],
+  ['blade', 'one of the long flat parts of a turbine', 'pala'],
+  ['mill / watermill / windmill', 'a building with a wheel turned by water or wind', 'mulino / mulino ad acqua / mulino a vento'],
+  ['dam', 'a wall built across a river to hold back the water', 'diga'],
+  ['hydroelectric power station', 'a plant that generates electricity from flowing water', 'centrale idroelettrica'],
+  ['wave / tide', 'a moving ridge of water on the sea / the regular rise and fall of the sea level', 'onda / marea'],
+  ['steam', 'water in the form of gas, produced by boiling', 'vapore'],
+  ['boiler', 'a closed container where water is heated to produce steam', 'caldaia'],
+  ['fossil fuel', 'coal, oil or natural gas, formed from ancient plants and animals', 'combustibile fossile'],
+  ['remains', 'what is left of a dead plant or animal', 'resti'],
+  ['mining / drilling', 'digging coal out of the ground / making deep holes to extract oil or gas', 'attività mineraria / trivellazione'],
+  ['nuclear fission', 'the splitting of atoms, which releases heat', 'fissione nucleare'],
+  ['splitting', 'dividing something into parts', 'scissione'],
+  ['reactor', 'the part of a nuclear power station where fission takes place', 'reattore'],
+  ['furnace / solar furnace', 'an enclosed space with a very hot fire / mirrors that focus sunlight to produce heat', 'forno / forno solare'],
+  ['mirror', 'a surface that reflects light', 'specchio'],
+  ['biomass', 'wood and other plant material used as fuel', 'biomassa'],
+  ['agriculture / forestry', 'farming / growing and managing forests', 'agricoltura / silvicoltura'],
+  ['incinerator', 'a plant where rubbish is burnt', 'inceneritore, termovalorizzatore'],
+  ['rubbish / waste', 'things that people throw away', 'spazzatura / rifiuti'],
+  ['geothermal energy', 'energy from the heat inside the Earth', 'energia geotermica'],
+  ['chimney / fumes', 'a tall pipe that takes smoke out / the smoke and gases produced by burning', 'camino, ciminiera / fumi'],
+  ['cooling tower', 'a wide tower where the steam of a power station is cooled', 'torre di raffreddamento'],
+  ['pylon', 'a tall metal structure that carries electricity cables', 'traliccio'],
+  ['grid', 'the network of cables that carries electricity across a country', 'rete elettrica']
+];
+
+/* ---------- Render text ---------- */
+function renderText() {
+  document.getElementById('textBody').innerHTML = TEXT.map(p => `<p>${p}</p>`).join('');
+}
+
+/* ---------- Scenes ---------- */
+const S = { idx: 0, tries: 0, timer: null, waiting: false, started: false };
+const MAX_TRIES = 3;
+
+function renderSchema() {
+  document.getElementById('schema').innerHTML = SCHEMA.map(col => `
+    <div class="scol"><h4>${col.title}</h4>
+      ${col.boxes.map(b => `<div class="sbox" id="${b}">?</div>`).join('')}
+    </div>`).join('');
+}
+
+function updateSteps() {
+  document.getElementById('steps').textContent = `Scene ${Math.min(S.idx + 1, SCENES.length)} / ${SCENES.length}`;
+  document.querySelectorAll('.sbox').forEach(b => b.classList.remove('cur'));
+  const sc = SCENES[S.idx];
+  if (sc) document.getElementById(sc.box).classList.add('cur');
+}
+
+function playScene(keepAnswers) {
+  const sc = SCENES[S.idx];
+  const stage = document.getElementById('stage');
+  stage.classList.remove('paused');
+  stage.innerHTML = `<svg viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Scene ${S.idx + 1}">${sc.svg}</svg>`;
+  document.getElementById('qbox').classList.remove('show');
+  document.getElementById('sstatus').textContent = 'Watch the scene…';
+  document.getElementById('playBtn').disabled = true;
+  clearTimeout(S.timer);
+  S.timer = setTimeout(() => { stage.classList.add('paused'); showQuestion(keepAnswers); }, sc.dur * 1000);
+}
+
+function startScene() {
+  if (!S.started) { S.started = true; document.getElementById('playBtn').textContent = '▶ Playing'; }
+  playScene(false);
+}
+
+function showQuestion(keep) {
+  const sc = SCENES[S.idx];
+  const qb = document.getElementById('qbox');
+  if (!keep) {
+    qb.innerHTML = `<h4>Scene ${S.idx + 1} of ${SCENES.length}</h4>` + sc.qs.map((q, i) => `
+      <div class="ex-item">
+        <div class="prompt">${q.q}</div>
+        <input type="text" id="sa${i}" autocomplete="off" spellcheck="false">
+        <div class="fb" id="sf${i}"></div>
+      </div>`).join('') + `<div class="row" id="srow"><button onclick="checkScene()">Check</button></div>`;
+    qb.onkeydown = e => { if (e.key === 'Enter' && e.target.tagName === 'INPUT') { e.preventDefault(); checkScene(); } };
+  }
+  qb.classList.add('show');
+  S.waiting = true; S.checking = false;
+  document.getElementById('sstatus').textContent = 'The scene has stopped. Answer the question.';
+  const first = document.getElementById('sa0');
+  if (first) first.focus({ preventScroll: true });
+}
+
+function norm(s) {
+  return s.toLowerCase()
+    .replace(/[’']/g, "'")
+    .replace(/[–—]/g, '-')
+    .replace(/[.,;:!?"“”]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function matches(q, val) {
+  const v = norm(val);
+  if (!v) return false;
+  const has = w => {
+    const k = norm(w);
+    return /^[a-z]+$/.test(k) && k.length <= 3 ? new RegExp('\\b' + k + '\\b').test(v) : v.includes(k);
+  };
+  if (q.all && !q.all.every(group => group.some(has))) return false;
+  if (q.any && q.any.filter(has).length < (q.min || 1)) return false;
+  return true;
+}
+
+function fillBox() {
+  const sc = SCENES[S.idx];
+  const b = document.getElementById(sc.box);
+  b.textContent = sc.label;
+  b.classList.remove('cur');
+  b.classList.add('filled');
+}
+
+function checkScene() {
+  if (S.checking) return;
+  S.checking = true;
+  const sc = SCENES[S.idx];
+  let allOk = true;
+  sc.qs.forEach((q, i) => {
+    const inp = document.getElementById('sa' + i);
+    const fb = document.getElementById('sf' + i);
+    const ok = matches(q, inp.value);
+    inp.classList.remove('right', 'wrong');
+    inp.classList.add(ok ? 'right' : 'wrong');
+    fb.className = 'fb ' + (ok ? 'right' : 'wrong');
+    fb.textContent = ok ? 'Correct!' : 'Not correct.';
+    if (!ok) allOk = false;
+  });
+  S.tries++;
+  if (allOk) {
+    S.tries = 0;
+    fillBox();
+    setTimeout(nextScene, 900);
+  } else if (S.tries >= MAX_TRIES) {
+    S.tries = 0;
+    sc.qs.forEach((q, i) => {
+      const fb = document.getElementById('sf' + i);
+      if (fb.classList.contains('wrong')) fb.innerHTML = 'The correct answer is: <strong>' + q.sol + '</strong>';
+    });
+    fillBox();
+    document.getElementById('srow').innerHTML = '<button onclick="nextScene()">Continue ▶</button>';
+    document.getElementById('sstatus').textContent = 'Read the correct answer, then press Continue.';
+  } else {
+    const left = MAX_TRIES - S.tries;
+    document.getElementById('sstatus').textContent = `Not correct: watch the scene again and check the text (${left} ${left === 1 ? 'attempt' : 'attempts'} left).`;
+    setTimeout(() => playScene(true), 1200);
+  }
+}
+
+function nextScene() {
+  S.idx++;
+  document.getElementById('qbox').classList.remove('show');
+  if (S.idx >= SCENES.length) {
+    document.querySelectorAll('.sbox').forEach(b => b.classList.remove('cur'));
+    document.getElementById('steps').textContent = `Scene ${SCENES.length} / ${SCENES.length}`;
+    document.getElementById('sdone').classList.add('show');
+    document.getElementById('sstatus').textContent = '';
+    document.getElementById('playBtn').textContent = '↺ Start again';
+    document.getElementById('playBtn').disabled = false;
+    document.getElementById('playBtn').onclick = restartScenes;
+    return;
+  }
+  updateSteps();
+  playScene(false);
+}
+
+function restartScenes() {
+  S.idx = 0; S.tries = 0;
+  renderSchema(); updateSteps();
+  document.getElementById('sdone').classList.remove('show');
+  document.getElementById('playBtn').onclick = startScene;
+  playScene(false);
+}
+
+function drawCover() {
+  /* first frame of scene 1, still, before Start */
+  document.getElementById('stage').innerHTML = `<svg viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">${SCENES[0].svg}</svg>`;
+  document.getElementById('stage').classList.add('paused');
+}
+
+/* ---------- Exercises ---------- */
+function renderExercises() {
+  ['key', 'vocab', 'passive'].forEach(key => {
+    const box = document.getElementById(key + 'Ex');
+    box.innerHTML = EXERCISES[key].map((it, i) => `
+      <div class="ex-item">
+        <div class="prompt">${i + 1}. ${it.prompt}</div>
+        ${it.start ? `<div class="hint">Start with: <em>${it.start}</em></div>` : ''}
+        ${it.start ? `<textarea id="${key}${i}" rows="2" style="min-height:52px" spellcheck="false"></textarea>` : `<input type="text" id="${key}${i}" autocomplete="off" spellcheck="false">`}
+        <div class="fb" id="${key}fb${i}"></div>
+      </div>`).join('');
+    box.onkeydown = e => { if (e.key === 'Enter' && !e.shiftKey && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) { e.preventDefault(); checkEx(key); } };
+  });
+}
+
+function checkEx(key) {
+  let score = 0;
+  EXERCISES[key].forEach((it, i) => {
+    const input = document.getElementById(key + i);
+    const fb = document.getElementById(key + 'fb' + i);
+    const val = norm(input.value);
+    input.classList.remove('right', 'wrong');
+    fb.className = 'fb';
+    if (!val) { fb.textContent = ''; return; }
+    if (it.ok.map(norm).includes(val)) {
+      score++;
+      input.classList.add('right');
+      fb.classList.add('right');
+      fb.textContent = 'Correct!';
+    } else {
+      input.classList.add('wrong');
+      fb.classList.add('wrong');
+      fb.textContent = 'Not quite. Check spelling and verb form, then try again.';
+    }
+  });
+  document.getElementById(key + 'Score').textContent = `${score} / ${EXERCISES[key].length}`;
+}
+
+function showSolutions(key) {
+  EXERCISES[key].forEach((it, i) => {
+    const fb = document.getElementById(key + 'fb' + i);
+    fb.className = 'fb';
+    fb.innerHTML = `Solution: <strong>${it.sol || it.ok[0]}</strong>`;
+  });
+}
+
+function resetEx(key) {
+  EXERCISES[key].forEach((it, i) => {
+    const input = document.getElementById(key + i);
+    input.value = '';
+    input.classList.remove('right', 'wrong');
+    const fb = document.getElementById(key + 'fb' + i);
+    fb.className = 'fb';
+    fb.textContent = '';
+  });
+  document.getElementById(key + 'Score').textContent = '';
+}
+
+function toggleModel(id, btn) {
+  const el = document.getElementById(id);
+  el.classList.toggle('show');
+  btn.textContent = el.classList.contains('show') ? 'Hide model answer' : 'Show model answer';
+}
+
+/* ---------- Glossary ---------- */
+function renderGlossary() {
+  const q = norm(document.getElementById('glossSearch').value);
+  const rows = GLOSSARY.filter(r => !q || norm(r.join(' ')).includes(q));
+  document.getElementById('glossBody').innerHTML = rows.length
+    ? rows.map(r => `<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join('')
+    : '<tr><td colspan="3">No term found.</td></tr>';
+}
+
+/* ---------- Downloads (Word) ---------- */
+const DOC_STYLE = `
+  body { font-family: Calibri, Arial, sans-serif; font-size: 12pt; line-height: 1.4; }
+  h1 { font-size: 18pt; color: #a85400; }
+  p { margin: 0 0 8pt; text-align: justify; }
+  em { font-style: normal; font-weight: bold; }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { border: 1px solid #999; padding: 4pt 6pt; vertical-align: top; font-size: 11pt; }
+  th { background: #ffe3a1; }
+  .note { color: #5b6475; font-size: 10pt; }`;
+
+function wordFile(title, bodyHtml, filename) {
+  const html = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
+<head><meta charset="utf-8"><title>${title}</title><style>${DOC_STYLE}</style></head>
+<body>${bodyHtml}</body></html>`;
+  const blob = new Blob(['﻿', html], { type: 'application/msword' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+}
+
+const NOTE = '<p class="note">Methods of Producing Electricity – Technical English</p>';
+
+function downloadText() {
+  wordFile('Methods of producing electricity',
+    `<h1>Methods of producing electricity</h1>${NOTE}${TEXT.map(p => `<p>${p.replace(/<span class="sub">(.*?)<\/span>/, '<b>$1</b>')}</p>`).join('')}`,
+    'methods-of-producing-electricity-text.doc');
+}
+
+function downloadGlossary() {
+  wordFile('Methods of Producing Electricity – Glossary',
+    `<h1>Methods of Producing Electricity – Glossary</h1>${NOTE}<table><tr><th>Term</th><th>Definition</th><th>Italiano</th></tr>${GLOSSARY.map(r => `<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join('')}</table>`,
+    'methods-of-producing-electricity-glossary.doc');
+}
+
+renderText();
+renderSchema();
+updateSteps();
+drawCover();
+renderExercises();
+document.getElementById('summaryModel').textContent = SUMMARY_MODEL;
+renderGlossary();
+</script>
+</body>
+</html>
