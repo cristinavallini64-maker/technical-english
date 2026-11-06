@@ -483,7 +483,7 @@ const SCENES = [
 /* one stop per sentence of the subtitles: the scene pauses after each sentence and asks about it */
 const STOPS = {
   b1: [
-    [{ q: 'How many basic ways of generating electricity are there?', any: ['two', '2'], min: 1, sol: 'Two.' }],
+    [],   /* no question: the sentence is only read */
     [{ q: 'Which cells are used in the first method?', all: [['photovoltaic', 'photo-voltaic', 'pv']], sol: 'Photovoltaic cells.' },
      { q: 'What are they grouped together in?', all: [['panel']], sol: 'In solar panels.' }]
   ],
@@ -494,8 +494,7 @@ const STOPS = {
      { q: 'Which three forces can move it?', all: [['wind'], ['water'], ['steam']], sol: 'Wind, water and steam.' }]
   ],
   b3: [
-    [{ q: 'For how long has the wind been used?', any: ['centur', 'hundreds of years'], min: 1, sol: 'For centuries.' },
-     { q: 'In what kind of building?', all: [['mill']], sol: 'In mills.' }],
+    [{ q: 'In what kind of building was the wind used in the past?', all: [['mill']], sol: 'In mills.' }],
     [{ q: 'What does the wind push today?', all: [['blade']], sol: 'The blades of a turbine.' },
      { q: 'What do they turn?', all: [['shaft']], sol: 'A shaft connected to the generator.' }]
   ],
@@ -507,8 +506,7 @@ const STOPS = {
     [{ q: 'What else can drive turbines? Name two movements of the sea.', any: ['wave', 'tide', 'current'], min: 2, sol: 'Any two of: waves, tides, currents.' }]
   ],
   b5: [
-    [{ q: 'Since when has steam been important?', all: [['industrial']], sol: 'Since the Industrial Revolution.' },
-     { q: 'How is it produced?', all: [['boil']], sol: 'By boiling water.' }],
+    [{ q: 'How is steam produced?', all: [['boil']], sol: 'By boiling water.' }],
     [{ q: 'Where can the heat for the boiler come from?', any: ['different', 'many', 'various', 'several'], min: 1, sol: 'From different sources.' }]
   ],
   b6: [
@@ -708,7 +706,7 @@ function renderSchema() {
 function updateSteps() {
   const sc = SCENES[S.idx];
   document.getElementById('steps').textContent = sc
-    ? `Scene ${S.idx + 1} / ${SCENES.length} · Question ${S.sub + 1} / ${STOPS[sc.box].length}`
+    ? `Scene ${S.idx + 1} / ${SCENES.length} · Question ${qNum()} / ${qTot()}`
     : `Scene ${SCENES.length} / ${SCENES.length}`;
   document.querySelectorAll('.sbox').forEach(b => b.classList.remove('cur'));
   if (sc) document.getElementById(sc.box).classList.add('cur');
@@ -758,6 +756,7 @@ function playSentence(keepAnswers) {
   cap.classList.remove('hide');
   cap.textContent = caption;
   S.timers.push(setTimeout(() => {
+    if (!currentQs().length) { nextStop(); return; }   /* sentence without a question: go on */
     cap.classList.add('hide');
     setTimeout(() => { cap.textContent = ''; }, 300);
     stage.classList.add('paused');
@@ -778,11 +777,14 @@ function startScene() {
 }
 
 function currentQs() { return STOPS[SCENES[S.idx].box][S.sub]; }
+/* questions counted only on sentences that have a question */
+function qTot() { return STOPS[SCENES[S.idx].box].filter(x => x.length).length; }
+function qNum() { return Math.max(1, STOPS[SCENES[S.idx].box].slice(0, S.sub + 1).filter(x => x.length).length); }
 
 function renderQuestion() {
   const qs = currentQs();
   const qb = document.getElementById('qbox');
-  qb.innerHTML = `<h4>Scene ${S.idx + 1} of ${SCENES.length} · Question ${S.sub + 1} of ${STOPS[SCENES[S.idx].box].length}</h4>` + qs.map((q, i) => `
+  qb.innerHTML = `<h4>Scene ${S.idx + 1} of ${SCENES.length} · Question ${qNum()} of ${qTot()}</h4>` + qs.map((q, i) => `
     <div class="ex-item">
       <div class="prompt">${qs.length > 1 ? (i + 1) + '. ' : ''}${q.q}</div>
       <input type="text" id="sa${i}" autocomplete="off" spellcheck="false">
