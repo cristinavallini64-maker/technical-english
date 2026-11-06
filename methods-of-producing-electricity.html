@@ -484,46 +484,65 @@ const SCENES = [
 const STOPS = {
   b1: [
     [{ q: 'How many basic ways of generating electricity are there?', any: ['two', '2'], min: 1, sol: 'Two.' }],
-    [{ q: 'What are the cells called that turn sunlight straight into electric current?', all: [['photovoltaic', 'photo-voltaic', 'pv']], sol: 'Photovoltaic cells.' }]
+    [{ q: 'Which cells are used in the first method?', all: [['photovoltaic', 'photo-voltaic', 'pv']], sol: 'Photovoltaic cells.' },
+     { q: 'What are they grouped together in?', all: [['panel']], sol: 'In solar panels.' }]
   ],
   b2: [
-    [{ q: 'In the second method, electromagnets rotate and create a current. Inside which machine does this happen?', all: [['generator']], sol: 'Inside a generator.' }],
-    [{ q: 'What is needed to make the electromagnets rotate?', all: [['turbine']], sol: 'A turbine.' },
-     { q: 'Which three forces can move a turbine?', all: [['wind'], ['water'], ['steam']], sol: 'Wind, water and steam.' }]
+    [{ q: 'What is the second method based on?', all: [['electromagnet']], sol: 'On electromagnetism.' },
+     { q: 'In which machine is the current created?', all: [['generator']], sol: 'In a generator.' }],
+    [{ q: 'What makes the electromagnets rotate?', all: [['turbine']], sol: 'A turbine.' },
+     { q: 'Which three forces can move it?', all: [['wind'], ['water'], ['steam']], sol: 'Wind, water and steam.' }]
   ],
   b3: [
-    [{ q: 'For how long have people used the wind in mills?', any: ['centur', 'hundreds of years'], min: 1, sol: 'For centuries.' }],
-    [{ q: 'The wind pushes the blades. What do the blades turn?', all: [['shaft']], sol: 'A shaft connected to the generator.' }]
+    [{ q: 'For how long has the wind been used?', any: ['centur', 'hundreds of years'], min: 1, sol: 'For centuries.' },
+     { q: 'In what kind of building?', all: [['mill']], sol: 'In mills.' }],
+    [{ q: 'What does the wind push today?', all: [['blade']], sol: 'The blades of a turbine.' },
+     { q: 'What do they turn?', all: [['shaft']], sol: 'A shaft connected to the generator.' }]
   ],
   b4: [
     [{ q: 'Where were watermills built?', all: [['river']], sol: 'Next to rivers.' }],
-    [{ q: 'What do we build to increase the force of the water?', all: [['dam']], sol: 'Dams.' }],
-    [{ q: 'Name two movements of the sea that can drive turbines.', any: ['wave', 'tide', 'current'], min: 2, sol: 'Any two of: waves, tides, currents.' }]
+    [{ q: 'What do we build today?', all: [['dam']], sol: 'Dams.' },
+     { q: 'Why?', any: ['force', 'stronger', 'power', 'increase'], min: 1, sol: 'To increase the force of the water.' },
+     { q: 'What kind of power stations use this water?', all: [['hydro']], sol: 'Hydroelectric power stations.' }],
+    [{ q: 'What else can drive turbines? Name two movements of the sea.', any: ['wave', 'tide', 'current'], min: 2, sol: 'Any two of: waves, tides, currents.' }]
   ],
   b5: [
-    [{ q: 'Since when has steam been an important source of power?', all: [['industrial']], sol: 'Since the Industrial Revolution.' }],
-    [{ q: 'Where is the water heated to produce steam?', all: [['boiler']], sol: 'In the boiler.' }]
+    [{ q: 'Since when has steam been important?', all: [['industrial']], sol: 'Since the Industrial Revolution.' },
+     { q: 'How is it produced?', all: [['boil']], sol: 'By boiling water.' }],
+    [{ q: 'Where can the heat for the boiler come from?', any: ['different', 'many', 'various', 'several'], min: 1, sol: 'From different sources.' }]
   ],
   b6: [
-    [{ q: 'Name the three fossil fuels mentioned.', all: [['coal'], ['oil'], ['gas']], sol: 'Coal, oil and natural gas.' }],
-    [{ q: 'Why are they called fossil fuels?', all: [['remains', 'plant', 'animal']], sol: 'Because they come from the remains of plants and animals that lived millions of years ago.' }],
-    [{ q: 'How are fossil fuels obtained? Name one way.', any: ['mining', 'mine', 'drill'], min: 1, sol: 'By mining or drilling.' }]
+    [{ q: 'Which three fuels are mentioned?', all: [['coal'], ['oil'], ['gas']], sol: 'Coal, oil and natural gas.' },
+     { q: 'Why are they burnt?', any: ['heat', 'boil', 'hot'], min: 1, sol: 'To heat the water.' }],
+    [{ q: 'Where do fossil fuels come from?', all: [['remains', 'plant', 'animal']], sol: 'From the remains of plants and animals.' },
+     { q: 'When did these plants and animals live?', all: [['million']], sol: 'Millions of years ago.' }],
+    [{ q: 'Where are they found? Name one place.', any: ['underground', 'under the ground', 'under the sea', 'below the sea', 'sea'], min: 1, sol: 'Underground or under the sea.' },
+     { q: 'How are they obtained? Name one way.', any: ['mining', 'mine', 'drill'], min: 1, sol: 'By mining or drilling.' }]
   ],
   b7: [
-    [{ q: 'Which atoms are split in a nuclear power station? Name one.', any: ['uranium', 'plutonium'], min: 1, sol: 'Uranium or plutonium.' }],
-    [{ q: 'Where is the heat from the splitting controlled?', all: [['reactor']], sol: 'Inside the reactor.' }]
+    [{ q: 'What happens to the atoms in a nuclear power station?', any: ['split', 'divided', 'broken'], min: 1, sol: 'They are split.' },
+     { q: 'Which atoms? Name one.', any: ['uranium', 'plutonium'], min: 1, sol: 'Uranium or plutonium.' }],
+    [{ q: 'What does this process release?', all: [['heat']], sol: 'A huge quantity of heat.' },
+     { q: 'Where is it controlled?', all: [['reactor']], sol: 'Inside the reactor.' },
+     { q: 'What is it used for?', all: [['steam']], sol: 'To make steam.' }]
   ],
   b8: [
-    [{ q: 'What do the mirrors focus the sun\'s rays onto?', all: [['tank']], sol: 'Onto a tank of water.' }],
-    [{ q: 'What happens to the water in the tank?', all: [['steam', 'boil', 'heat', 'hot']], sol: 'It heats up and turns into steam.' }]
+    [{ q: 'What do solar furnaces use?', all: [['mirror']], sol: 'Mirrors.' },
+     { q: 'Where do they focus the sun\'s rays?', all: [['tank']], sol: 'Onto a tank of water.' }],
+    [{ q: 'What happens to the water?', all: [['steam', 'boil', 'heat', 'hot']], sol: 'It heats up and turns into steam.' }]
   ],
   b9: [
-    [{ q: 'Where does the wood used as biomass come from? Name one source.', any: ['agricultur', 'forest'], min: 1, sol: 'From agriculture or forestry.' }],
-    [{ q: 'What do the incinerators of some cities burn?', all: [['rubbish', 'waste', 'garbage', 'trash']], sol: 'Household rubbish and other waste.' }]
+    [{ q: 'What materials are used as biomass?', any: ['wood', 'plant'], min: 1, sol: 'Wood and other plant material.' },
+     { q: 'Where do they come from? Name one source.', any: ['agricultur', 'forest'], min: 1, sol: 'From agriculture or forestry.' }],
+    [{ q: 'What do some cities have?', all: [['incinerator']], sol: 'Incinerators.' },
+     { q: 'What do they burn?', all: [['rubbish', 'waste', 'garbage', 'trash']], sol: 'Household rubbish and other waste.' },
+     { q: 'What are they connected to?', all: [['power station', 'power plant', 'station']], sol: 'To power stations.' }]
   ],
   b10: [
-    [{ q: 'Where does the heat come from in geothermal energy?', all: [['below', 'under', 'inside', 'beneath']], sol: 'From below the Earth\'s surface.' }],
-    [{ q: 'Where do engineers send the water to heat it?', all: [['rock']], sol: 'Down deep holes, to the hot rocks.' }]
+    [{ q: 'Where does the heat come from?', all: [['below', 'under', 'inside', 'beneath', 'underground']], sol: 'From below the Earth\'s surface.' }],
+    [{ q: 'What do engineers drill?', all: [['hole']], sol: 'Deep holes.' },
+     { q: 'Where do they send the water?', all: [['rock']], sol: 'Down to the hot rocks.' },
+     { q: 'How does the water come back up?', all: [['steam']], sol: 'As steam.' }]
   ]
 };
 
