@@ -200,6 +200,11 @@
   #glossary.locked .table-scroll, #glossary.locked #glossSearch { filter: blur(7px); pointer-events: none; user-select: none; }
   #glossary.locked button,
   #textCard.locked button { pointer-events: none; opacity: .4; }
+  .excard { display: none; }
+  .excard.active { display: block; }
+  .exnav { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 14px 0; }
+  .exnav .where { font-weight: 700; color: var(--strong); font-size: 15px; }
+  .gate { font-size: 14px; color: var(--muted); }
   footer { padding: 40px 0; color: var(--muted); font-size: 14px; }
 </style>
 </head>
@@ -267,9 +272,10 @@
 
   <section id="exercises">
     <div class="sec-head"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></span><h2>Exercises</h2></div>
-    <p class="meta">Type your answers, then press <strong>Check</strong>. Wrong answers are marked in red: try again before showing the solution.</p>
+    <p class="meta">Type your answers, then press <strong>Check</strong>. Wrong answers are marked in red: try again. The solution of a sentence is shown only after you have tried it at least twice.</p>
+    <div class="exnav" id="exnavTop"></div>
 
-    <div class="card">
+    <div class="card excard">
       <h3>1. Key words</h3>
       <p class="meta">Write the English word from the text (in orange) that corresponds to each Italian word.</p>
       <div id="keyEx"></div>
@@ -280,7 +286,7 @@
         <span class="score" id="keyScore"></span>
       </div>
     </div>
-    <div class="card">
+    <div class="card excard">
       <h3>2. Label the picture</h3>
       <p class="meta">Write the name of each numbered part of the picture.</p>
       <div class="stage" id="labelPic" style="aspect-ratio:30/13;margin-top:12px"></div>
@@ -292,7 +298,7 @@
         <span class="score" id="labelScore"></span>
       </div>
     </div>
-    <div class="card">
+    <div class="card excard">
       <h3>3. Vocabulary</h3>
       <p class="meta">Write the technical term that matches each definition.</p>
       <div id="vocabEx"></div>
@@ -303,7 +309,7 @@
         <span class="score" id="vocabScore"></span>
       </div>
     </div>
-    <div class="card">
+    <div class="card excard">
       <h3>4. Complete the sentences</h3>
       <p class="meta">Complete each sentence with one technical word. The first letter is given.</p>
       <div id="gapEx"></div>
@@ -314,7 +320,7 @@
         <span class="score" id="gapScore"></span>
       </div>
     </div>
-    <div class="card">
+    <div class="card excard">
       <h3>5. Technical descriptions</h3>
       <p class="meta">Rewrite each sentence starting with the words given, without changing its meaning.</p>
       <div id="passiveEx"></div>
@@ -325,19 +331,20 @@
         <span class="score" id="passiveScore"></span>
       </div>
     </div>
-    <div class="card">
+    <div class="card excard">
       <h3>6. Translation</h3>
       <p class="meta">Translate the sentences into English, then compare your translation with the model.</p>
       <div id="transEx"></div>
     </div>
 
-    <div class="card">
+    <div class="card excard">
       <h3>7. Summary</h3>
       <p class="meta">Give a summary of the main methods of generating electricity (80–120 words). Use the diagram you completed in the scenes, then compare your summary with the model.</p>
       <textarea id="summary" style="min-height:160px" placeholder="Write your summary…"></textarea>
-      <div class="row"><button class="ghost" onclick="toggleModel('summaryModel', this)">Show model answer</button></div>
+      <div class="row"><button class="ghost" id="summaryBtn" disabled onclick="toggleModel('summaryModel', this)">Show model answer</button><span class="gate" id="summaryGate"></span></div>
       <div class="model" id="summaryModel"></div>
     </div>
+    <div class="exnav" id="exnavBottom"></div>
   </section>
 
   <section id="glossary">
@@ -895,8 +902,13 @@ function renderExercises() {
   });
 }
 
+/* wrong attempts per sentence: the solution is shown only after two attempts */
+const WRONG = {};
+const MIN_TRIES = 2;
+
 function checkEx(key) {
   let score = 0;
+  WRONG[key] = WRONG[key] || [];
   EXERCISES[key].forEach((it, i) => {
     const input = document.getElementById(key + i);
     const fb = document.getElementById(key + 'fb' + i);
@@ -910,6 +922,7 @@ function checkEx(key) {
       fb.classList.add('right');
       fb.textContent = 'Correct!';
     } else {
+      WRONG[key][i] = (WRONG[key][i] || 0) + 1;
       input.classList.add('wrong');
       fb.classList.add('wrong');
       fb.textContent = 'Not quite. Check spelling and verb form, then try again.';
@@ -919,14 +932,19 @@ function checkEx(key) {
 }
 
 function showSolutions(key) {
+  const w = WRONG[key] || [];
   EXERCISES[key].forEach((it, i) => {
+    const input = document.getElementById(key + i);
     const fb = document.getElementById(key + 'fb' + i);
+    if (input.classList.contains('right')) return;
     fb.className = 'fb';
-    fb.innerHTML = `Solution: <strong>${it.sol || it.ok[0]}</strong>`;
+    if ((w[i] || 0) >= MIN_TRIES) fb.innerHTML = `Solution: <strong>${it.sol || it.ok[0]}</strong>`;
+    else fb.textContent = (w[i] || 0) === 1 ? 'Try once more before seeing the solution.' : 'Try this one first: write an answer and press Check.';
   });
 }
 
 function resetEx(key) {
+  WRONG[key] = [];
   EXERCISES[key].forEach((it, i) => {
     const input = document.getElementById(key + i);
     input.value = '';
@@ -936,6 +954,34 @@ function resetEx(key) {
     fb.textContent = '';
   });
   document.getElementById(key + 'Score').textContent = '';
+}
+
+/* model answers: available only after writing a real attempt */
+const words = t => (t.trim().match(/[A-Za-z']+/g) || []).length;
+function gate(areaId, btnId, gateId, min) {
+  const area = document.getElementById(areaId), btn = document.getElementById(btnId), g = document.getElementById(gateId);
+  const upd = () => {
+    const n = words(area.value);
+    btn.disabled = n < min;
+    g.textContent = n < min ? `Write at least ${min} words to see the model (${n}/${min}).` : '';
+  };
+  area.addEventListener('input', upd);
+  upd();
+}
+
+/* one exercise at a time */
+let EX_CUR = 0;
+function showEx(n, scroll) {
+  const cards = [...document.querySelectorAll('#exercises .excard')];
+  EX_CUR = Math.max(0, Math.min(cards.length - 1, n));
+  cards.forEach((c, i) => c.classList.toggle('active', i === EX_CUR));
+  const nav = `
+    <button class="ghost" onclick="showEx(EX_CUR - 1, true)" ${EX_CUR === 0 ? 'disabled' : ''}>← Previous exercise</button>
+    <span class="where">Exercise ${EX_CUR + 1} of ${cards.length}</span>
+    <button onclick="showEx(EX_CUR + 1, true)" ${EX_CUR === cards.length - 1 ? 'disabled' : ''}>Next exercise →</button>`;
+  document.getElementById('exnavTop').innerHTML = nav;
+  document.getElementById('exnavBottom').innerHTML = nav;
+  if (scroll) document.getElementById('exercises').scrollIntoView({ behavior: 'smooth' });
 }
 
 function toggleModel(id, btn) {
@@ -1002,10 +1048,13 @@ document.getElementById('transEx').innerHTML = TRANS.map((t, i) => `
   <div class="ex-item">
     <div class="prompt">${i + 1}. ${t[0]}</div>
     <textarea id="tr${i}" rows="2" style="min-height:52px" placeholder="Write your translation…"></textarea>
-    <div class="row" style="margin-top:6px"><button class="ghost" onclick="toggleModel('trm${i}', this)">Show model answer</button></div>
+    <div class="row" style="margin-top:6px"><button class="ghost" id="trb${i}" disabled onclick="toggleModel('trm${i}', this)">Show model answer</button><span class="gate" id="trg${i}"></span></div>
     <div class="model" id="trm${i}">${t[1]}</div>
   </div>`).join('');
 renderGlossary();
+TRANS.forEach((t, i) => gate('tr' + i, 'trb' + i, 'trg' + i, 5));
+gate('summary', 'summaryBtn', 'summaryGate', 60);
+showEx(0);
 </script>
 </body>
 </html>
