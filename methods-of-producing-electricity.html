@@ -126,8 +126,15 @@
   .card.scenes { width: min(1180px, calc(100vw - 32px)); margin-left: calc((100% - min(1180px, calc(100vw - 32px))) / 2); }
   .sgrid { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 20px; align-items: start; }
   @media (max-width: 820px) { .sgrid { grid-template-columns: 1fr; } }
-  .stage { width: 100%; aspect-ratio: 5 / 3; border-radius: 12px; overflow: hidden; background: #cfe8ff; border: 1px solid var(--line); }
+  .stage { position: relative; width: 100%; aspect-ratio: 5 / 3; border-radius: 12px; overflow: hidden; background: #cfe8ff; border: 1px solid var(--line); }
   .stage svg { display: block; width: 100%; height: 100%; }
+  .cap {
+    position: absolute; left: 0; right: 0; bottom: 0; padding: 10px 16px;
+    background: rgba(15, 23, 42, .84); color: #fff; font-size: 18px; line-height: 1.4; font-weight: 600;
+    transition: opacity .3s;
+  }
+  .cap:empty { display: none; }
+  .cap.hide { opacity: 0; }
   .sbar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
   .sprog { flex: 1; min-width: 120px; height: 10px; border-radius: 999px; background: var(--soft); position: relative; overflow: hidden; }
   .sprog i { position: absolute; inset: 0 auto 0 0; width: 0; background: var(--c); border-radius: 999px; }
@@ -228,7 +235,7 @@
 
   <section id="scenes">
     <div class="sec-head"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="m10 9 5 3-5 3z"/></svg></span><h2>Scenes</h2></div>
-    <p class="meta">Read the question, then watch the scene. When it stops, write your answer using what you read in the text. If the answer is wrong, the scene starts again. Each correct answer completes the diagram below.</p>
+    <p class="meta">Watch each scene and read the text that appears. When the text disappears, a question appears: answer it. If the answer is wrong, the scene starts again. Each correct answer completes the diagram below.</p>
     <div class="card scenes">
       <div class="sgrid">
         <div>
@@ -241,7 +248,7 @@
           <div class="sstatus" id="sstatus">Press Start to watch the first scene.</div>
         </div>
         <div class="squest">
-          <div class="qhint">The question will appear here when you press Start.</div>
+          <div class="qhint">The question will appear here when the text disappears.</div>
           <div class="qbox" id="qbox"></div>
           <div class="done" id="sdone">Well done! The diagram is complete. Use it to write your summary in exercise 7.</div>
         </div>
@@ -603,7 +610,7 @@ function renderText() {
 }
 
 /* ---------- Scenes ---------- */
-const S = { idx: 0, tries: 0, timer: null, waiting: false, started: false };
+const S = { idx: 0, tries: 0, timers: [], waiting: false, started: false };
 const MAX_TRIES = 3;
 
 function renderSchema() {
@@ -620,22 +627,49 @@ function updateSteps() {
   if (sc) document.getElementById(sc.box).classList.add('cur');
 }
 
+/* the sentences of the text shown as subtitles in each scene */
+function sentences(html) {
+  return html.replace(/<span class="sub">.*?<\/span>\s*/, '').replace(/<[^>]+>/g, '').split(/(?<=[.!?])\s+(?=[A-Z])/);
+}
+function captionsFor(i) {
+  const p0 = sentences(TEXT[0]);
+  if (i === 0) return p0.slice(0, 2);
+  if (i === 1) return p0.slice(2);
+  return sentences(TEXT[i - 1]);
+}
+/* reading time: about 0.4 s per word, at least 3.5 s per sentence */
+const readTime = c => Math.max(3500, c.split(/\s+/).length * 400);
+
 function playScene(keepAnswers) {
   const sc = SCENES[S.idx];
+  const caps = captionsFor(S.idx);
+  const total = caps.reduce((t, c) => t + readTime(c), 0);
   const stage = document.getElementById('stage');
   stage.classList.remove('paused');
-  stage.innerHTML = `<svg viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Scene ${S.idx + 1}">${sc.svg}</svg>`;
-  /* the question is visible from the start: students know what to look for */
+  stage.innerHTML = `<svg viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Scene ${S.idx + 1}">${sc.svg}</svg><div class="cap" id="cap"></div>`;
   renderQuestion(keepAnswers);
+  document.getElementById('qbox').classList.remove('show');   /* the question appears only when the text disappears */
   lockQuestion(true);
-  document.getElementById('sstatus').textContent = 'Read the question and watch the scene. You can answer when it stops.';
+  document.getElementById('sstatus').textContent = 'Watch the scene and read the text carefully.';
   document.getElementById('playBtn').disabled = true;
   const bar = document.querySelector('#sprog i');
   bar.style.transition = 'none'; bar.style.width = '0';
   bar.offsetWidth;
-  bar.style.transition = `width ${sc.dur}s linear`; bar.style.width = '100%';
-  clearTimeout(S.timer);
-  S.timer = setTimeout(() => { stage.classList.add('paused'); showQuestion(); }, sc.dur * 1000);
+  bar.style.transition = `width ${total / 1000}s linear`; bar.style.width = '100%';
+  S.timers.forEach(clearTimeout); S.timers = [];
+  const cap = document.getElementById('cap');
+  let t = 0;
+  caps.forEach(c => {
+    S.timers.push(setTimeout(() => { cap.classList.remove('hide'); cap.textContent = c; }, t));
+    t += readTime(c);
+  });
+  S.timers.push(setTimeout(() => {
+    cap.classList.add('hide');
+    setTimeout(() => { cap.textContent = ''; }, 300);
+    stage.classList.add('paused');
+    document.getElementById('qbox').classList.add('show');
+    showQuestion();
+  }, total));
 }
 
 function startScene() {
@@ -649,7 +683,7 @@ function renderQuestion(keep) {
   const sc = SCENES[S.idx];
   const qb = document.getElementById('qbox');
   if (!keep) {
-    qb.innerHTML = `<h4>Scene ${S.idx + 1} of ${SCENES.length}</h4><div class="hint" style="font-size:14px;color:var(--muted);margin-bottom:4px">In the text: <em>${PARA[sc.box]}</em></div>` + sc.qs.map((q, i) => `
+    qb.innerHTML = `<h4>Scene ${S.idx + 1} of ${SCENES.length}</h4>` + sc.qs.map((q, i) => `
       <div class="ex-item">
         <div class="prompt">${q.q}</div>
         <input type="text" id="sa${i}" autocomplete="off" spellcheck="false">
@@ -668,7 +702,7 @@ function lockQuestion(on) {
 function showQuestion() {
   lockQuestion(false);
   S.checking = false;
-  document.getElementById('sstatus').textContent = 'The scene has stopped. Write your answer.';
+  document.getElementById('sstatus').textContent = 'The text has disappeared. Answer the question.';
   const first = document.getElementById('sa0');
   if (first) first.focus({ preventScroll: true });
 }
@@ -733,7 +767,7 @@ function checkScene() {
     document.getElementById('sstatus').textContent = 'Read the correct answer, then press Continue.';
   } else {
     const left = MAX_TRIES - S.tries;
-    document.getElementById('sstatus').textContent = `Not correct: watch the scene again and check the text (${left} ${left === 1 ? 'attempt' : 'attempts'} left).`;
+    document.getElementById('sstatus').textContent = `Not correct: watch the scene and read the text again (${left} ${left === 1 ? 'attempt' : 'attempts'} left).`;
     setTimeout(() => playScene(true), 1200);
   }
 }
