@@ -129,6 +129,9 @@
   .stage { width: 100%; aspect-ratio: 5 / 3; border-radius: 12px; overflow: hidden; background: #cfe8ff; border: 1px solid var(--line); }
   .stage svg { display: block; width: 100%; height: 100%; }
   .sbar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+  .sprog { flex: 1; min-width: 120px; height: 10px; border-radius: 999px; background: var(--soft); position: relative; overflow: hidden; }
+  .sprog i { position: absolute; inset: 0 auto 0 0; width: 0; background: var(--c); border-radius: 999px; }
+  .qbox input:disabled { opacity: .6; }
   .steps { font-size: 14px; font-weight: 700; color: var(--strong); }
   .sstatus { font-size: 15px; color: var(--muted); margin-top: 8px; }
   .qbox { display: none; padding: 16px; border-radius: 14px; background: var(--soft); }
@@ -225,19 +228,20 @@
 
   <section id="scenes">
     <div class="sec-head"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="m10 9 5 3-5 3z"/></svg></span><h2>Scenes</h2></div>
-    <p class="meta">Watch each scene. When it stops, answer the question using what you read in the text. If the answer is wrong, the scene starts again. Each correct answer completes the diagram below.</p>
+    <p class="meta">Read the question, then watch the scene. When it stops, write your answer using what you read in the text. If the answer is wrong, the scene starts again. Each correct answer completes the diagram below.</p>
     <div class="card scenes">
       <div class="sgrid">
         <div>
           <div class="stage" id="stage"></div>
           <div class="sbar">
             <button id="playBtn" onclick="startScene()">▶ Start</button>
+            <div class="sprog" id="sprog"><i></i></div>
             <span class="steps" id="steps"></span>
           </div>
           <div class="sstatus" id="sstatus">Press Start to watch the first scene.</div>
         </div>
         <div class="squest">
-          <div class="qhint">The question will appear here when the scene stops.</div>
+          <div class="qhint">The question will appear here when you press Start.</div>
           <div class="qbox" id="qbox"></div>
           <div class="done" id="sdone">Well done! The diagram is complete. Use it to write your summary in exercise 7.</div>
         </div>
@@ -621,11 +625,17 @@ function playScene(keepAnswers) {
   const stage = document.getElementById('stage');
   stage.classList.remove('paused');
   stage.innerHTML = `<svg viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Scene ${S.idx + 1}">${sc.svg}</svg>`;
-  document.getElementById('qbox').classList.remove('show');
-  document.getElementById('sstatus').textContent = 'Watch the scene…';
+  /* the question is visible from the start: students know what to look for */
+  renderQuestion(keepAnswers);
+  lockQuestion(true);
+  document.getElementById('sstatus').textContent = 'Read the question and watch the scene. You can answer when it stops.';
   document.getElementById('playBtn').disabled = true;
+  const bar = document.querySelector('#sprog i');
+  bar.style.transition = 'none'; bar.style.width = '0';
+  bar.offsetWidth;
+  bar.style.transition = `width ${sc.dur}s linear`; bar.style.width = '100%';
   clearTimeout(S.timer);
-  S.timer = setTimeout(() => { stage.classList.add('paused'); showQuestion(keepAnswers); }, sc.dur * 1000);
+  S.timer = setTimeout(() => { stage.classList.add('paused'); showQuestion(); }, sc.dur * 1000);
 }
 
 function startScene() {
@@ -633,11 +643,13 @@ function startScene() {
   playScene(false);
 }
 
-function showQuestion(keep) {
+const PARA = { b1: 'first paragraph', b2: 'first paragraph', b3: 'Wind', b4: 'Water', b5: 'Steam', b6: 'Fossil fuels', b7: 'Nuclear fission', b8: 'Solar furnaces', b9: 'Biomass', b10: 'Geothermal energy' };
+
+function renderQuestion(keep) {
   const sc = SCENES[S.idx];
   const qb = document.getElementById('qbox');
   if (!keep) {
-    qb.innerHTML = `<h4>Scene ${S.idx + 1} of ${SCENES.length}</h4>` + sc.qs.map((q, i) => `
+    qb.innerHTML = `<h4>Scene ${S.idx + 1} of ${SCENES.length}</h4><div class="hint" style="font-size:14px;color:var(--muted);margin-bottom:4px">In the text: <em>${PARA[sc.box]}</em></div>` + sc.qs.map((q, i) => `
       <div class="ex-item">
         <div class="prompt">${q.q}</div>
         <input type="text" id="sa${i}" autocomplete="off" spellcheck="false">
@@ -646,8 +658,17 @@ function showQuestion(keep) {
     qb.onkeydown = e => { if (e.key === 'Enter' && e.target.tagName === 'INPUT') { e.preventDefault(); checkScene(); } };
   }
   qb.classList.add('show');
-  S.waiting = true; S.checking = false;
-  document.getElementById('sstatus').textContent = 'The scene has stopped. Answer the question.';
+}
+
+function lockQuestion(on) {
+  document.querySelectorAll('#qbox input, #qbox button').forEach(el => { el.disabled = on; });
+  S.waiting = !on;
+}
+
+function showQuestion() {
+  lockQuestion(false);
+  S.checking = false;
+  document.getElementById('sstatus').textContent = 'The scene has stopped. Write your answer.';
   const first = document.getElementById('sa0');
   if (first) first.focus({ preventScroll: true });
 }
