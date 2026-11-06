@@ -193,6 +193,13 @@
   .wave { animation: wave 2s linear infinite; }
   .stage.paused * { animation-play-state: paused !important; }
 
+  .locknote { display: none; margin: 4px 0 10px; padding: 10px 14px; border-radius: 10px; background: var(--soft); color: var(--strong); font-weight: 700; font-size: 15px; }
+  #textCard.locked .locknote { display: block; }
+  #textCard.locked .text-body { filter: blur(7px); user-select: none; pointer-events: none; }
+  #glossary.locked .locknote { display: block; }
+  #glossary.locked .table-scroll, #glossary.locked #glossSearch { filter: blur(7px); pointer-events: none; user-select: none; }
+  #glossary.locked button,
+  #textCard.locked button { pointer-events: none; opacity: .4; }
   footer { padding: 40px 0; color: var(--muted); font-size: 14px; }
 </style>
 </head>
@@ -208,30 +215,20 @@
     <div class="badges">
       <span class="badge">Energy</span>
     </div>
-    <p class="lead">A text on the main ways of generating electricity, an animation that stops with a question after each scene, online exercises with instant feedback and a glossary. The text and the glossary can be downloaded.</p>
+    <p class="lead">An animation in scenes with the text as subtitles and a question after each scene, the complete text, online exercises with instant feedback and a glossary. The text and the glossary can be downloaded.</p>
   </div>
 </header>
 
 <nav class="toc">
   <div class="wrap">
-    <a href="#text"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 4h7a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H2zM22 4h-7a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h8z"/></svg>Text</a>
     <a href="#scenes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="m10 9 5 3-5 3z"/></svg>Scenes</a>
+    <a href="#text"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 4h7a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H2zM22 4h-7a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h8z"/></svg>Text</a>
     <a href="#exercises"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>Exercises</a>
     <a href="#glossary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"/><path d="M8 7h8M8 11h6"/></svg>Glossary</a>
   </div>
 </nav>
 
 <main class="wrap">
-
-  <section id="text">
-    <div class="sec-head"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 4h7a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H2zM22 4h-7a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h8z"/></svg></span><h2>Text</h2></div>
-    <p class="meta">Read the text carefully: you will need it to answer the questions in the scenes.</p>
-    <article class="card">
-      <h3>Methods of producing electricity</h3>
-      <div class="text-body" id="textBody"></div>
-      <div class="row"><button class="ghost" onclick="downloadText()">Download text (Word)</button></div>
-    </article>
-  </section>
 
   <section id="scenes">
     <div class="sec-head"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="m10 9 5 3-5 3z"/></svg></span><h2>Scenes</h2></div>
@@ -255,6 +252,17 @@
       </div>
       <div class="schema" id="schema"></div>
     </div>
+  </section>
+
+  <section id="text">
+    <div class="sec-head"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 4h7a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H2zM22 4h-7a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h8z"/></svg></span><h2>Text</h2></div>
+    <p class="meta">Here is the complete text of the scenes. It is hidden while you are doing the scenes and becomes available again when you finish.</p>
+    <article class="card" id="textCard">
+      <div class="locknote">The text is hidden while you are doing the scenes. Finish the scenes to read it.</div>
+      <h3>Methods of producing electricity</h3>
+      <div class="text-body" id="textBody"></div>
+      <div class="row"><button class="ghost" onclick="downloadText()">Download text (Word)</button></div>
+    </article>
   </section>
 
   <section id="exercises">
@@ -334,6 +342,7 @@
 
   <section id="glossary">
     <div class="sec-head"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"/><path d="M8 7h8M8 11h6"/></svg></span><h2>Glossary</h2></div>
+    <div class="locknote">The glossary is hidden while you are doing the scenes.</div>
     <input type="text" id="glossSearch" placeholder="Search a term in English or Italian…" oninput="renderGlossary()">
     <div class="table-scroll">
       <table>
@@ -672,7 +681,13 @@ function playScene(keepAnswers) {
   }, total));
 }
 
+function lockText(on) {
+  document.getElementById('textCard').classList.toggle('locked', on);
+  document.getElementById('glossary').classList.toggle('locked', on);
+}
+
 function startScene() {
+  lockText(true);
   if (!S.started) { S.started = true; document.getElementById('playBtn').textContent = '▶ Playing'; }
   playScene(false);
 }
@@ -779,6 +794,7 @@ function nextScene() {
     document.querySelectorAll('.sbox').forEach(b => b.classList.remove('cur'));
     document.getElementById('steps').textContent = `Scene ${SCENES.length} / ${SCENES.length}`;
     document.getElementById('sdone').classList.add('show');
+    lockText(false);
     document.getElementById('sstatus').textContent = '';
     document.getElementById('playBtn').textContent = '↺ Start again';
     document.getElementById('playBtn').disabled = false;
@@ -790,6 +806,7 @@ function nextScene() {
 }
 
 function restartScenes() {
+  lockText(true);
   S.idx = 0; S.tries = 0;
   renderSchema(); updateSteps();
   document.getElementById('sdone').classList.remove('show');
