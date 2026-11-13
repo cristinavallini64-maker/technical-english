@@ -266,6 +266,11 @@
   <section id="text">
     <div class="sec-head"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 4h7a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H2zM22 4h-7a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h8z"/></svg></span><h2>Text</h2></div>
     <p class="meta">Here is the complete text of the scenes. It is hidden while you are doing the scenes and becomes available again when you finish.</p>
+    <div class="card" id="schemaCard" style="display:none">
+      <h3>Your diagram</h3>
+      <p class="meta">The diagram you completed in the scenes.</p>
+      <div class="schema" id="schemaCopy"></div>
+    </div>
     <article class="card" id="textCard">
       <div class="locknote">The text is hidden while you are doing the scenes. Finish the scenes to read it.</div>
       <h3>Methods of producing electricity</h3>
@@ -693,7 +698,7 @@ function renderText() {
 }
 
 /* ---------- Scenes ---------- */
-const S = { idx: 0, sub: 0, tries: 0, timers: [], started: false, checking: false };
+const S = { idx: 0, sub: 0, tries: 0, timers: [], started: false, checking: false, completed: false };
 const MAX_TRIES = 3;
 
 function renderSchema() {
@@ -701,6 +706,17 @@ function renderSchema() {
     <div class="scol"><h4>${col.title}</h4>
       ${col.boxes.map(b => `<div class="sbox" id="${b}">?</div>`).join('')}
     </div>`).join('');
+}
+
+/* once the scenes are finished, the diagram is also shown above the text */
+function syncSchemaCopy() {
+  const card = document.getElementById('schemaCard');
+  card.style.display = S.completed ? '' : 'none';
+  if (!S.completed) return;
+  const copy = document.getElementById('schema').cloneNode(true);
+  copy.querySelectorAll('[id]').forEach(el => el.removeAttribute('id'));
+  copy.querySelectorAll('.cur').forEach(el => el.classList.remove('cur'));
+  document.getElementById('schemaCopy').innerHTML = copy.innerHTML;
 }
 
 function updateSteps() {
@@ -766,6 +782,7 @@ function playSentence(keepAnswers) {
 }
 
 function lockText(on) {
+  if (S.completed) on = false;
   document.getElementById('textCard').classList.toggle('locked', on);
   document.getElementById('glossary').classList.toggle('locked', on);
 }
@@ -774,6 +791,7 @@ function startScene() {
   lockText(true);
   if (!S.started) { S.started = true; document.getElementById('playBtn').textContent = '▶ Playing'; }
   playScene();
+  saveProgress();
 }
 
 function currentQs() { return STOPS[SCENES[S.idx].box][S.sub]; }
@@ -873,10 +891,95 @@ function nextStop() {
     S.sub++;
     updateSteps();
     playSentence(false);
+    saveProgress();
     return;
   }
   fillBox();
   nextScene();
+  saveProgress();
+}
+
+/* go on from the sentence where the student stopped (after leaving the page) */
+function resumeScene() {
+  lockText(true);
+  S.started = true;
+  const pb = document.getElementById('playBtn');
+  pb.textContent = '▶ Playing'; pb.onclick = startScene;
+  const sc = SCENES[S.idx];
+  S.tries = 0;
+  document.getElementById('stage').classList.remove('paused');
+  document.getElementById('stage').innerHTML = `<svg viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Scene ${S.idx + 1}">${sc.svg}</svg><div class="cap" id="cap"></div>`;
+  updateSteps();
+  playSentence(false);
+}
+
+/* ---------- Progress saved on the tablet ---------- */
+const SAVE_KEY = 'mope-progress-v1';
+let RESTORING = false;
+function saveProgress() {
+  if (RESTORING) return;
+  const fields = {}, fbs = {}, scores = {};
+  document.querySelectorAll('#exercises input, #exercises textarea').forEach(el => {
+    if (el.id) fields[el.id] = { v: el.value, c: el.classList.contains('right') ? 'right' : el.classList.contains('wrong') ? 'wrong' : '' };
+  });
+  document.querySelectorAll('#exercises .fb').forEach(el => { if (el.id) fbs[el.id] = { c: el.className, h: el.innerHTML }; });
+  document.querySelectorAll('#exercises .score').forEach(el => { scores[el.id] = el.textContent; });
+  const data = {
+    scenes: { idx: S.idx, sub: S.sub, started: S.started, done: S.idx >= SCENES.length, completed: S.completed },
+    step: STEP, fields, fbs, scores, wrong: WRONG
+  };
+  try { localStorage.setItem(SAVE_KEY, JSON.stringify(data)); } catch (e) {}
+}
+function clearProgress() { try { localStorage.removeItem(SAVE_KEY); } catch (e) {} }
+
+function restoreProgress() {
+  let data;
+  try { data = JSON.parse(localStorage.getItem(SAVE_KEY) || 'null'); } catch (e) { data = null; }
+  if (!data) return 0;
+  RESTORING = true;
+  /* exercises */
+  Object.entries(data.fields || {}).forEach(([id, f]) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.value = f.v;
+    if (f.c) el.classList.add(f.c);
+    el.dispatchEvent(new Event('input'));
+  });
+  Object.entries(data.fbs || {}).forEach(([id, f]) => { const el = document.getElementById(id); if (el) { el.className = f.c; el.innerHTML = f.h; } });
+  Object.entries(data.scores || {}).forEach(([id, t]) => { const el = document.getElementById(id); if (el) el.textContent = t; });
+  Object.assign(WRONG, data.wrong || {});
+  /* scenes: the boxes already completed stay completed */
+  const sc = data.scenes || {};
+  if (sc.completed || sc.done) {
+    S.completed = true;
+    SCENES.forEach((s, i) => { S.idx = i; fillBox(); });
+    syncSchemaCopy();
+  }
+  const idx = Math.max(0, Math.min(SCENES.length, sc.idx || 0));
+  for (let i = 0; i < idx; i++) { S.idx = i; fillBox(); }
+  S.idx = idx;
+  S.sub = sc.sub || 0;
+  const pb = document.getElementById('playBtn');
+  if (sc.done || idx >= SCENES.length) {
+    S.started = true;
+    updateSteps();
+    document.getElementById('sdone').classList.add('show');
+    lockText(false);
+    document.getElementById('sstatus').textContent = '';
+    pb.textContent = '↺ Watch again'; pb.onclick = restartScenes;
+  } else if (sc.started) {
+    if (S.sub >= STOPS[SCENES[S.idx].box].length) S.sub = 0;
+    updateSteps();
+    lockText(true);
+    pb.textContent = '▶ Continue'; pb.onclick = resumeScene;
+    document.getElementById('sstatus').textContent = 'Your work has been saved. Press Continue to go on from where you stopped.';
+    document.getElementById('stage').innerHTML = `<svg viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">${SCENES[S.idx].svg}</svg>`;
+    document.getElementById('stage').classList.add('paused');
+  } else {
+    S.idx = 0; S.sub = 0; updateSteps();
+  }
+  RESTORING = false;
+  return data.step || 0;
 }
 
 function nextScene() {
@@ -885,10 +988,12 @@ function nextScene() {
   if (S.idx >= SCENES.length) {
     clearTimers();
     updateSteps();
+    S.completed = true;
+    syncSchemaCopy();
     document.getElementById('sdone').classList.add('show');
     lockText(false);
     document.getElementById('sstatus').textContent = '';
-    document.getElementById('playBtn').textContent = '↺ Start again';
+    document.getElementById('playBtn').textContent = '↺ Watch again';
     document.getElementById('playBtn').disabled = false;
     document.getElementById('playBtn').onclick = restartScenes;
     return;
@@ -896,13 +1001,15 @@ function nextScene() {
   playScene();
 }
 
+/* watch the scenes again: the completed diagram and the text stay available */
 function restartScenes() {
-  lockText(true);
   S.idx = 0;
-  renderSchema();
+  if (!S.completed) { lockText(true); renderSchema(); }
   document.getElementById('sdone').classList.remove('show');
   document.getElementById('playBtn').onclick = startScene;
+  document.getElementById('playBtn').textContent = '▶ Playing';
   playScene();
+  saveProgress();
 }
 
 function drawCover() {
@@ -997,7 +1104,8 @@ function gate(areaId, btnId, gateId, min) {
 function restartAll() {
   if (!confirmRestart()) return;
   clearTimers();
-  Object.assign(S, { idx: 0, sub: 0, tries: 0, started: false, checking: false });
+  Object.assign(S, { idx: 0, sub: 0, tries: 0, started: false, checking: false, completed: false });
+  syncSchemaCopy();
   renderSchema(); updateSteps(); drawCover(); lockText(false);
   document.getElementById('qbox').classList.remove('show');
   document.getElementById('sdone').classList.remove('show');
@@ -1009,6 +1117,7 @@ function restartAll() {
   document.querySelectorAll('#transEx textarea, #summary').forEach(t => { t.value = ''; t.dispatchEvent(new Event('input')); });
   document.querySelectorAll('.model.show').forEach(m => m.classList.remove('show'));
   document.querySelectorAll('.model').forEach(m => { const btn = m.previousElementSibling && m.previousElementSibling.querySelector('button'); if (btn) btn.textContent = 'Show model answer'; });
+  clearProgress();
   goStep(0);
 }
 /* a small in-page confirmation (no browser pop-up) */
@@ -1030,9 +1139,13 @@ function steps() {
   return list;
 }
 function stepOf(sec) { return steps().findIndex(st => st.sec === sec); }
-function goStep(n) {
+/* the tablet's Back button goes to the previous activity instead of leaving the page */
+function goStep(n, fromHistory) {
   const list = steps();
+  const old = STEP;
   STEP = Math.max(0, Math.min(list.length - 1, n));
+  if (!fromHistory && STEP !== old) { try { history.pushState({ step: STEP }, ''); } catch (e) {} }
+  saveProgress();
   const cur = list[STEP];
   document.querySelectorAll('main > section').forEach(sec => sec.classList.toggle('on', sec.id === cur.sec));
   document.querySelectorAll('#exercises .excard').forEach((c, i) => c.classList.toggle('active', i === cur.card));
@@ -1117,7 +1230,15 @@ document.getElementById('transEx').innerHTML = TRANS.map((t, i) => `
 renderGlossary();
 TRANS.forEach((t, i) => gate('tr' + i, 'trb' + i, 'trg' + i, 5));
 gate('summary', 'summaryBtn', 'summaryGate', 60);
-goStep(0);
+const savedStep = restoreProgress();
+STEP = -1;
+goStep(savedStep, true);
+try { history.replaceState({ step: STEP }, ''); } catch (e) {}
+window.addEventListener('popstate', e => { if (e.state && typeof e.state.step === 'number') goStep(e.state.step, true); });
+/* save every answer as it is typed, checked or reset */
+document.getElementById('exercises').addEventListener('input', saveProgress);
+document.getElementById('exercises').addEventListener('click', e => { if (e.target.tagName === 'BUTTON') setTimeout(saveProgress, 0); });
+window.addEventListener('pagehide', saveProgress);
 </script>
 </body>
 </html>
