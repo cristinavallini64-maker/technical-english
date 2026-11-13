@@ -266,11 +266,6 @@
   <section id="text">
     <div class="sec-head"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 4h7a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H2zM22 4h-7a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h8z"/></svg></span><h2>Text</h2></div>
     <p class="meta">Here is the complete text of the scenes. It is hidden while you are doing the scenes and becomes available again when you finish.</p>
-    <div class="card" id="schemaCard" style="display:none">
-      <h3>Your diagram</h3>
-      <p class="meta">The diagram you completed in the scenes.</p>
-      <div class="schema" id="schemaCopy"></div>
-    </div>
     <article class="card" id="textCard">
       <div class="locknote">The text is hidden while you are doing the scenes. Finish the scenes to read it.</div>
       <h3>Methods of producing electricity</h3>
@@ -708,17 +703,6 @@ function renderSchema() {
     </div>`).join('');
 }
 
-/* once the scenes are finished, the diagram is also shown above the text */
-function syncSchemaCopy() {
-  const card = document.getElementById('schemaCard');
-  card.style.display = S.completed ? '' : 'none';
-  if (!S.completed) return;
-  const copy = document.getElementById('schema').cloneNode(true);
-  copy.querySelectorAll('[id]').forEach(el => el.removeAttribute('id'));
-  copy.querySelectorAll('.cur').forEach(el => el.classList.remove('cur'));
-  document.getElementById('schemaCopy').innerHTML = copy.innerHTML;
-}
-
 function updateSteps() {
   const sc = SCENES[S.idx];
   document.getElementById('steps').textContent = sc
@@ -953,7 +937,6 @@ function restoreProgress() {
   if (sc.completed || sc.done) {
     S.completed = true;
     SCENES.forEach((s, i) => { S.idx = i; fillBox(); });
-    syncSchemaCopy();
   }
   const idx = Math.max(0, Math.min(SCENES.length, sc.idx || 0));
   for (let i = 0; i < idx; i++) { S.idx = i; fillBox(); }
@@ -989,7 +972,6 @@ function nextScene() {
     clearTimers();
     updateSteps();
     S.completed = true;
-    syncSchemaCopy();
     document.getElementById('sdone').classList.add('show');
     lockText(false);
     document.getElementById('sstatus').textContent = '';
@@ -1105,7 +1087,6 @@ function restartAll() {
   if (!confirmRestart()) return;
   clearTimers();
   Object.assign(S, { idx: 0, sub: 0, tries: 0, started: false, checking: false, completed: false });
-  syncSchemaCopy();
   renderSchema(); updateSteps(); drawCover(); lockText(false);
   document.getElementById('qbox').classList.remove('show');
   document.getElementById('sdone').classList.remove('show');
