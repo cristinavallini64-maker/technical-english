@@ -232,6 +232,8 @@
   .fc-ctrl { display: flex; gap: 8px; }
   .fc-ctrl button { flex: 1; }
   .fc-ctrl .fc-flip { flex: 2; }
+  .fc-say { position: absolute; top: 12px; right: 12px; width: 44px; height: 44px; padding: 0; border-radius: 50%; font-size: 20px; line-height: 1; display: grid; place-items: center; }
+  .fc-say.on { background: var(--strong); }
   .fc-done { display: none; text-align: center; padding: 24px 0; }
 </style>
 </head>
@@ -398,8 +400,8 @@
         <div class="fc-dots" id="fcDots"></div>
         <div class="fc-scene" onclick="fcFlip()">
           <div class="fc-card" id="fcCard">
-            <div class="fc-face"><div class="fc-tag">Question · answer aloud</div><div class="fc-q" id="fcQ"></div><div class="fc-hint">↻ tap the card to see the model answer</div></div>
-            <div class="fc-face fc-back"><div class="fc-tag">Model answer</div><div class="fc-a" id="fcA"></div></div>
+            <div class="fc-face"><button type="button" class="fc-say" id="fcSayQ" title="Listen" onclick="event.stopPropagation(); fcSay('q')">🔊</button><div class="fc-tag">Question · answer aloud</div><div class="fc-q" id="fcQ"></div><div class="fc-hint">↻ tap the card to see the model answer</div></div>
+            <div class="fc-face fc-back"><button type="button" class="fc-say" id="fcSayA" title="Listen" onclick="event.stopPropagation(); fcSay('a')">🔊</button><div class="fc-tag">Model answer</div><div class="fc-a" id="fcA"></div></div>
           </div>
         </div>
         <div class="fc-ctrl">
@@ -1290,7 +1292,27 @@ const FC_CARDS = [
   { q: 'Think of your school lab. Which hazards can you find there?', a: 'For example, <strong>electrical hazards</strong>, such as cables on the floor and sockets with many plugs; <strong>chemical hazards</strong>, such as the vapours from soldering; and <strong>ergonomic hazards</strong>, because we sit at the bench for a long time.' }
 ];
 let fcCur = 0, fcSeen = {};
+function fcVoice() {
+  const v = speechSynthesis.getVoices();
+  const en = v.filter(x => /^en[-_]/i.test(x.lang));
+  const gb = en.filter(x => /GB/i.test(x.lang));
+  const good = x => /google|natural|online|enhanced|premium/i.test(x.name);
+  return gb.find(good) || gb[0] || en.find(good) || en[0] || null;
+}
+function fcSay(side) {
+  if (!('speechSynthesis' in window)) return;
+  const btn = document.querySelector(side === 'q' ? '#fcSayQ' : '#fcSayA');
+  if (speechSynthesis.speaking) { speechSynthesis.cancel(); document.querySelectorAll('.fc-say').forEach(b => b.classList.remove('on')); return; }
+  const d = document.createElement('div'); d.innerHTML = FC_CARDS[fcCur][side];
+  const u = new SpeechSynthesisUtterance(d.textContent.replace(/^T\d\.\d\s*·\s*/, ''));
+  const v = fcVoice(); if (v) u.voice = v; u.lang = v ? v.lang : 'en-GB'; u.rate = 0.9;
+  u.onend = u.onerror = () => btn.classList.remove('on');
+  btn.classList.add('on'); speechSynthesis.speak(u);
+}
+if ('speechSynthesis' in window) { speechSynthesis.getVoices(); speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices(); }
+else document.querySelectorAll('.fc-say').forEach(b => b.style.display = 'none');
 function fcRender() {
+  if ('speechSynthesis' in window) { speechSynthesis.cancel(); document.querySelectorAll('.fc-say').forEach(b => b.classList.remove('on')); }
   const c = FC_CARDS[fcCur];
   document.getElementById('fcQ').innerHTML = c.q;
   document.getElementById('fcA').innerHTML = c.a;
