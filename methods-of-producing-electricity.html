@@ -209,6 +209,30 @@
   .exnav .where { font-weight: 700; color: var(--strong); font-size: 15px; }
   .gate { font-size: 14px; color: var(--muted); }
   footer { padding: 40px 0; color: var(--muted); font-size: 14px; }
+
+  /* flashcards */
+  .fc-wrap { max-width: 600px; margin: 18px auto 0; }
+  .fc-info { display: flex; justify-content: space-between; font-size: 14px; color: var(--muted); margin-bottom: 6px; }
+  .fc-bar { height: 4px; background: var(--line); border-radius: 2px; overflow: hidden; margin-bottom: 12px; }
+  .fc-fill { height: 100%; width: 0; background: var(--c); transition: width .4s ease; }
+  .fc-dots { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; margin-bottom: 14px; }
+  .fc-dots button { width: 32px; height: 32px; padding: 0; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); color: var(--muted); font-size: 13px; font-weight: 600; }
+  .fc-dots button.seen { border-color: var(--c); color: var(--strong); }
+  .fc-dots button.active { background: var(--c); border-color: transparent; color: #fff; font-weight: 700; }
+  .fc-scene { height: 300px; perspective: 1200px; cursor: pointer; margin-bottom: 14px; }
+  .fc-card { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform .5s cubic-bezier(.4,0,.2,1); }
+  .fc-card.flipped { transform: rotateY(180deg); }
+  .fc-face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 16px; border: 1px solid var(--line); background: var(--surface); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; }
+  .fc-back { transform: rotateY(180deg); background: var(--soft); }
+  .fc-tag { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--strong); margin-bottom: 12px; }
+  .fc-q { font-family: 'Fraunces', Georgia, serif; font-size: 21px; line-height: 1.4; }
+  .fc-a { font-size: 17px; line-height: 1.6; }
+  .fc-a strong { color: var(--strong); }
+  .fc-hint { font-size: 13px; color: var(--muted); margin-top: 14px; }
+  .fc-ctrl { display: flex; gap: 8px; }
+  .fc-ctrl button { flex: 1; }
+  .fc-ctrl .fc-flip { flex: 2; }
+  .fc-done { display: none; text-align: center; padding: 24px 0; }
 </style>
 </head>
 <body>
@@ -223,7 +247,7 @@
     <div class="badges">
       <span class="badge">Energy</span>
     </div>
-    <p class="lead">An animation in scenes with the text as subtitles and questions after each sentence, the complete text, online exercises with instant feedback and a glossary. The text and the glossary can be downloaded.</p>
+    <p class="lead">An animation in scenes with the text as subtitles and questions after each sentence, the complete text, online exercises with instant feedback, flashcards and a glossary. The text and the glossary can be downloaded.</p>
   </div>
 </header>
 
@@ -232,6 +256,7 @@
     <a href="#scenes" data-sec="scenes" onclick="event.preventDefault(); goStep(stepOf('scenes'))"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="m10 9 5 3-5 3z"/></svg>Scenes</a>
     <a href="#text" data-sec="text" onclick="event.preventDefault(); goStep(stepOf('text'))"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 4h7a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H2zM22 4h-7a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h8z"/></svg>Text</a>
     <a href="#exercises" data-sec="exercises" onclick="event.preventDefault(); goStep(stepOf('exercises'))"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>Exercises</a>
+    <a href="#flashcards" data-sec="flashcards" onclick="event.preventDefault(); goStep(stepOf('flashcards'))"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="14" height="14" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/></svg>Flashcards</a>
     <a href="#glossary" data-sec="glossary" onclick="event.preventDefault(); goStep(stepOf('glossary'))"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"/><path d="M8 7h8M8 11h6"/></svg>Glossary</a>
   </div>
 </nav>
@@ -346,6 +371,34 @@
       <textarea id="summary" style="min-height:160px" placeholder="Write your summary…"></textarea>
       <div class="row"><button class="ghost" id="summaryBtn" disabled onclick="toggleModel('summaryModel', this)">Show model answer</button><span class="gate" id="summaryGate"></span></div>
       <div class="model" id="summaryModel"></div>
+    </div>
+  </section>
+
+  <section id="flashcards">
+    <div class="sec-head"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="14" height="14" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/></svg></span><h2>Flashcards</h2></div>
+    <p class="meta">Answer each question aloud, in English. Then turn the card and compare your answer with the model answer.</p>
+    <div class="fc-wrap">
+      <div id="fcMain">
+        <div class="fc-info"><span id="fcCount"></span><span id="fcPct"></span></div>
+        <div class="fc-bar"><div class="fc-fill" id="fcFill"></div></div>
+        <div class="fc-dots" id="fcDots"></div>
+        <div class="fc-scene" onclick="fcFlip()">
+          <div class="fc-card" id="fcCard">
+            <div class="fc-face"><div class="fc-tag">Question · answer aloud</div><div class="fc-q" id="fcQ"></div><div class="fc-hint">↻ tap the card to see the model answer</div></div>
+            <div class="fc-face fc-back"><div class="fc-tag">Model answer</div><div class="fc-a" id="fcA"></div></div>
+          </div>
+        </div>
+        <div class="fc-ctrl">
+          <button class="ghost" id="fcPrev" onclick="fcGo(-1)">← Back</button>
+          <button class="ghost fc-flip" onclick="fcFlip()">Turn the card</button>
+          <button id="fcNext" onclick="fcGo(1)">Next →</button>
+        </div>
+      </div>
+      <div class="fc-done" id="fcDone">
+        <h3>All done!</h3>
+        <p class="meta">You have answered all the questions. Go back to the cards you found difficult and try again.</p>
+        <div class="row" style="justify-content:center"><button onclick="fcRestart()">↺ Start again</button></div>
+      </div>
     </div>
   </section>
 
@@ -1116,6 +1169,7 @@ let STEP = 0;
 function steps() {
   const list = [{ sec: 'scenes', name: 'Scenes' }, { sec: 'text', name: 'Text' }];
   document.querySelectorAll('#exercises .excard').forEach((c, i) => list.push({ sec: 'exercises', card: i, name: 'Exercise ' + (i + 1) }));
+  list.push({ sec: 'flashcards', name: 'Flashcards' });
   list.push({ sec: 'glossary', name: 'Glossary' });
   return list;
 }
@@ -1260,6 +1314,82 @@ window.addEventListener('pagehide', saveProgress);
   document.addEventListener("contextmenu",e=>{if(!anyField(e.target)&&!(e.target.closest&&e.target.closest(FREE)))e.preventDefault();},true);
   document.addEventListener("selectstart",e=>{const t=e.target.nodeType===1?e.target:e.target.parentElement;if(t&&!anyField(t)&&!t.closest(FREE))e.preventDefault();},true);
 })();
+</script>
+<script>
+/* ---------- Flashcards ---------- */
+const FC_CARDS = [
+ {
+  "q": "What are the two basic ways to generate electricity?",
+  "a": "The first is <strong>direct</strong>: <strong>photovoltaic cells</strong> in solar panels turn sunlight into current. The second is based on <strong>electromagnetism</strong>: in a <strong>generator</strong>, rotating electromagnets create a current."
+ },
+ {
+  "q": "What makes the electromagnets in a generator rotate? What can move it?",
+  "a": "A <strong>turbine</strong>. Turbines can be moved by <strong>wind, water or steam</strong>."
+ },
+ {
+  "q": "How is the wind used to generate electricity?",
+  "a": "The wind <strong>pushes the blades of a turbine</strong>, and the blades <strong>turn a shaft connected to the generator</strong>. In the past the wind was used in mills."
+ },
+ {
+  "q": "How can water be used to generate electricity?",
+  "a": "We build <strong>dams</strong> to increase the force of the water, which turns the turbines of <strong>hydroelectric power stations</strong>. The movement of the sea, <strong>waves, tides and currents</strong>, can also drive turbines."
+ },
+ {
+  "q": "How is steam produced? Where can the heat come from?",
+  "a": "Steam is produced by <strong>boiling water</strong>. The heat can come from <strong>fossil fuels, nuclear fission, solar furnaces, biomass</strong> or <strong>geothermal energy</strong>."
+ },
+ {
+  "q": "What are fossil fuels and why are they called \"fossil\"?",
+  "a": "They are <strong>coal, oil and natural gas</strong>. They are called fossil fuels because they come from the <strong>remains of plants and animals</strong> that lived <strong>millions of years ago</strong>."
+ },
+ {
+  "q": "Where are fossil fuels found and how are they obtained?",
+  "a": "They are found <strong>underground or under the sea</strong>, and they are obtained by <strong>mining or drilling</strong>."
+ },
+ {
+  "q": "How does a nuclear power station produce heat?",
+  "a": "Atoms of <strong>uranium or plutonium are split</strong>. The splitting releases a <strong>huge quantity of heat</strong>, which is controlled inside the <strong>reactor</strong> and used to make steam."
+ },
+ {
+  "q": "How does a solar furnace work?",
+  "a": "Many <strong>mirrors focus the sun's rays onto a tank of water</strong>. The water heats up and <strong>turns into steam</strong>."
+ },
+ {
+  "q": "What is biomass and how is it used to produce electricity?",
+  "a": "Biomass is <strong>wood and other plant material</strong> from agriculture or forestry, which is <strong>burnt to produce steam</strong>. Some cities also have <strong>incinerators</strong> that burn rubbish and are connected to power stations."
+ },
+ {
+  "q": "What is geothermal energy and how is it used?",
+  "a": "It is the <strong>heat from below the Earth's surface</strong>. Engineers <strong>drill deep holes and send water down to the hot rocks</strong>, and the water comes back up <strong>as steam</strong>."
+ },
+ {
+  "q": "Which methods of producing steam are renewable, and which are not? Why?",
+  "a": "<strong>Solar furnaces, biomass and geothermal energy</strong> use renewable sources. <strong>Fossil fuels and nuclear fuels</strong> are not renewable, because <strong>once they are used they cannot be replaced</strong>."
+ }
+];
+let fcCur = 0, fcSeen = {};
+function fcRender() {
+  const c = FC_CARDS[fcCur];
+  document.getElementById('fcQ').innerHTML = c.q;
+  document.getElementById('fcA').innerHTML = c.a;
+  document.getElementById('fcCard').classList.remove('flipped');
+  fcSeen[fcCur] = true;
+  const pct = Math.round(Object.keys(fcSeen).length / FC_CARDS.length * 100);
+  document.getElementById('fcCount').textContent = 'Card ' + (fcCur + 1) + ' of ' + FC_CARDS.length;
+  document.getElementById('fcPct').textContent = pct + '%';
+  document.getElementById('fcFill').style.width = pct + '%';
+  document.querySelectorAll('#fcDots button').forEach((d, i) => { d.classList.toggle('active', i === fcCur); d.classList.toggle('seen', i !== fcCur && !!fcSeen[i]); });
+  document.getElementById('fcPrev').disabled = fcCur === 0;
+  document.getElementById('fcNext').textContent = fcCur === FC_CARDS.length - 1 ? 'Finish' : 'Next →';
+}
+function fcFlip() { document.getElementById('fcCard').classList.toggle('flipped'); }
+function fcGo(d) {
+  if (d === 1 && fcCur === FC_CARDS.length - 1) { document.getElementById('fcMain').style.display = 'none'; document.getElementById('fcDone').style.display = 'block'; return; }
+  fcCur = Math.max(0, Math.min(FC_CARDS.length - 1, fcCur + d)); fcRender();
+}
+function fcRestart() { fcCur = 0; fcSeen = {}; document.getElementById('fcDone').style.display = 'none'; document.getElementById('fcMain').style.display = 'block'; fcRender(); }
+FC_CARDS.forEach((c, i) => { const b = document.createElement('button'); b.type = 'button'; b.textContent = i + 1; b.onclick = () => { fcCur = i; fcRender(); }; document.getElementById('fcDots').appendChild(b); });
+fcRender();
 </script>
 </body>
 </html>

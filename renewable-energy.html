@@ -189,6 +189,30 @@
   .calib li .ans { display: block; font-weight: 400; color: var(--muted); font-size: 14px; }
   .calib textarea { min-height: 50px; font-family: monospace; font-size: 14px; }
   footer { padding: 40px 0; color: var(--muted); font-size: 14px; }
+
+  /* flashcards */
+  .fc-wrap { max-width: 600px; margin: 18px auto 0; }
+  .fc-info { display: flex; justify-content: space-between; font-size: 14px; color: var(--muted); margin-bottom: 6px; }
+  .fc-bar { height: 4px; background: var(--line); border-radius: 2px; overflow: hidden; margin-bottom: 12px; }
+  .fc-fill { height: 100%; width: 0; background: var(--c); transition: width .4s ease; }
+  .fc-dots { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; margin-bottom: 14px; }
+  .fc-dots button { width: 32px; height: 32px; padding: 0; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); color: var(--muted); font-size: 13px; font-weight: 600; }
+  .fc-dots button.seen { border-color: var(--c); color: var(--strong); }
+  .fc-dots button.active { background: var(--c); border-color: transparent; color: #fff; font-weight: 700; }
+  .fc-scene { height: 300px; perspective: 1200px; cursor: pointer; margin-bottom: 14px; }
+  .fc-card { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform .5s cubic-bezier(.4,0,.2,1); }
+  .fc-card.flipped { transform: rotateY(180deg); }
+  .fc-face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 16px; border: 1px solid var(--line); background: var(--surface); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; }
+  .fc-back { transform: rotateY(180deg); background: var(--soft); }
+  .fc-tag { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--strong); margin-bottom: 12px; }
+  .fc-q { font-family: 'Fraunces', Georgia, serif; font-size: 21px; line-height: 1.4; }
+  .fc-a { font-size: 17px; line-height: 1.6; }
+  .fc-a strong { color: var(--strong); }
+  .fc-hint { font-size: 13px; color: var(--muted); margin-top: 14px; }
+  .fc-ctrl { display: flex; gap: 8px; }
+  .fc-ctrl button { flex: 1; }
+  .fc-ctrl .fc-flip { flex: 2; }
+  .fc-done { display: none; text-align: center; padding: 24px 0; }
 </style>
 </head>
 <body>
@@ -204,7 +228,7 @@
       <span class="badge">Energy</span>
       <span class="badge b-civic">Educazione Civica</span>
     </div>
-    <p class="lead">Two videos, three texts that follow them, online exercises with instant feedback and a glossary of forty technical terms. Each text and the glossary can be downloaded.</p>
+    <p class="lead">Two videos, three texts that follow them, online exercises with instant feedback, flashcards and a glossary of forty technical terms. Each text and the glossary can be downloaded.</p>
     <div class="civic-box">
       <strong>Educazione Civica.</strong> Questo argomento rientra anche nel programma di Educazione Civica: Agenda 2030, Obiettivo 7 – <em>Energia pulita e accessibile</em>; transizione energetica, povertà energetica e comunità energetiche rinnovabili.
     </div>
@@ -216,6 +240,7 @@
     <a href="#videos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="m10 9 5 3-5 3z"/></svg>Videos</a>
     <a href="#texts"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 4h7a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H2zM22 4h-7a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h8z"/></svg>Texts</a>
     <a href="#exercises"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>Exercises</a>
+    <a href="#flashcards"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="14" height="14" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/></svg>Flashcards</a>
     <a href="#glossary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"/><path d="M8 7h8M8 11h6"/></svg>Glossary</a>
   </div>
 </nav>
@@ -260,6 +285,34 @@
         <button class="ghost" onclick="showSolutions('passive')">Show solutions</button>
         <button class="ghost" onclick="resetEx('passive')">Reset</button>
         <span class="score" id="passiveScore"></span>
+      </div>
+    </div>
+  </section>
+
+  <section id="flashcards">
+    <div class="sec-head"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="14" height="14" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/></svg></span><h2>Flashcards</h2></div>
+    <p class="meta">Answer each question aloud, in English. Then turn the card and compare your answer with the model answer.</p>
+    <div class="fc-wrap">
+      <div id="fcMain">
+        <div class="fc-info"><span id="fcCount"></span><span id="fcPct"></span></div>
+        <div class="fc-bar"><div class="fc-fill" id="fcFill"></div></div>
+        <div class="fc-dots" id="fcDots"></div>
+        <div class="fc-scene" onclick="fcFlip()">
+          <div class="fc-card" id="fcCard">
+            <div class="fc-face"><div class="fc-tag">Question · answer aloud</div><div class="fc-q" id="fcQ"></div><div class="fc-hint">↻ tap the card to see the model answer</div></div>
+            <div class="fc-face fc-back"><div class="fc-tag">Model answer</div><div class="fc-a" id="fcA"></div></div>
+          </div>
+        </div>
+        <div class="fc-ctrl">
+          <button class="ghost" id="fcPrev" onclick="fcGo(-1)">← Back</button>
+          <button class="ghost fc-flip" onclick="fcFlip()">Turn the card</button>
+          <button id="fcNext" onclick="fcGo(1)">Next →</button>
+        </div>
+      </div>
+      <div class="fc-done" id="fcDone">
+        <h3>All done!</h3>
+        <p class="meta">You have answered all the questions. Go back to the cards you found difficult and try again.</p>
+        <div class="row" style="justify-content:center"><button onclick="fcRestart()">↺ Start again</button></div>
       </div>
     </div>
   </section>
@@ -1308,6 +1361,94 @@ renderGlossary();
   document.addEventListener("contextmenu",e=>{if(!anyField(e.target)&&!(e.target.closest&&e.target.closest(FREE)))e.preventDefault();},true);
   document.addEventListener("selectstart",e=>{const t=e.target.nodeType===1?e.target:e.target.parentElement;if(t&&!anyField(t)&&!t.closest(FREE))e.preventDefault();},true);
 })();
+</script>
+<script>
+/* ---------- Flashcards ---------- */
+const FC_CARDS = [
+ {
+  "q": "What is renewable energy? Give some examples of renewable sources.",
+  "a": "Renewable energy comes from <strong>sources that are naturally replenished</strong>, so they never run out: for example <strong>sunlight, wind, flowing water, the heat inside the Earth and biomass</strong>."
+ },
+ {
+  "q": "What is biomass?",
+  "a": "Biomass is <strong>organic matter, such as wood and crop waste</strong>, that is used to produce energy."
+ },
+ {
+  "q": "Why can't fossil fuels be replaced?",
+  "a": "Because they <strong>were formed over millions of years</strong>: once they are burned, they <strong>cannot be replaced</strong>."
+ },
+ {
+  "q": "What are the main benefits of renewable energy?",
+  "a": "They produce <strong>no direct greenhouse gas emissions</strong>, so they help to fight climate change; they <strong>reduce air pollution</strong>, so there are fewer health risks; and their <strong>prices stay stable</strong>, because the \"fuel\" is free."
+ },
+ {
+  "q": "What does \"intermittent\" mean? Give an example.",
+  "a": "It means that the source <strong>does not produce energy all the time</strong>: for example, <strong>solar panels produce nothing at night</strong> and <strong>wind turbines stop when there is no wind</strong>."
+ },
+ {
+  "q": "What does Goal 7 of the UN Agenda 2030 aim to do?",
+  "a": "It aims to ensure <strong>access to affordable, reliable and clean energy for everyone</strong>."
+ },
+ {
+  "q": "What is an offshore wind farm?",
+  "a": "It is <strong>a group of wind turbines built at sea</strong>, where the wind is <strong>stronger and more regular</strong> than on land."
+ },
+ {
+  "q": "Describe how electricity travels from an offshore turbine to land.",
+  "a": "The <strong>generator in the nacelle</strong> produces electricity, which goes down the tower into the <strong>inter-array cables</strong> on the seabed. They carry it to the <strong>offshore substation</strong>, and then an <strong>export cable</strong> buried under the seabed takes it to land."
+ },
+ {
+  "q": "What is an offshore substation and what does it do?",
+  "a": "It is <strong>a giant transformer on a platform at sea</strong>. It <strong>steps up the voltage</strong> before the power is sent to the coast."
+ },
+ {
+  "q": "Why is electricity sent over long distances at a high voltage?",
+  "a": "Because, for the same power, <strong>a higher voltage means a lower current</strong>, and a lower current means that <strong>less energy is lost as heat</strong> in the cables."
+ },
+ {
+  "q": "Why do we need to store the energy produced by the sun and the wind?",
+  "a": "Because <strong>production does not match demand</strong>: the sun and the wind do not follow human habits, demand reaches a peak in the evening, and <strong>electricity must be consumed at the moment it is generated</strong>."
+ },
+ {
+  "q": "How does pumped hydro storage work?",
+  "a": "When there is <strong>surplus electricity</strong>, it is used to <strong>pump water up</strong> to a higher reservoir. When demand increases, the water <strong>flows down through turbines</strong> and generates electricity again."
+ },
+ {
+  "q": "What are the advantages and disadvantages of lithium-ion batteries?",
+  "a": "They <strong>respond in milliseconds</strong> and can be installed in homes and in large plants. But they are <strong>expensive</strong>, they have a <strong>limited lifespan</strong>, and <strong>extracting lithium, cobalt and nickel</strong> damages the environment."
+ },
+ {
+  "q": "What is a smart grid?",
+  "a": "It is a grid that uses <strong>sensors, digital meters, communication networks and software</strong> to <strong>monitor supply and demand in real time</strong>, for example by charging electric cars when production is high."
+ },
+ {
+  "q": "What is a prosumer? What can prosumers do in an energy community?",
+  "a": "A prosumer is <strong>a consumer who also produces energy</strong>, for example with solar panels on the roof. In a renewable energy community, prosumers can <strong>share the energy they produce</strong>."
+ }
+];
+let fcCur = 0, fcSeen = {};
+function fcRender() {
+  const c = FC_CARDS[fcCur];
+  document.getElementById('fcQ').innerHTML = c.q;
+  document.getElementById('fcA').innerHTML = c.a;
+  document.getElementById('fcCard').classList.remove('flipped');
+  fcSeen[fcCur] = true;
+  const pct = Math.round(Object.keys(fcSeen).length / FC_CARDS.length * 100);
+  document.getElementById('fcCount').textContent = 'Card ' + (fcCur + 1) + ' of ' + FC_CARDS.length;
+  document.getElementById('fcPct').textContent = pct + '%';
+  document.getElementById('fcFill').style.width = pct + '%';
+  document.querySelectorAll('#fcDots button').forEach((d, i) => { d.classList.toggle('active', i === fcCur); d.classList.toggle('seen', i !== fcCur && !!fcSeen[i]); });
+  document.getElementById('fcPrev').disabled = fcCur === 0;
+  document.getElementById('fcNext').textContent = fcCur === FC_CARDS.length - 1 ? 'Finish' : 'Next →';
+}
+function fcFlip() { document.getElementById('fcCard').classList.toggle('flipped'); }
+function fcGo(d) {
+  if (d === 1 && fcCur === FC_CARDS.length - 1) { document.getElementById('fcMain').style.display = 'none'; document.getElementById('fcDone').style.display = 'block'; return; }
+  fcCur = Math.max(0, Math.min(FC_CARDS.length - 1, fcCur + d)); fcRender();
+}
+function fcRestart() { fcCur = 0; fcSeen = {}; document.getElementById('fcDone').style.display = 'none'; document.getElementById('fcMain').style.display = 'block'; fcRender(); }
+FC_CARDS.forEach((c, i) => { const b = document.createElement('button'); b.type = 'button'; b.textContent = i + 1; b.onclick = () => { fcCur = i; fcRender(); }; document.getElementById('fcDots').appendChild(b); });
+fcRender();
 </script>
 </body>
 </html>
