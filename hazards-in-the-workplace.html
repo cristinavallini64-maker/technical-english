@@ -428,7 +428,7 @@
 const TEXT = [
   '<span class="sub">What is a hazard?</span> A hazard is anything at work that could hurt people: a machine, a substance, a tool or even a way of working. In an electronics company, many hazards are not easy to see. For this reason, safety experts divide them into five groups.',
   '<span class="sub">Physical hazards.</span> Noise is one of the most common physical hazards. A worker who spends years next to a noisy press can slowly lose his <em>hearing</em>. Heat, cold and poor lighting are physical hazards too. Machines with moving parts can <em>trap</em> fingers, hair or loose clothes, and a cable across the floor can make someone <em>trip</em>.',
-  '<span class="sub">Chemical hazards.</span> In the production of circuit boards, workers use solvents, adhesives and flux for soldering. These substances give off <em>vapours</em> that irritate the eyes and the lungs. On the skin, some of them cause rashes or even burns. Others are <em>flammable</em>, so they must be stored away from heat.',
+  '<span class="sub">Chemical hazards.</span> In the production of circuit boards, workers use solvents, glues and other chemicals. These substances give off <em>vapours</em> that irritate the eyes and the lungs. On the skin, some of them cause rashes or even burns. Others are <em>flammable</em>, so they must be stored away from heat.',
   '<span class="sub">Electrical hazards.</span> Electrical hazards are typical of the electronics sector. A damaged plug, a <em>frayed</em> cable or a wet floor near a <em>socket</em> can be enough to give someone an electric shock. Sockets with too many plugs can <em>overheat</em> and start a fire.',
   '<span class="sub">Ergonomic hazards.</span> Ergonomic hazards depend on the position of the body and on the way the work is organised. Assembling tiny components for hours, bent over a bench, <em>strains</em> the back, the neck and the wrists. Lifting heavy boxes in the wrong way is another frequent cause of injury. These problems develop slowly, so they are often ignored until they become painful.',
   '<span class="sub">Psychosocial hazards.</span> Psychosocial hazards are less visible, but they are just as real. Tight <em>deadlines</em>, long <em>shifts</em> and conflicts with colleagues create stress. A tired or worried worker concentrates less and makes more mistakes. This is why stress is now treated as a safety issue, not only as a personal problem.',
@@ -531,7 +531,7 @@ const STOPS = {
      { q: 'What can a cable across the floor make someone do?', any: ['trip', 'fall'], min: 1, sol: 'Trip.' }]
   ],
   b3: [
-    [{ q: 'Which substances do workers use? Name two.', any: ['solvent', 'adhesive', 'glue', 'flux'], min: 2, sol: 'Solvents, adhesives and flux for soldering.' }],
+    [{ q: 'Which substances do workers use? Name two.', any: ['solvent', 'glue', 'chemical'], min: 2, sol: 'Solvents, glues and other chemicals.' }],
     [{ q: 'What do the vapours irritate?', all: [['eye'], ['lung']], sol: 'The eyes and the lungs.' }],
     [{ q: 'What can some of them cause on the skin?', any: ['rash', 'burn'], min: 1, sol: 'Rashes or even burns.' }],
     [{ q: 'Where must flammable substances be stored?', any: ['heat', 'cool'], min: 1, sol: 'Away from heat.' }]
@@ -591,7 +591,7 @@ const EXERCISES = {
   vocab: [
     { prompt: 'anything at work that could cause harm to people', ok: ART('hazard') },
     { prompt: 'a liquid used to dissolve or clean other substances', ok: ART('solvent') },
-    { prompt: 'a substance used to stick things together', ok: ART('adhesive', 'glue') },
+    { prompt: 'a substance used to stick things together', ok: ART('glue') },
     { prompt: 'a sudden painful effect of electricity passing through the body', ok: ART('electric shock', 'shock') },
     { prompt: 'a long, strong table where people do practical work', ok: ART('workbench', 'bench') },
     { prompt: 'a feeling of pressure and worry, often caused by too much work', ok: ['stress'] },
@@ -658,7 +658,7 @@ const LABEL_SVG = '<svg viewBox="0 0 600 260" xmlns="http://www.w3.org/2000/svg"
   NUM(1, 52, 62) + NUM(2, 88, 112) + NUM(3, 100, 196) + NUM(4, 222, 108) + NUM(5, 296, 56) + NUM(6, 438, 126) + NUM(7, 380, 112) + NUM(8, 400, 194) + NUM(9, 525, 50) +
   '</svg>';
 
-const SUMMARY_MODEL = 'A hazard is anything at work that could hurt people. In an electronics company there are five kinds of hazards. Physical hazards include noise, heat, cold, poor lighting and machines with moving parts, which can trap fingers or clothes. Chemical hazards come from solvents, adhesives and flux: their vapours irritate the eyes and the lungs, and some of them are flammable. Electrical hazards, such as frayed cables or overloaded sockets, can cause electric shocks and fires. Ergonomic hazards depend on the position of the body: working bent over a bench strains the back and the neck. Finally, psychosocial hazards, such as tight deadlines and long shifts, create stress and make workers more likely to make mistakes. Hazards change when new machines or materials are introduced, so the workplace must be checked regularly and every hazard must be reported.';
+const SUMMARY_MODEL = 'A hazard is anything at work that could hurt people. In an electronics company there are five kinds of hazards. Physical hazards include noise, heat, cold, poor lighting and machines with moving parts, which can trap fingers or clothes. Chemical hazards come from solvents, glues and other chemicals: their vapours irritate the eyes and the lungs, and some of them are flammable. Electrical hazards, such as frayed cables or overloaded sockets, can cause electric shocks and fires. Ergonomic hazards depend on the position of the body: working bent over a bench strains the back and the neck. Finally, psychosocial hazards, such as tight deadlines and long shifts, create stress and make workers more likely to make mistakes. Hazards change when new machines or materials are introduced, so the workplace must be checked regularly and every hazard must be reported.';
 
 const GLOSSARY = [
   ['hazard', 'anything at work that could cause harm to people', 'pericolo, fonte di rischio'],
@@ -678,8 +678,7 @@ const GLOSSARY = [
   ['to trip', 'to hit your foot against something and fall or almost fall', 'inciampare'],
   ['to slip', 'to slide and lose your balance', 'scivolare'],
   ['solvent', 'a liquid used to dissolve or clean other substances', 'solvente'],
-  ['adhesive', 'a substance used to stick things together; glue', 'adesivo, colla'],
-  ['flux', 'a substance used in soldering to help the metal flow', 'flussante'],
+  ['glue', 'a substance used to stick things together', 'colla'],
   ['soldering / soldering iron', 'joining metal parts with melted metal / the tool used for it', 'saldatura (a stagno) / saldatore'],
   ['vapour (US vapor)', 'a gas produced by a liquid that evaporates', 'vapore'],
   ['to irritate', 'to make a part of the body red, painful or itchy', 'irritare'],
@@ -1281,7 +1280,7 @@ window.addEventListener('pagehide', saveProgress);
 const FC_CARDS = [
   { q: 'What is a hazard? Give three examples from an electronics company.', a: 'A hazard is <strong>anything at work that could hurt people</strong>. For example, <strong>a noisy press, a flammable solvent and a frayed cable</strong>.' },
   { q: 'Why is noise dangerous, even if it does not hurt at the moment?', a: 'Because the damage is <strong>slow</strong>: after years next to a noisy machine, a worker can <strong>gradually lose his hearing</strong>.' },
-  { q: 'Which substances are used to make circuit boards, and why can they be dangerous?', a: '<strong>Solvents, adhesives and flux</strong>. Their <strong>vapours irritate the eyes and the lungs</strong>, they can cause <strong>rashes or burns</strong>, and some of them are <strong>flammable</strong>.' },
+  { q: 'Which substances are used to make circuit boards, and why can they be dangerous?', a: '<strong>Solvents, glues and other chemicals</strong>. Their <strong>vapours irritate the eyes and the lungs</strong>, they can cause <strong>rashes or burns</strong>, and some of them are <strong>flammable</strong>.' },
   { q: 'Give three examples of situations that can cause an electric shock or a fire.', a: '<strong>A damaged plug, a frayed cable, a wet floor near a socket</strong>, or <strong>a socket with too many plugs</strong>, which can overheat.' },
   { q: 'What are ergonomic hazards, and why are they often ignored?', a: 'They depend on <strong>the position of the body and the way the work is organised</strong>, for example working bent over a bench. They are ignored because <strong>the problems develop slowly</strong>.' },
   { q: 'Why is stress considered a safety issue?', a: 'Because a <strong>tired or worried worker concentrates less and makes more mistakes</strong>, so stress can lead to accidents.' },
