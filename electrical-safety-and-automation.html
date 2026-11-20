@@ -1281,10 +1281,9 @@ const FC_CARDS = [
 let fcCur = 0, fcSeen = {};
 function fcVoice() {
   const v = speechSynthesis.getVoices();
-  const en = v.filter(x => /^en[-_]/i.test(x.lang));
-  const gb = en.filter(x => /GB/i.test(x.lang));
+  const gb = v.filter(x => /^en[-_]gb/i.test(x.lang) || /united kingdom|\buk\b|british/i.test(x.name));
   const good = x => /google|natural|online|enhanced|premium/i.test(x.name);
-  return gb.find(good) || gb[0] || en.find(good) || en[0] || null;
+  return gb.find(good) || gb[0] || null;
 }
 function fcSay(side) {
   if (!('speechSynthesis' in window)) return;
@@ -1292,7 +1291,7 @@ function fcSay(side) {
   if (speechSynthesis.speaking) { speechSynthesis.cancel(); document.querySelectorAll('.fc-say').forEach(b => b.classList.remove('on')); return; }
   const d = document.createElement('div'); d.innerHTML = FC_CARDS[fcCur][side];
   const u = new SpeechSynthesisUtterance(d.textContent.replace(/^T\d\.\d\s*·\s*/, ''));
-  const v = fcVoice(); if (v) u.voice = v; u.lang = v ? v.lang : 'en-GB'; u.rate = 0.9;
+  const v = fcVoice(); if (v) u.voice = v; u.lang = 'en-GB'; u.rate = 0.9;
   u.onend = u.onerror = () => btn.classList.remove('on');
   btn.classList.add('on'); speechSynthesis.speak(u);
 }
