@@ -98,6 +98,7 @@
   .topic p { margin: 0; color: var(--muted); font-size: 15px; flex: 1; }
   .topic-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
   .tag { font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 999px; background: var(--soft); color: var(--ink); }
+  .class-label { margin-top: 4px; font-family: 'Fraunces', Georgia, serif; font-size: 22px; font-weight: 700; color: var(--c); letter-spacing: .01em; }
   .b-civic { background: var(--civic-soft); color: var(--civic); }
   .go { margin-left: auto; font-weight: 700; color: var(--c); font-size: 15px; }
 
@@ -303,13 +304,13 @@ function card(t) {
   const a = AREAS[t.area];
   return `
     <a class="topic ${a.cls}${t.featured ? ' featured' : ''}" href="${t.href}"${t.newTab ? ' target="_blank" rel="noopener"' : ''}>
+      ${t.cls ? `<div class="class-label">${t.cls}</div>` : ''}
       <div class="topic-top">
         <span class="icon">${svg(t.icon)}</span>
         <h3>${t.title}</h3>
       </div>
       <p>${t.desc}</p>
       <div class="topic-foot">
-        ${t.cls ? `<span class="tag b-civic">${t.cls}</span>` : ''}
         <span class="tag">${t.kind}</span>
         ${t.civic ? '<span class="tag b-civic">Educazione Civica</span>' : ''}
         <span class="go">Open →</span>
