@@ -146,6 +146,8 @@ const ICONS = {
   aid: '<rect x="3" y="3" width="18" height="18" rx="4"/><path d="M12 8v8M8 12h8"/>',
   globe: '<circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/>',
   factory: '<path d="M2 20h20M4 20V9l5 3V9l5 3V5h4l1 15"/><path d="M15 5V2"/>',
+  apple: '<path d="M12 7c-2-1.5-6-1.5-7 2.5S6 19 9 20c1.3.4 2-.3 3-.3s1.7.7 3 .3c3-1 5-6.5 4-10.5S14 5.5 12 7z"/><path d="M12 7c0-2 1-3.5 3-4"/>',
+  search: '<circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/>',
   shield: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/>'
 };
 function svg(name) {
@@ -167,7 +169,21 @@ const AREAS = {
    featured = true to show a wider card */
 const TOPICS = [
   {
-    area: 'Educazione Civica', icon: 'sun',
+    area: 'Educazione Civica', icon: 'apple', cls: 'Classe prima',
+    title: 'Healthy Food',
+    desc: 'Two lessons: what\'s on your plate, a balanced diet and drinks; food labels and food waste (Agenda 2030).',
+    kind: 'Scenes · Text · Exercises',
+    href: 'https://cristinavallini64-maker.github.io/grammar-tutor/unit2-healthy-food.html', newTab: true
+  },
+  {
+    area: 'Educazione Civica', icon: 'search', cls: 'Classe quarta',
+    title: 'Responsible Use of Online Information',
+    desc: 'Two lessons: fake news and how to check sources; algorithms, deepfakes and responsible sharing.',
+    kind: 'Scenes · Text · Exercises · Glossary',
+    href: 'online-information.html'
+  },
+  {
+    area: 'Educazione Civica', icon: 'sun', cls: 'Classe quinta',
     title: 'Renewable Energy Sources',
     desc: 'Solar, wind, hydro, geothermal and biomass; storage, smart grids and energy communities.',
     kind: 'Texts · Videos · Exercises · Glossary',
@@ -286,13 +302,14 @@ function setFilter(k) { current = k; renderFilters(); renderTopics(); }
 function card(t) {
   const a = AREAS[t.area];
   return `
-    <a class="topic ${a.cls}${t.featured ? ' featured' : ''}" href="${t.href}">
+    <a class="topic ${a.cls}${t.featured ? ' featured' : ''}" href="${t.href}"${t.newTab ? ' target="_blank" rel="noopener"' : ''}>
       <div class="topic-top">
         <span class="icon">${svg(t.icon)}</span>
         <h3>${t.title}</h3>
       </div>
       <p>${t.desc}</p>
       <div class="topic-foot">
+        ${t.cls ? `<span class="tag b-civic">${t.cls}</span>` : ''}
         <span class="tag">${t.kind}</span>
         ${t.civic ? '<span class="tag b-civic">Educazione Civica</span>' : ''}
         <span class="go">Open →</span>

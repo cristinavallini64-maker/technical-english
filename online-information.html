@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Responsible Use of Online Information – Educazione Civica · Technical English</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fbf8f2; --surface: #ffffff; --ink: #1d2433; --muted: #5b6475; --line: #e3e0d8;
+    --hero-a: #2747d6; --hero-b: #0fa3c9;
+    --c: #2f5d9e; --soft: #dbe7fa; --strong: #1f4680;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #12151c; --surface: #1b202b; --ink: #e9ecf2; --muted: #a3abbb; --line: #2c3342;
+      --hero-a: #2238a8; --hero-b: #0b7fa0;
+      --c: #5b8fd9; --soft: #1f2c42; --strong: #8fb4ec;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: 'Source Sans 3', system-ui, sans-serif; font-size: 17px; line-height: 1.6; }
+  .wrap { max-width: 900px; margin: 0 auto; padding: 0 16px; }
+  h1, h2, h3 { font-family: 'Fraunces', Georgia, serif; line-height: 1.2; }
+  header.hero {
+    color: #fff;
+    background:
+      radial-gradient(circle at 88% 22%, rgba(255,255,255,.14) 0 90px, transparent 91px),
+      radial-gradient(circle at 95% 80%, rgba(255,255,255,.08) 0 150px, transparent 151px),
+      linear-gradient(135deg, var(--hero-a), var(--hero-b));
+    padding: 22px 0 32px;
+  }
+  .back { display: inline-block; margin-bottom: 22px; text-decoration: none; font-size: 15px; font-weight: 700; color: #fff; background: rgba(255,255,255,.16); padding: 6px 16px; border-radius: 999px; }
+  .back:hover { background: rgba(255,255,255,.28); }
+  .hero-title { display: flex; align-items: center; gap: 16px; }
+  .hero-icon { flex: none; width: 64px; height: 64px; border-radius: 20px; display: grid; place-items: center; background: #5b8fd9; color: #fff; box-shadow: 0 8px 20px -10px rgba(0,0,0,.4); }
+  .hero-icon svg { width: 36px; height: 36px; }
+  h1 { font-size: clamp(30px, 6.5vw, 46px); margin: 0; }
+  .badges { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 12px; }
+  .badge { font-size: 13px; font-weight: 700; padding: 3px 12px; border-radius: 999px; background: rgba(255,255,255,.16); color: #fff; }
+  .lead { margin: 0; max-width: 640px; opacity: .92; }
+  main { padding: 30px 16px 10px; }
+  a.lesson {
+    position: relative; display: flex; align-items: center; gap: 16px; overflow: hidden;
+    text-decoration: none; color: var(--ink); background: var(--surface);
+    border: 1px solid var(--line); border-radius: 18px; padding: 22px 20px 18px; margin: 0 0 16px;
+    transition: transform .15s, box-shadow .15s, border-color .15s;
+  }
+  a.lesson::before { content: ''; position: absolute; inset: 0 0 auto 0; height: 8px; background: var(--c); }
+  a.lesson:hover { transform: translateY(-3px); border-color: var(--c); box-shadow: 0 10px 24px -14px var(--c); }
+  .num { flex: none; width: 52px; height: 52px; border-radius: 16px; display: grid; place-items: center; background: var(--c); color: #fff; font-family: 'Fraunces', serif; font-size: 24px; font-weight: 700; }
+  .lesson h2 { margin: 0 0 4px; font-size: 22px; }
+  .lesson p { margin: 0; color: var(--muted); font-size: 15px; }
+  .go { margin-left: auto; font-weight: 700; color: var(--strong); white-space: nowrap; }
+  footer { padding: 30px 0; color: var(--muted); font-size: 14px; }
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <a href="index.html" class="back">← Technical English</a>
+    <div class="hero-title">
+      <span class="hero-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg></span>
+      <h1>Responsible Use of Online Information</h1>
+    </div>
+    <div class="badges">
+      <span class="badge">Educazione Civica</span>
+      <span class="badge">Classe quarta</span>
+    </div>
+    <p class="lead">Two lessons on how to check what you read online and how to use social media in a responsible way. Each lesson has a glossary, an animation in scenes, the text, exercises and flashcards.</p>
+  </div>
+</header>
+
+<main class="wrap">
+  <a class="lesson" href="online-information-1.html">
+    <span class="num">1</span>
+    <div>
+      <h2>Lesson 1 · Can You Trust It?</h2>
+      <p>Fake news, reliable sources, headlines, old news and edited photos, comparing sources.</p>
+    </div>
+    <span class="go">Open →</span>
+  </a>
+  <a class="lesson" href="online-information-2.html">
+    <span class="num">2</span>
+    <div>
+      <h2>Lesson 2 · Think Before You Share</h2>
+      <p>Algorithms and filter bubbles, AI and deepfakes, sharing, digital footprint, respect online.</p>
+    </div>
+    <span class="go">Open →</span>
+  </a>
+</main>
+
+<footer><div class="wrap">Technical English · Educazione Civica · Responsible Use of Online Information</div></footer>
+</body>
+</html>
