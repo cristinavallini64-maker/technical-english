@@ -490,7 +490,7 @@ const TEXT = [
   '<span class="sub">A world of information.</span> Today most young people read the news on their phones, not in newspapers. Every minute, millions of posts, videos and articles appear online. Some of them are reliable, but many are not.',
   '<span class="sub">What is fake news?</span> Fake news is false information that looks like real news. Some people create it to make money from clicks, while others want to change what people think. It <em>spreads</em> fast because it is often shocking or funny.',
   '<span class="sub">Look at the source.</span> The first question to ask is: who wrote this? A <em>reliable</em> website shows the author\'s name, the date and contact details. If you cannot find this information, be careful.',
-  '<span class="sub">Read beyond the headline.</span> Many people share an article after reading only the <em>headline</em>. Headlines are often written to make you click, so they can be <em>misleading</em>. Always read the whole text before you decide what it says.',
+  '<span class="sub">Read beyond the headline.</span> Many people share an article after reading only the <em>headline</em>. Headlines written only to make you click are called clickbait, and they are often <em>misleading</em>. Always read the whole text before you decide what it says.',
   '<span class="sub">Check the date and the pictures.</span> Old news is sometimes shared again as if it were new. Photos can be taken <em>out of context</em> or changed with editing software. A reverse image search shows you where a picture comes from.',
   '<span class="sub">Compare different sources.</span> If a story is true and important, other reliable sources will report it too. Fact-checking websites check viral stories and explain if they are true or false. Always <em>compare</em> at least two sources before you believe a story.',
   '<span class="sub">Your brain can make mistakes.</span> Our brain can <em>trick</em> us: we tend to believe information that agrees with what we already think. Strong emotions, like fear or anger, make us share without thinking. So when a post makes you angry, stop and check it before you react.'
@@ -558,7 +558,7 @@ const STOPS = {
   ],
   b4: [
     [{ q: 'What do many people read before they share an article?', any: ['headline', 'title'], min: 1, sol: 'Only the headline.' }],
-    [{ q: 'Why are headlines often written in this way?', any: ['click'], min: 1, sol: 'To make you click.' }],
+    [{ q: 'What do we call headlines written only to make you click?', any: ['clickbait', 'click bait', 'click-bait'], min: 1, sol: 'Clickbait.' }],
     [{ q: 'What should you always do before you decide what an article says?', any: ['whole', 'all', 'entire', 'complete', 'read'], min: 1, sol: 'Read the whole text.' }]
   ],
   b5: [
@@ -603,6 +603,7 @@ const EXERCISES = {
     { prompt: 'that you can trust', ok: ['reliable', 'trustworthy'] },
     { prompt: 'the title of a news article, printed in large letters', ok: ART('headline') },
     { prompt: 'giving people a wrong idea of something', ok: ['misleading'] },
+    { prompt: 'a headline or a post written only to make people click on it', ok: ['clickbait', 'click bait'] },
     { prompt: 'the short text under a photo that explains it', ok: ART('caption') },
     { prompt: 'shared by a very large number of people on the internet in a short time', ok: ['viral'] },
     { prompt: 'a person who writes an article or a book', ok: ART('author', 'writer') },
@@ -659,7 +660,7 @@ const LABEL_SVG = '<svg viewBox="0 0 600 260" xmlns="http://www.w3.org/2000/svg"
   NUM(1, 470, 27) + NUM(2, 440, 66) + NUM(3, 200, 114) + NUM(4, 340, 116) + NUM(5, 270, 152) + NUM(6, 272, 240) + NUM(7, 492, 196) +
   '</svg>';
 
-const SUMMARY_MODEL = 'Today most young people read the news on their phones, but not everything online is reliable. Fake news is false information that looks like real news: some people create it to make money from clicks or to change what people think, and it spreads fast because it is shocking or funny. To check a piece of information, first look at the source: a reliable website shows the author\'s name, the date and contact details. Then read the whole article, not only the headline, because headlines can be misleading. Check the date and the pictures, because old news and photos are sometimes used out of context; a reverse image search shows where a picture comes from. Finally, compare at least two reliable sources or a fact-checking website. Be careful with strong emotions: when a post makes you angry, stop and check it before you share it.';
+const SUMMARY_MODEL = 'Today most young people read the news on their phones, but not everything online is reliable. Fake news is false information that looks like real news: some people create it to make money from clicks or to change what people think, and it spreads fast because it is shocking or funny. To check a piece of information, first look at the source: a reliable website shows the author\'s name, the date and contact details. Then read the whole article, not only the headline, because clickbait headlines are written only to make you click and can be misleading. Check the date and the pictures, because old news and photos are sometimes used out of context; a reverse image search shows where a picture comes from. Finally, compare at least two reliable sources or a fact-checking website. Be careful with strong emotions: when a post makes you angry, stop and check it before you share it.';
 
 const GLOSSARY = [
   ['the news', 'information about recent events', 'le notizie, il telegiornale'],
@@ -674,6 +675,7 @@ const GLOSSARY = [
   ['author', 'a person who writes an article or a book', 'autore'],
   ['contact details', 'an address, phone number or email to contact someone', 'recapiti'],
   ['headline', 'the title of a news article, printed in large letters', 'titolo (di giornale)'],
+  ['clickbait', 'a headline or a post written only to make people click on it', 'clickbait, titolo acchiappa-clic'],
   ['misleading', 'giving people a wrong idea of something', 'fuorviante'],
   ['the whole text', 'all the text, from the beginning to the end', 'il testo intero'],
   ['out of context', 'used in a different situation from the real one', 'fuori contesto'],
@@ -1272,7 +1274,7 @@ const FC_CARDS = [
   { q: 'What is fake news, and why do people create it?', a: 'It is <strong>false information that looks like real news</strong>. People create it to <strong>make money from clicks</strong> or to <strong>change what people think</strong>.' },
   { q: 'Why does fake news spread so fast?', a: 'Because it is often <strong>shocking or funny</strong>, and strong emotions make people <strong>share without thinking</strong>.' },
   { q: 'How can you tell if a website is reliable?', a: 'A reliable website shows <strong>the author\'s name, the date and contact details</strong>. If you cannot find them, <strong>be careful</strong>.' },
-  { q: 'Why should you read more than the headline?', a: 'Because headlines are often written <strong>to make you click</strong>, so they can be <strong>misleading</strong>. You must read <strong>the whole text</strong>.' },
+  { q: 'What is clickbait, and why should you read more than the headline?', a: '<strong>Clickbait</strong> is a headline written <strong>only to make you click</strong>, so it is often <strong>misleading</strong>. You must read <strong>the whole text</strong>.' },
   { q: 'How can a photo be misleading?', a: 'It can be <strong>old</strong>, <strong>taken out of context</strong> or <strong>changed with editing software</strong>. A <strong>reverse image search</strong> shows where it comes from.' },
   { q: 'Why is it useful to compare different sources?', a: 'Because if a story is true and important, <strong>other reliable sources will report it too</strong>. Fact-checking websites also explain if a viral story is <strong>true or false</strong>.' },
   { q: 'Why do we sometimes believe fake news, even when we are careful?', a: 'Because our brain can <strong>trick us</strong>: we tend to believe information that <strong>agrees with what we already think</strong>.' },
